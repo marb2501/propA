@@ -1,0 +1,177 @@
+<ion-header></ion-header>
+<ion-content responsive>
+ 
+<ion-grid style="margin-top: 60px"  class="full-width" class="cardtransparente" >
+  <ion-row>
+   <ion-col >
+    <div *ngIf="this.indiceData>0" class="tablavertA">
+      <ion-slides pager="false" [options]="slideOptionsAviso" #slideWithNav style="height: 60px;">
+        <ion-slide *ngFor="let avm of avisosmethidg; " (click)="openModal(1, 
+                                                                              avm.numero, 
+                                                                              avm.titulo, 
+                                                                              avm.nomTitulo,
+                                                                              avm.fechaInicioEvento,
+                                                                              avm.fecIni,
+                                                                              avm.vaAlerta, 
+                                                                              avm.etiqalerta, 
+                                                                              avm.fechaEmision,
+                                                                              avm.fecEmi,
+                                                                              avm.codNivel,
+                                                                              avm.descripcionGeneral,
+                                                                              avm.listaMapas,
+                                                                              avm.codAviso,
+                                                                              avm.colorNivel,
+                                                                              avm.hrEmi,
+                                                                              avm.fecFin,
+                                                                              avm.estadoAviso,
+                                                                              avm.codPlazo,
+                                                                              avm.nomPlazo,
+                                                                              avm.nomTipoAviso,
+                                                                              avm.descrip1,
+                                                                              avm.descrip2,
+                                                                              avm.rutaImg,
+                                                                              avm.msgRojo,
+                                                                              avm.msgNaranja,
+                                                                              avm.msgAmarillo,
+                                                                              avm.latEsta,
+                                                                              avm.lonEsta,
+                                                                              avm.lugarAfectado
+                                                                              )" 
+                                                                              [ngClass]="getColor(avm.codNivel,avm.etiqalerta)">
+                      <ion-icon name="warning" style="font-size: x-large;"></ion-icon>
+                      <ion-label style="font-size: medium;" *ngIf="avm.titulo!=''">{{ avm.titulo | uppercase }}</ion-label>
+                      <ion-label style="font-size: medium;" *ngIf="avm.nomTitulo!=''">{{ avm.nomTitulo | uppercase }}</ion-label>
+              </ion-slide>
+            </ion-slides>
+          </div>
+           
+
+              <ion-row class="datamain3">
+                <ion-col>
+                  <ion-label>{{locations.ciudad}}</ion-label>
+                
+                </ion-col>
+              </ion-row>
+              <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+                <ion-refresher-content   pullingIcon="chevron-down-circle-outline"
+                                        pullingText="Arrastre para actualizar"
+                                        refreshingSpinner="circles"></ion-refresher-content>
+              </ion-refresher>
+              <ion-row >
+              <ion-col class="datamain2">
+                  <ion-label>{{locations.titulo}}</ion-label>
+                </ion-col>
+               </ion-row>
+             <ion-grid class="datamain"> 
+              <ion-row>
+                  <table>
+                    <tbody>
+                    <tr>
+                    <td rowspan="2"><ion-label class="tempmax">{{locations.TEMP}}</ion-label></td>
+                    <td  rowspan="2">
+                    <table style="text-align: initial;">
+                    <tbody>
+                    <tr>
+                    <td><ion-label style="font-size: x-large;"> <img class="imgmaintermo" [src]="cambiarImagenMain()" > {{locations.HUME}}</ion-label></td>
+                    </tr>
+                    <tr>
+                    <td>
+                      <ion-label style="font-size: x-large;"> <img class="imgmaintermo" [src]="cambiarImagenMain2()" > {{locations.PRECIPI}}</ion-label>
+                    </td>
+                    </tr>
+                    </tbody>
+                    </table>
+                    </td>
+                    </tr>
+                    </tbody>
+                    </table>
+              </ion-row>
+              <ion-row>
+                <table class="tablavertC">
+                  <tr>
+                    <td class="tempdet3">Ubicación de la Estación</td>
+                    <td >:</td>
+                    <td style="text-align: left;margin-left: 2px; width: fit-content;" colspan="4"  >{{locations.depestacion | titlecase }}/{{locations.provestacion | titlecase}}/{{locations.distestacion | titlecase}}</td>
+                  </tr>
+                  <tr>
+                    <td class="tempdet3">Estación</td>
+                    <td >:</td>
+                    <td style="text-align: left;margin-left: 2px;" colspan="4">{{locations.nombrestacion | titlecase}}</td>
+                  </tr>
+                  <tr>
+                    <td class="tempdet3">Altitud</td>
+                    <td >:</td>
+                    <td style="text-align: left;margin-left: 1px;" colspan="4">{{locations.altitud}} </td>
+                  </tr>
+                  <tr>
+                    <td class="tempdet3">Distancia</td>
+                    <td >:</td>
+                    <td style="text-align: left;margin-left: 2px;">{{locations.distancia}} </td>
+                  </tr>
+                  <tr>
+                    <td class="tempdet3">Hora</td>
+                    <td >:</td>
+                    <td style="text-align: left;margin-left: 2px;">{{ locations.hora | date :'shortTime' }}</td>
+                  </tr>
+               </table>
+              </ion-row>
+            </ion-grid>
+            <ion-grid class="datamain"> 
+            <ion-label class="tempdet2"> DATOS DE ESTACIONES MÁS CERCANAS</ion-label>
+            <ion-row >
+              <ion-label class="hydrated">
+              <table >
+                <div class="scrollbar2">
+                <tr  *ngFor="let tmp2 of listado2; let i = index; ">
+                  <td>
+                  <table FRAME="void" RULES="cols" class="tablavert">
+                    <tr  class="tablavert"><td colspan="6">
+                      {{ tmp2.nomEsta | titlecase  }} / 
+                      {{ tmp2.nomDist | titlecase }} / 
+                      {{ tmp2.nomProv | titlecase}} / 
+                      {{ tmp2.nomDep | titlecase}}</td></tr>
+                    <tr  class="tablavert">
+                    <td>{{ tmp2.altitud }} m</td>
+                    <td>{{ tmp2.distancia | number:'1.0-0' }} {{ tmp2.unidad }}</td>
+                    <td><div *ngIf="tmp2.fecha!=null">{{ tmp2.fecha | date :'shortTime' }}</div><div *ngIf="tmp2.fecha==null">--</div></td>                   
+                   <td><div *ngIf="tmp2.temperatura!=null">{{ tmp2.temperatura  | number:'1.0-0' }}°C</div><div *ngIf="tmp2.temperatura==null">--</div></td>
+                    <td><div *ngIf="tmp2.humedad!=null">{{ tmp2.humedad  | number:'1.0-0' }} %</div><div *ngIf="tmp2.humedad==null">--</div></td>
+                    <td>{{ tmp2.precipitacion  | number:'1.0-0' }} mm/h</td>
+                    </tr>
+                    <tr><td colspan="6" class="tablavert1"></td></tr>
+                  </table>
+                  </td>
+                </tr>
+              </div>
+              </table>
+            </ion-label>
+            </ion-row>
+          </ion-grid>
+          <ion-grid class="datamain">
+            <ion-row>
+              <ion-col>
+                <ion-label class="tempdet2"> PRONÓSTICOS PARA {{ locations.zona}}</ion-label>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col >
+              {{locations.descrip}}
+           </ion-col>
+          </ion-row>
+          <ion-row>
+            <table class="tablavertB">
+              <tr *ngFor="let tmp of listado">
+                <td> <ion-img  class="imgmaintermo3" [src]="getIcono(tmp.ICON)"></ion-img></td>
+                <td><ion-label class="tempdet">{{tmp.NOM_DIA}}</ion-label></td>
+                <td> <ion-label class="tempdet">{{tmp.TEMP_MAX}}°C </ion-label></td>
+                <td> <ion-img  class="imgmaintermo2" [src]="icontermomax"></ion-img></td>
+                <td><ion-label class="tempdet">{{tmp.TEMP_MIN}}°C </ion-label></td>
+                <td> <ion-img  class="imgmaintermo2" [src]="icontermomin"></ion-img></td>
+              </tr>
+            </table>
+          </ion-row>
+          </ion-grid>
+          </ion-col>
+     </ion-row>
+    </ion-grid>
+</ion-content>

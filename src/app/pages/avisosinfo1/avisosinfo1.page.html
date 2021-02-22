@@ -1,0 +1,66 @@
+<ion-header>
+
+</ion-header>
+
+<ion-content padding responsive >
+
+  <ion-grid  class="full-width" class="cardtransparente" >
+    <ion-row style="margin-top:60px" class="datamain2Aviso">
+      <ion-col class="bannerAvisoBlanco">Aviso Nro {{titulomodal | uppercase}}</ion-col>
+      <ion-col [ngClass]="colorAviso(nivel)">Nivel {{ textoNivel(nivel)}}</ion-col>
+    </ion-row>
+    <ion-row class="datamain3">
+      <ion-icon name="arrow-undo-outline" (click)="retornar()"></ion-icon>
+       <ion-col colspan="2">{{tituloaviso | uppercase }}</ion-col>
+    </ion-row>
+    <ion-row > 
+      
+   </ion-row>
+   <ion-row >
+    <table class="tablavertC">
+      <tr>
+        <td class="tempdet3">Fecha de Emision</td>
+        <td >:</td>
+        <td style="text-align: left;margin-left: 2px;" colspan="4">{{fechaemision}} (hora local)</td>
+      </tr>
+      <tr>
+        <td class="tempdet3">Inicio del Evento</td>
+        <td >:</td>
+        <td style="text-align: left;margin-left: 2px;" colspan="4">{{fechainicio}} (hora local)</td>
+      </tr>
+      <tr>
+        <td class="tempdet3">Fin del Evento</td>
+        <td >:</td>
+        <td style="text-align: left;margin-left: 1px;" colspan="4">{{fechafin}} (hora local) </td>
+       
+      </tr>
+      <tr>
+        <td class="tempdet3">Periodo de Vigencia del aviso</td>
+        <td >:</td>
+        <td style="text-align: left;margin-left: 2px;">{{vigencia}} horas </td>
+        
+      </tr>
+    </table>
+
+   </ion-row>
+   <ion-row class="datamainjust">
+     <ion-col><p>{{descripcion1}}</p></ion-col>
+    </ion-row>
+
+   
+    
+    <ion-row class="datamain2">
+      <ion-col>VER MAPA(S)</ion-col>
+    </ion-row>
+
+    <ion-row class="datamain2">
+       <ion-col *ngFor="let fechasreg of listamapas;" (click)="openModal(fechasreg.fechaInicio,
+                                                                          fechasreg.numMapa,
+                                                                          fechasreg.nivelMapa,
+                                                                          fechasreg.descripcion)">
+          <ion-icon name="map-outline" ></ion-icon>
+          {{ fechasreg.fechaInicio | date :'dd/MM/yy' }}
+        </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

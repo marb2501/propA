@@ -1,0 +1,96 @@
+<ion-header>
+
+</ion-header>
+
+<ion-content padding responsive >
+
+  <ion-grid  class="full-width" class="cardtransparente" >
+    <ion-row style="margin-top:60px" class="datamain2Aviso">
+      <ion-col class="bannerAvisoBlanco">Aviso Nro {{ codAviso}}</ion-col>
+      <ion-col [ngClass]="colorAviso(codNivel)">Nivel {{ colorNivel}}</ion-col>
+    </ion-row>
+    <ion-row class="datamain3">
+      <ion-icon name="arrow-undo-outline" (click)="retornar()"></ion-icon>
+       <ion-col colspan="2">{{ nomTitulo | uppercase }}</ion-col>
+    </ion-row>
+    <ion-row >
+      
+   </ion-row>
+    <ion-row class="datamain">
+      <ion-row >
+        <table class="tablavertC">
+          <tr>
+            <td class="tempdet3">Inicio del Evento</td>
+            <td >:</td>
+            <td style="text-align: left;margin-left: 2px;" colspan="4">{{fechainicio}}</td>
+          </tr>
+          <tr>
+            <td class="tempdet3">Fin del Evento</td>
+            <td >:</td>
+            <td style="text-align: left;margin-left: 1px;" colspan="4">{{fechafin}} (hora local) </td>
+           
+          </tr>
+          <tr>
+            <td class="tempdet3">Plazo</td>
+            <td >:</td>
+            <td style="text-align: left;margin-left: 2px;">{{nomPlazo}} </td>
+            
+          </tr>
+        </table>
+    
+       </ion-row>
+    </ion-row>
+
+    <ion-row class="datamain">
+      <ion-col><p>Lugares Afectados</p></ion-col>
+      <ion-col><div [innerHTML]="getProvDistAfectados()"></div></ion-col>
+    </ion-row>
+
+    <ion-row class="datamain2">
+      <ion-col>VER MAPA</ion-col>
+    </ion-row>
+    
+     <ion-row class="datamain2">
+      <ion-col *ngFor="let fechasreg of argFecha;" (click)="openModal(fechasreg)">
+         <ion-icon name="map-outline"  ></ion-icon>
+         {{ fechasreg | date :'dd/MM/yy' }}
+       </ion-col>
+    </ion-row>
+    <ion-row class="datamainjust">
+    
+      <ion-col>{{ descrip1 }}</ion-col>
+    </ion-row>
+
+    <ion-row class="datamainjust">
+    
+      <ion-col>{{ descrip2 }}</ion-col>
+    </ion-row>
+
+    <ion-row class="datamain2">
+    
+      <ion-col>
+        <ion-img class="imgmenutexto" [src]="rutaImg">
+
+        </ion-img>
+
+      </ion-col>
+    </ion-row>
+    
+    <ion-row class="datamain2Aviso">
+       <ion-col [ngClass]="colorAviso(3)"> {{ msgRojo }}
+      </ion-col>
+    </ion-row>
+
+    <ion-row class="datamain2Aviso">
+      <ion-col [ngClass]="colorAviso(2)">  {{ msgNaranja }}
+     </ion-col>
+   </ion-row>
+
+   <ion-row class="datamain2Aviso">
+    <ion-col [ngClass]="colorAviso(1)"> {{ msgAmarillo }}
+   </ion-col>
+ </ion-row>
+
+ 
+  </ion-grid>
+</ion-content>

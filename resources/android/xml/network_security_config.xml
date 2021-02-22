@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<network-security-config>
+    <base-config cleartextTrafficPermitted="true">
+       <trust-anchors>
+           <certificates src="system" />
+       </trust-anchors>
+    </base-config>
+    <domain-config cleartextTrafficPermitted="true">
+        <domain includeSubdomains="true">localhost</domain>
+         <domain includeSubdomains="true">http://sgd.senamhi.gob.pe</domain>
+         <domain includeSubdomains="true">http://idesep.senamhi.gob.pe:80</domain>
+         <domain includeSubdomains="true">http://idesep.senamhi.gob.pe</domain>
+    </domain-config>
+</network-security-config>

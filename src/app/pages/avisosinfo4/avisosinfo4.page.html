@@ -1,0 +1,77 @@
+<ion-header>
+
+</ion-header>
+
+<ion-content padding responsive>
+  <ion-grid  class="full-width" class="cardtransparente" >
+    <ion-row style="margin-top:60px" class="datamain2Aviso">
+      <ion-col class="bannerAvisoBlanco">Aviso Nro {{ caviso }}</ion-col>
+      <ion-col [ngClass]="colorAviso(cnivel)">Nivel {{ colnivel }}</ion-col>
+    </ion-row>
+    <ion-row class="datamain3">
+      <ion-icon name="arrow-undo-outline" (click)="retornar()"></ion-icon>
+       <ion-col colspan="2">{{ nTitulo | uppercase }}</ion-col>
+    </ion-row>
+    <ion-row >
+      
+   </ion-row>
+    <ion-row class="datamain">
+        <ion-col>Fecha Inicio :{{ fechacat(fIni, 0)}}<br>
+          Fecha de Fin : {{ fechacat(fFin,0 )}} <br>
+          Plazo : {{ nPlazo }}
+        </ion-col>
+    </ion-row>
+
+    <ion-row class="datamain">
+      <ion-col><p>Lugares Afectados</p></ion-col>
+      <ion-col><div [innerHTML]="getProvDistAfectados()"></div></ion-col>
+    </ion-row>
+
+    <ion-row class="datamain2">
+      <ion-col>VER MAPA</ion-col>
+    </ion-row>
+    
+     <ion-row class="datamain2">
+      <ion-col *ngFor="let fechasreg of argFecha;" (click)="openModal(fechasreg)">
+         <ion-icon name="map-outline"  ></ion-icon>
+         {{ fechasreg | date :'dd/MM/yy' }}
+       </ion-col>
+    </ion-row>
+
+   <ion-row class="datamainjust">
+    
+      <ion-col>{{desc1}}</ion-col>
+    </ion-row>
+
+    <ion-row class="datamainjust">
+    
+      <ion-col>{{desc2}}</ion-col>
+    </ion-row>
+
+    <ion-row class="datamain2">
+    
+      <ion-col>
+        <ion-img class="imgmenutexto" [src]="rutaimg">
+
+        </ion-img>
+
+      </ion-col>
+    </ion-row>
+    
+    <ion-row class="datamain2Aviso">
+       <ion-col [ngClass]="colorAviso(3)"> {{ mgrojo }}
+      </ion-col>
+    </ion-row>
+
+    <ion-row class="datamain2Aviso">
+      <ion-col [ngClass]="colorAviso(2)"> {{ mgnaranja }}
+     </ion-col>
+   </ion-row>
+
+   <ion-row class="datamain2Aviso">
+    <ion-col [ngClass]="colorAviso(1)"> {{ mgamarillo }}
+   </ion-col>
+ </ion-row>
+   
+  </ion-grid>
+</ion-content>

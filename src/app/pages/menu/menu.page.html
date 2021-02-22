@@ -1,0 +1,65 @@
+<ion-menu contentId="content" >
+  <ion-header style="margin-top:0px">
+    <ion-toolbar >
+     
+    </ion-toolbar>
+  </ion-header>
+  <ion-content  class="menu">
+    
+    <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+      <ion-refresher-content>
+  
+      </ion-refresher-content>
+    </ion-refresher>
+   
+    <div *ngFor="let p of pages" style="font-size: x-small;">
+      <ion-menu-toggle *ngIf="p.url">
+        <ion-item (click)="navegar(p.url, p.tipoenlace, '', p.icon)" routerDirection="root" 
+        routerLinkActive="active" color="none" lines="none">
+          <ion-icon class="datamain4" [src]="getIcon(p.icon)" slot="start"></ion-icon>
+          <ion-label class="datamain4 ion-text-wrap">{{ p.title }}</ion-label>
+        </ion-item>
+      </ion-menu-toggle>
+   
+      <ion-item button *ngIf="p.submenu?.length > 0" (click)="p.open = !p.open"
+        [class.active-parent]="p.open" detail="false">
+        <ion-icon class="datamain4" slot="start" name="arrow-forward" *ngIf="!p.open"></ion-icon>
+        <ion-icon class="datamain4" slot="start" name="arrow-down" *ngIf="p.open"></ion-icon>
+        <ion-label class="datamain4 ion-text-wrap">{{ p.title }}</ion-label>
+      </ion-item>
+      <ion-list *ngIf="p.open">
+        <ion-menu-toggle *ngFor="let sub of p.submenu">
+          <div *ngIf="sub.statussub != 0">
+            <ion-item  *ngIf="sub.url!='notification_id'" (click)="navegar(sub.url, 0, sub.subchild, sub.icon)" 
+            routerDirection="root" color="none" lines="none">
+              <ion-icon class="datamain4" [src]="getIcon(sub.icon)" slot="start"></ion-icon>
+              <ion-label class="datamain4 ion-text-wrap" style="font-size:14px;">{{ sub.title  }}</ion-label>
+            </ion-item>
+
+            <ion-item *ngIf="sub.url=='notification_id'" (click)="abrirConfiguracion(sub.url)" 
+            routerDirection="root" color="none" lines="none">
+              <ion-icon class="datamain4" [src]='' slot="start"></ion-icon>
+              <ion-label class="datamain4" style="font-size:14px;">{{ sub.title  }}</ion-label>
+            </ion-item>
+          </div>
+        </ion-menu-toggle>
+      </ion-list>
+     
+    </div>
+
+    <ion-menu-toggle >
+      <ion-item (click)="closeApp()" color="none" lines="none">
+        <ion-icon class="datamain4" name="power-outline"  slot="start"></ion-icon>
+        <ion-label class="datamain4" >Cerrar</ion-label>
+      </ion-item>
+    </ion-menu-toggle>
+    <div style="text-align: center">
+      <ion-img class="imgmenu" [src]="getimageLogo()">
+
+      </ion-img>
+    </div>
+
+  </ion-content>
+</ion-menu>
+
+<ion-router-outlet id="content" main></ion-router-outlet>

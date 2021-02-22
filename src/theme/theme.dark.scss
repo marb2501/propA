@@ -1,0 +1,158 @@
+.dark-theme{
+
+  ion-content{
+    //--background: url(../assets/images/fondo-noche_APP_Senamhi.png) no-repeat  50% 40%/100%;
+    --background: url(../assets/images/APP_fondo_azul.png) no-repeat  50% 40%/100%;
+
+  }
+  
+
+  ion-content.menu{
+    --background: #062F6E;
+  
+ }
+
+ 
+    .datamainC2{
+        color : #ffffff;
+        font-size: 16px;
+    }
+
+    .tempmax{ color: #F1EABA; font-size: 80px; text-align: right;    margin-right: 15px;}
+    
+    .tempdet{ color:#ffffff; font-size: 15px ; text-align: left; }
+    
+    .tempdet2{ color: #F1EABA; font-size: 15px !important; font-weight: bold; }
+    .tempdet3{ color:#ffffff;}
+
+    .tablavertA{
+        width: 100%;
+        font-size: 12px !important;
+        align-items: center;
+        color:black
+        
+    }
+      
+    .tablavertA td {
+        padding: 5px;
+    }
+
+    .tablavertB{
+        width: 100%;
+        font-size: 12px !important;
+        align-items: LEFT;
+        color:#ffffff
+        //background: darkgray;
+    }
+      
+    .tablavertB td {
+        padding: 5px;
+      
+    }  
+
+    .tablavertC{
+        width: 100%;
+        text-align: initial;
+        margin-left:30px;
+        color:#ffffff
+       
+      }
+      
+      .tablavertC td {
+        padding: 2px;
+        
+      }
+    
+    .datamain{
+        text-align: center;
+        color:#ffffff;
+    }
+
+    .datamainL{
+        text-align: left;
+        color:#ffffff;
+        margin-top: 8px;
+        margin-left: 20%;
+        
+      }
+    
+    .datamainL2{
+        text-align: left;
+        color:#ffffff
+        
+    }
+
+    .datamainL1{
+        text-align: left;
+        color:#ffffff
+        
+      }
+      
+      .datamainC{
+        color:#ffffff;
+        font-size: 20px;
+        margin-left: 10%;
+      }
+
+      .datamain2{
+        text-align: center;
+        color:#ffffff;
+        font-weight: bold;
+      }
+
+      .datamain2Aviso{
+        text-align: center;
+        color:black;
+        font-weight: bold;
+      }
+
+      .datamainjust{
+        text-align: justify;
+        color:#ffffff;
+        font-weight: bold;
+      }
+      
+      .datadetail{
+        text-align: center;
+        color :#ffffff;
+        font-size: 11.5px;
+      }
+
+      .datamain3{
+        text-align: center;
+        color:#ffffff;
+        font-weight: bold;
+        margin-top: 10px;
+      }
+
+      .datamain4{
+
+        color:#ffffff;
+        font-weight: bold;
+
+      }
+
+      .searchbar-input.sc-ion-searchbar-md{
+        background-color: #383a3e;
+        color:#F9C000;
+      }
+
+      .stylelist{
+        background-color: #383a3e;
+     }
+
+      .stylelist2{
+        color:#F9C000;
+      }
+
+      .listaavisosmarco{
+        
+        height:200px; 
+        overflow: scroll;
+        border-bottom: solid;
+        border-top: solid;
+        border-right: solid;
+        border-left:solid;
+        border-color: white;
+      }
+}

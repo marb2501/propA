@@ -1,0 +1,26 @@
+<ion-app [ngClass]="selectedTheme" >
+  
+  <ion-toolbar color="senamhiblue">
+    <ion-title center class="maintitle">Senamhi</ion-title>
+    <ion-buttons slot="start">
+      <ion-menu-button class="maintitle"></ion-menu-button>
+    </ion-buttons>
+   <ion-buttons slot="end">
+      <ion-button (click)="gotoMain()">
+        <ion-icon name="home" class="maintitle"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button (click)="gotoSearch()">
+        <ion-icon name="search" class="maintitle"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button (click)="share()">
+        <ion-icon name="share-social-outline" class="maintitle"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+  <ion-router-outlet></ion-router-outlet>
+ 
+</ion-app>

@@ -1,0 +1,8 @@
+{
+  "name": "propA",
+  "integrations": {
+    "capacitor": {},
+    "cordova": {}
+  },
+  "type": "angular"
+}
