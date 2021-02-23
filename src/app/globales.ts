@@ -25,10 +25,10 @@ export const previous = '/assets/images/up.png';
 export const next = '/assets/images/downmarb2015.png';
 export const radiacionUVLeg ='/assets/icon/leyendaIconosIUV.png';
 
-//export const IdFireBaseGoogle = '742107471461'; //prod  
-//export const IdOneSignal = '260b6d9e-6182-4b44-a2a2-acb55fe75fda';//prod
-export const IdFireBaseGoogle = '182395151084'; //test
-export const IdOneSignal = 'b774ec03-6fb0-4ec9-9b3b-67abbca57e60'; //test
+export const IdFireBaseGoogle = '742107471461'; //prod  
+export const IdOneSignal = '260b6d9e-6182-4b44-a2a2-acb55fe75fda';//prod
+//export const IdFireBaseGoogle = '182395151084'; //test
+//export const IdOneSignal = 'b774ec03-6fb0-4ec9-9b3b-67abbca57e60'; //test
 
 export const dominioAvisosJava ='http://190.119.131.28:9091/NotificadorAppInstitucional-0.0.1-SNAPSHOT/api/';
 export const dominioAvisosMeteorologicos ='http://sisper.senamhi.gob.pe:9091/appinstitucional/api/';
@@ -155,13 +155,13 @@ export const mensajeShare2="No se habilitó la opción.";
 export const menuSlide: any = [
   {
     title: 'Avisos Meteorológicos',
-    url: '/menu/menumet',
+    url: '/menu/avisosdetail1',
     icon: '',
     status: 1
   },
   {
     title: 'Avisos Hidrológicos',
-    url: '/menu/avisosmaphidro',
+    url: '/menu/avisosdetail4',
     icon: '',
     status: 1
   }

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ModalController } from '@ionic/angular';
+import { ModalController, LoadingController } from '@ionic/angular';
 import { WmssenamhiService } from '../../services/wmssenamhi.service';
 import { previous, MESESTIEMPO, DIASTIEMPO } from '../../globales';
 import { Lugarafectado } from '../../models/lugarafectado.model';
@@ -55,7 +55,7 @@ export class AlertmaphidroPage implements OnInit {
  
 
   constructor(private modalcontroler: ModalController,private route: ActivatedRoute,  public wmssenamhi:WmssenamhiService,
-    private router: Router) { 
+    private router: Router,   public loadingController: LoadingController) { 
       this.route.queryParams.subscribe(params => {
         if (params && params.special){
           this.data = JSON.parse(params.special)
@@ -65,7 +65,15 @@ export class AlertmaphidroPage implements OnInit {
 
  
 
-  ngOnInit() {
+  async ngOnInit() {
+
+    const loading = await this.loadingController.create({
+      cssClass: 'my-custom-class',
+      message: 'Cargando...',
+      //duration: 4000
+    });
+
+    await loading.present();
 
     this.argFecha=[];
     let fecha=new Date();
@@ -129,6 +137,8 @@ export class AlertmaphidroPage implements OnInit {
         }})
 
     })
+
+    await loading.dismiss();
 
   }
 

@@ -51,7 +51,6 @@ export class MainPage {
   public ametideseptemp:AvisoMeteoroIDESEP[];
   public ametidesep:AvisoMeteoroIDESEP[];
 
-  //private httpHeaders = new HttpHeaders({ 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' });
   httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json'

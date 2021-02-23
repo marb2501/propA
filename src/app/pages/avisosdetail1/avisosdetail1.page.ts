@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { ActivatedRoute, Router, NavigationExtras } from '@angular/router';
-import { previous, provincias, departamentos,MESESTIEMPO,layermet} from '../../globales';
+import { previous, MESESTIEMPO,layermet} from '../../globales';
 import { AvisometeoroService } from '../../services/avisometeoro.service';
 import { AvisoMeteoro } from '../../models/avisomet.model';
 import { StorageService, Geolocaposicion} from '../../services/storage.service';
@@ -37,9 +37,7 @@ export class Avisosdetail1Page implements OnInit{
   pagesMet: MenuMetApp[]=[];
   color24hnivel;
   fecha24h;
-  depart=departamentos;
   dep=null;
-  provs=provincias;
   prov=null;
   ciudad;
   viewparams;
@@ -68,7 +66,7 @@ export class Avisosdetail1Page implements OnInit{
   }
 
   ngOnInit(){
-    this.datacheck=[{name:'Mostrar los avisos hidrológicos del país', selected:false}]
+    this.datacheck=[{name:'Mostrar los avisos meteorólogicos del país', selected:false}]
     this.avisoMet=[];
     
     this.nivelesAM=[];
@@ -80,7 +78,7 @@ export class Avisosdetail1Page implements OnInit{
   }
 
   ionViewWillEnter(){
-    this.datacheck=[{name:'Mostrar los avisos hidrológicos del país', selected:false}]
+    this.datacheck=[{name:'Mostrar los avisos meteorólogicos del país', selected:false}]
     this.avisoMet=[];
     this.nivelesAM=[];
     this.color24hnivel='';
@@ -161,13 +159,6 @@ export class Avisosdetail1Page implements OnInit{
             }
         }
       })    
-     /* this.avisoMeteoro.getListaAvisoMeteoroGeoposicion(dep,prov,'')
-      .subscribe(async (listaavisometdep) =>{
-        this.avisoMet=[];
-        this.avisoMet=JSON.parse(listaavisometdep.data);
-      
-      }, (error)=>{console.log(error)});*/
-     
     })
     await loading.dismiss();
    
