@@ -107,7 +107,7 @@ export class SearchPage {
 
      this.storageService.additemFavoritos(this.newitemFR).then(it=>{
       this.newitemFR=<FavoritosBR>{};
-      this.showToast('Se agregó a favoritos');
+      this.showToast('Se agregó a favoritos.');
       this.loadItemsFR()
      })
 
@@ -153,7 +153,7 @@ export class SearchPage {
  async deleteItemUbicaActEleg(item1:Geolocaposicion){
   
     this.storageService.deleteitemGeoposition(item1.id).then(it1=>{
-      this.showToast('Ubicación actual eliminada');
+      this.showToast('Cargando...');
       this.myList1.closeSlidingItems()
       this.loadItemUbicaActEleg();
     })
@@ -171,7 +171,7 @@ export class SearchPage {
 
   async deleteItemBusquedaR(item3:BusquedaR){
     this.storageService.deleteitemBusquedaR(item3.id).then(it1=>{
-      this.showToast('Búsqueda reciente eliminada');
+      this.showToast('Cargando...');
       this.myList2.closeSlidingItems()
       this.loadItemsBR();
     })
@@ -218,7 +218,21 @@ selecFavinMiUbicacion(itemFAV:FavoritosBR){
     }
     
     setTimeout(()=>{this.storageService.additemGeoposition(itemFAV).then(it=>{
-      this.showToast('Se restauró la ubicación actual con mi ubicación favorita.');
+      this.showToast('Se actualizó la ubicación actual.');
+      this.loadItemUbicaActEleg();
+    })},3000)
+    
+  })
+}
+
+selecBusqinMiUbicacion(itemBR:BusquedaR){
+  this.storageService.getitemGeoposition().then((items0:Geolocaposicion[])=>{
+    if(items0!=null && items0.length>0){
+      this.deleteItemUbicaActEleg(items0[0]);
+    }
+    
+    setTimeout(()=>{this.storageService.additemGeoposition(itemBR).then(it=>{
+      this.showToast('Se actualizó la ubicación actual.');
       this.loadItemUbicaActEleg();
     })},3000)
     

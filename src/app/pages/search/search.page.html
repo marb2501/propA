@@ -69,7 +69,7 @@
           <div class="listaavisosmarco">
           <div *ngIf="itemBR?.length > 0">
           <ion-item *ngFor="let push1 of itemBR" color="none" lines="none">
-            <div class="datamain2"> {{ push1.ciudad }}</div>
+            <div class="datamain2" (click)="selecBusqinMiUbicacion(push1)"> {{ push1.ciudad }}</div>
           <ion-icon class="datamain2" name="add-outline" slot="end" (click)="agregaraFavoritos(push1)"></ion-icon>
           
         </ion-item>
@@ -86,7 +86,8 @@
           <ion-list class="cardtransparente" #myList3>
             <div class="listaavisosmarco">
             <div *ngIf="itemFR?.length > 0">
-            <ion-item *ngFor="let push2 of itemFR" color="none" lines="none" class="datamain2"><div  (click)="selecFavinMiUbicacion(push2)"> {{ push2.ciudad }}</div>
+            <ion-item *ngFor="let push2 of itemFR" color="none" lines="none" class="datamain2">
+              <div (click)="selecFavinMiUbicacion(push2)"> {{ push2.ciudad }}</div>
              <ion-icon class="datamain2" name="trash-outline" slot="end" (click)="deleteItemFavoritos(push2)"></ion-icon>
             </ion-item>
             </div>
