@@ -188,6 +188,7 @@ export class AvisohidinfomainPage implements OnInit {
         'long':  this.long,
         'lugarAfectado':this.lugafec,
         'colorNivel':this.colorNivel,
+        'codNivel':this.codNivel,
         'latEsta':this.latEsta,
         'lonEsta':this.lonEsta,
         'cql_filter': this.cadenaidistritos

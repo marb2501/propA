@@ -28,6 +28,7 @@ export class AvisoshidmapmainPage {
   options: GeolocationOptions;
   currentPost: Geoposition;
   titulomodal:number;
+  codNivel:number;
   tituloaviso:string;
   etiqueta:string;
   previo=previous;
@@ -44,7 +45,7 @@ export class AvisoshidmapmainPage {
   @Input() latEsta: string;
   @Input() lonEsta: string;
   @Input() colorNivel: string;
-
+  
   constructor(private modalcontroler: ModalController, private socialSharing: SocialSharing, 
     private screenshot: Screenshot, private geolocation: Geolocation, 
     public tavisomp1: TipoavisoService,
@@ -64,6 +65,7 @@ export class AvisoshidmapmainPage {
       this.latEsta=navParams.get('latEsta');
       this.lonEsta=navParams.get('lonEsta');
       this.csql_filter=navParams.get('cql_filter');
+      this.codNivel=navParams.get('codNivel');
      }
 
   async  closeModal() {
@@ -130,7 +132,7 @@ export class AvisoshidmapmainPage {
     if(liter==""){
       stylo=stylesWMSDist[0];
     }else{
-      stylo=stylesWMSDist[Number(this.titulomodal)];
+      stylo=stylesWMSDist[Number(this.codNivel)];
     }
  
     const stylesWMS=stylo;
@@ -149,7 +151,8 @@ export class AvisoshidmapmainPage {
       //Formato:
       //Layer: la capa del layer
       Departamento:departamento,
-      Provincia:provincia
+      Provincia:provincia,
+      Distritos:distrito
     };
     
 
@@ -157,7 +160,7 @@ export class AvisoshidmapmainPage {
         zoom: 9,
         maxZoom: 100,
         minZoom: 5,
-        layers: [routesmap, departamento, provincia]}
+        layers: [routesmap, departamento, provincia, distrito]}
       ).setView([ this.lat, this.lng ], 1);
 
         //layer de etiquteas de mapa
