@@ -1,6 +1,6 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { Geolocation, GeolocationOptions, Geoposition } from '@ionic-native/geolocation/ngx';
-import { NativeGeocoder, NativeGeocoderResult, NativeGeocoderOptions } from '@ionic-native/native-geocoder/ngx';
+import { NativeGeocoderOptions } from '@ionic-native/native-geocoder/ngx';
 import { ApiService } from '../../services/api.service';
 import { NominatimResponse } from '../../models/nominatimresponse.model';
 import { LoadingController, Platform, ToastController, IonList} from '@ionic/angular';

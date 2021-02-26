@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { from } from 'rxjs';
 import { HTTP } from '@ionic-native/http/ngx';
-import { urlWSAvisosHidrologicos, urlIDESEPServMet, urlIDESEP24Horas,
+import { urlWSAvisosHidrologicos, urlIDESEPServMet, urlIDESEP24Horas,urlIDESEPDist,
   urlIDESEPQuebrada, urlIDESEPriesgo1, urlIDESEPriesgo2, urlIDESEPriesgo3, 
   urlIDESEPriesgo4, urlIDESEPriesgo5, urlIDESEPriesgo6, urlIDESEPRUV48, urlIDESEPRUV72, urlIDESEPAvisoMetLatLong} from '../globales';
 
@@ -207,6 +207,12 @@ export class WmssenamhiService {
     let native=this.nativeHttp.get(urlEndPoint,{},{'Content-type':'application/json'})
     return from(native).pipe();
 
+  }
+
+  getDistritoAvisoHidrologico(etiqueta,coordXMin, coordYMin,coordXMax, coordYMax,ancho, alto, ejex,ejey){
+    const urlEndPoint=urlIDESEPDist+'?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetFeatureInfo&FORMAT=image/png&TRANSPARENT=true&QUERY_LAYERS='+etiqueta+'&LAYERS='+etiqueta+'&INFO_FORMAT=application/json&I='+ejex.toFixed(0)+'&J='+ejey.toFixed(0)+'&WIDTH='+ancho+'&HEIGHT='+alto+'&CRS=EPSG%3A4326&STYLES=&BBOX='+coordXMin+'%2C'+coordYMin+'%2C'+coordXMax+'%2C'+coordYMax;
+    let native=this.nativeHttp.get(urlEndPoint,{},{'Content-type':'application/json'})
+    return from(native).pipe();
   }
 
 }

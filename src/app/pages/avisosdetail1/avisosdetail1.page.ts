@@ -123,15 +123,7 @@ export class Avisosdetail1Page implements OnInit{
           this.avisoMet=[];
         }else{
           this.ametidesep=this.ametideseptemp.filter(function(filtr) {
-            /*let fechini= new Date(filtr.fechaInicio);
-            let fecact= new Date();
-            let dat='0'+(Number(fecact.getMonth())+1);
-            let dat2='0'+(Number(fechini.getMonth())+1);
-  
-            let fechiniAv=fechini.getFullYear()+'-'+dat2.slice(-2)+'-'+fechini.getDate();
-            let fechAc=fecact.getFullYear()+'-'+dat.slice(-2)+'-'+fecact.getDate();*/
- 
-            return (filtr.nivel>1 /*&& (fechiniAv==fechAc)*/);}) 
+             return (filtr.nivel>1);}) 
             this.ametideseptemp=[];
 
             if(this.ametidesep.length<=0 || this.ametidesep.length==null){

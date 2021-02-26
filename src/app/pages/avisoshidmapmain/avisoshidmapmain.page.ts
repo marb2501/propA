@@ -4,14 +4,12 @@ import { SocialSharing } from '@ionic-native/social-sharing/ngx';
 import { Screenshot } from '@ionic-native/screenshot/ngx';
 import { NavParams } from '@ionic/angular';
 import { Geolocation, GeolocationOptions, Geoposition } from '@ionic-native/geolocation/ngx';
-import { Map, tileLayer, marker, control, icon, DomUtil, geoJSON, polygon} from 'leaflet';
-import { previous, iconmarker, leyendaavisoshidro, iconEstacionN, iconEstacionA, iconEstacionR, sizepopuphidro, MESESTIEMPO, DIASTIEMPO
-        ,urlMapaLealeft, urlIDESEPDepart, urlIDESEPProv,mensajeShare1,mensajeShare2 } from '../../globales';
+import { Map, tileLayer, marker, control, icon, DomUtil, popup} from 'leaflet';
+import { previous, iconmarker, leyendaavisoshidro, iconEstacionN, iconEstacionA, iconEstacionR, sizepopuphidro, MESESTIEMPO,
+  urlMapaLealeft, urlIDESEPDepart, urlIDESEPProv,mensajeShare1,mensajeShare2, urlIDESEPDist, stylesWMSDist } from '../../globales';
 import { TipoavisoService } from '../../services/tipoaviso.service';
-import { TipoAviso } from '../../models/tipoaviso.model';
 import { WmssenamhiService } from '../../services/wmssenamhi.service';
 import { Lugarafectado } from '../../models/lugarafectado.model';
-import { distritosgeo } from '../../data/perugeo_distritos';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -25,7 +23,6 @@ export class AvisoshidmapmainPage {
   control: any;
   tiles: any;
   propertyList = [];
-  private tipoAviso: TipoAviso[];
   private lafect: Lugarafectado[];
   public data: any;
   options: GeolocationOptions;
@@ -34,6 +31,7 @@ export class AvisoshidmapmainPage {
   tituloaviso:string;
   etiqueta:string;
   previo=previous;
+  csql_filter:string;
 
   @Input() layer: string;
   @Input() numero: string;
@@ -65,6 +63,7 @@ export class AvisoshidmapmainPage {
       this.lng=navParams.get('long');
       this.latEsta=navParams.get('latEsta');
       this.lonEsta=navParams.get('lonEsta');
+      this.csql_filter=navParams.get('cql_filter');
      }
 
   async  closeModal() {
@@ -121,6 +120,26 @@ export class AvisoshidmapmainPage {
 
     const provincia = tileLayer.wms(urlIDESEPProv, {
       layers: 'g_00_02:00_02_003_03_000_000_0000_00_00',
+      format: 'image/png',
+      transparent: true,
+      detectRetina: true
+    });
+
+    const liter=this.csql_filter;
+    let stylo='';
+    if(liter==""){
+      stylo=stylesWMSDist[0];
+    }else{
+      stylo=stylesWMSDist[Number(this.titulomodal)];
+    }
+ 
+    const stylesWMS=stylo;
+    const layer='g_carto_fundamento:distritos';
+
+    const distrito = tileLayer.wms(urlIDESEPDist, {
+      layers: layer,
+      cql_filter: liter,
+      styles: stylesWMS,
       format: 'image/png',
       transparent: true,
       detectRetina: true
@@ -195,20 +214,6 @@ export class AvisoshidmapmainPage {
               distritosafechtml +="<tr><td>&nbsp;</td><td>&nbsp;</td><td>"+elementla.nomDist+"</td></tr>";
             }
           }
-
-          let llave=elementla.codDep+elementla.codProv+elementla.codDist;
-            geoJSON(distritosgeo,{
-              filter:function(features, layer){
-                    return features.properties.IDDIST===llave;
-              },
-              onEachFeature: function onEachFeature(feature, layer){
-                polygon(feature.geometry.coordinates, {color: colorMapa});
-                layer.bindPopup(feature.properties.NOMBDIST);
-              },
-              style: function(feature) {
-                return {color:colorMapa}
-            }
-            }).addTo(this.map);
         }); 
 
         distritosafechtml +="</tbody></table>";
@@ -219,6 +224,40 @@ export class AvisoshidmapmainPage {
         icon: icon(markercolor)})
         .bindPopup(consolidadoDIV,
          sizepopuphidro));
+
+      //al presionar el mapa revisa que distrito es ubicado
+      this.map.on('click',(e)=>{
+
+        let containerPotin  = this.map.latLngToContainerPoint(e.latlng, this.map.getZoom());
+       
+        let bounds = this.map.getBounds();
+        let sw = bounds.getSouthWest();
+        let ne = bounds.getNorthEast();
+        let size = this.map.getSize();
+        
+        let tabalresul ="<table class='estilotabla'>";
+        this.wmssenamhi.getDistritoAvisoHidrologico(layer,sw.lat,sw.lng,ne.lat,ne.lng,size.x, size.y,containerPotin.x ,containerPotin.y)
+        .subscribe((response)=>{
+          let obj = JSON.parse(response.data);
+          let infotab=''
+          let data = obj['features'];
+          data.forEach(element => {
+            let dato=element['properties'].distrito;
+            infotab+="<tr><th>"+dato+"</th></tr>";
+          });
+          
+          tabalresul+=infotab+"</table>";
+          infotab='';
+             
+          let dato= popup();
+          dato=popup()
+          .setLatLng(e.latlng)
+          .setContent(tabalresul);
+      
+          dato.openOn(this.map);
+        });
+      });        
+
 
       //mapa
       const legend = control({ position: "bottomleft" });  

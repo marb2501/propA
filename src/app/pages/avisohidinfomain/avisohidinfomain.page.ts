@@ -39,6 +39,7 @@ export class AvisohidinfomainPage implements OnInit {
   nomTipoAviso;
   latEsta;
   lonEsta;
+  cadenaidistritos:string;
   
 
   @Input() numero: string;
@@ -134,24 +135,29 @@ export class AvisohidinfomainPage implements OnInit {
 
   getProvDistAfectados(){
     
-    let codigoProv;
-    let codigoDep;
+    let codigoProv='';
+      let codigoDep='';
+      this.cadenaidistritos="";
     let tabalresul ="<table class='tablavert'><thead><tr><th>DEPARTAMENTO</th><th>PROVINCIA</th><th>DISTRITO</th></tr></thead><tbody>";
     this.lugafec.forEach(datos=>{
       if(codigoProv=="" && codigoDep==""){
         codigoDep=datos.codDep
         codigoProv=datos.codProv
+        this.cadenaidistritos+="iddist='"+datos.codDep+datos.codProv+datos.codDist+"'";
         tabalresul +="<tr><td>"+datos.nomdep+"</td><td>"+datos.nomProv+"</td><td>"+datos.nomDist+"</td></tr>";
       }else{
         if(codigoDep!=datos.codDep){
           codigoDep=datos.codDep
           codigoProv=datos.codProv
+          this.cadenaidistritos+=" or iddist='"+datos.codDep+datos.codProv+datos.codDist+"'";
           tabalresul +="<tr><td>"+datos.nomdep+"</td><td>"+datos.nomProv+"</td><td>"+datos.nomDist+"</td></tr>";
 
         }else if(codigoProv!=datos.codProv) {
           codigoProv=datos.codProv
+          this.cadenaidistritos+=" or iddist='"+datos.codDep+datos.codProv+datos.codDist+"'";
           tabalresul +="<tr><td>&nbsp;</td><td>"+datos.nomProv+"</td><td>"+datos.nomDist+"</td></tr>";
         }else{
+          this.cadenaidistritos+=" or iddist='"+datos.codDep+datos.codProv+datos.codDist+"'";
           tabalresul +="<tr><td>&nbsp;</td><td>&nbsp;</td><td>"+datos.nomDist+"</td></tr>";
         }
       }
@@ -183,7 +189,8 @@ export class AvisohidinfomainPage implements OnInit {
         'lugarAfectado':this.lugafec,
         'colorNivel':this.colorNivel,
         'latEsta':this.latEsta,
-        'lonEsta':this.lonEsta
+        'lonEsta':this.lonEsta,
+        'cql_filter': this.cadenaidistritos
       }
     });
     return await modal.present();

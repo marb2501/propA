@@ -52,12 +52,16 @@ export const urlIDESEPriesgo5='https://idesep.senamhi.gob.pe/geoserver/g_11_05/w
 export const urlIDESEPriesgo6='https://idesep.senamhi.gob.pe/geoserver/g_11_06/wms';
 export const urlIDESEPRUV48='https://idesep.senamhi.gob.pe/geoserver/g_03_04/wms';
 export const urlIDESEPRUV72='https://idesep.senamhi.gob.pe/geoserver/g_03_04/wms';
-export const urlIDESEPDepart='http://idesep.senamhi.gob.pe:80/geoserver/g_00_02/wms';
-export const urlIDESEPProv='http://idesep.senamhi.gob.pe:80/geoserver/g_00_02/wms';
+export const urlIDESEPDepart='https://idesep.senamhi.gob.pe:443/geoserver/g_00_02/wms';
+export const urlIDESEPProv='https://idesep.senamhi.gob.pe:443/geoserver/g_00_02/wms';
+export const urlIDESEPDist='https://idesep.senamhi.gob.pe:443/geoserver/g_carto_fundamento/wms';
 export const urlMapaLealeft='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
 export const layermet='g_aviso:view_aviso';
 
 export const sizepopuphidro: any = { minWidth:300, maxHeight:'auto' };
+
+export const stylesWMSDist=['00_00_Limite_Distrito_Peru','00_00_Limite_Distrito_Peru_nivel_2',
+                           '00_00_Limite_Distrito_Peru_nivel_3','00_00_Limite_Distrito_Peru_nivel_4']
 
 export const MESESTIEMPO = [
   "Enero",

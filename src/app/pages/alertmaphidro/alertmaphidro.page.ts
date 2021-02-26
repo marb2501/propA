@@ -20,6 +20,7 @@ export class AlertmaphidroPage implements OnInit {
   textoleyenda:string;
   public lugarAfectado:Array<Lugarafectado>=[];
   argFecha=[];
+  cadenaidistritos:string;
 
   avisoHidro =
     {
@@ -156,24 +157,29 @@ export class AlertmaphidroPage implements OnInit {
 
 
   getProvDistAfectados(){
-    let codigoProv;
-    let codigoDep;
+    let codigoProv='';
+    let codigoDep='';
+    this.cadenaidistritos="";
     let tabalresul ="<table class='tablavert'><thead><tr><th>DEPARTAMENTO</th><th>PROVINCIA</th><th>DISTRITO</th></tr></thead><tbody>";
     this.lugarAfectado.forEach(datos=>{
       if(codigoProv=="" && codigoDep==""){
         codigoDep=datos.codDep
         codigoProv=datos.codProv
+        this.cadenaidistritos+="iddist='"+datos.codDep+datos.codProv+datos.codDist+"'";
         tabalresul +="<tr><td>"+datos.nomdep+"</td><td>"+datos.nomProv+"</td><td>"+datos.nomDist+"</td></tr>";
       }else{
         if(codigoDep!=datos.codDep){
           codigoDep=datos.codDep
           codigoProv=datos.codProv
+          this.cadenaidistritos+=" or iddist='"+datos.codDep+datos.codProv+datos.codDist+"'";
           tabalresul +="<tr><td>"+datos.nomdep+"</td><td>"+datos.nomProv+"</td><td>"+datos.nomDist+"</td></tr>";
 
         }else if(codigoProv!=datos.codProv) {
           codigoProv=datos.codProv
+          this.cadenaidistritos+=" or iddist='"+datos.codDep+datos.codProv+datos.codDist+"'";
           tabalresul +="<tr><td>&nbsp;</td><td>"+datos.nomProv+"</td><td>"+datos.nomDist+"</td></tr>";
         }else{
+          this.cadenaidistritos+=" or iddist='"+datos.codDep+datos.codProv+datos.codDist+"'";
           tabalresul +="<tr><td>&nbsp;</td><td>&nbsp;</td><td>"+datos.nomDist+"</td></tr>";
         }
       }
@@ -201,7 +207,8 @@ export class AlertmaphidroPage implements OnInit {
         'lugarafectado':this.lugarAfectado,
         'lat':this.data.lat, 
         'lng':this.data.lng,
-        'fechactual':fecha
+        'fechactual':fecha,
+        'cql_filter': this.cadenaidistritos
         }
     });
     return await modal.present();

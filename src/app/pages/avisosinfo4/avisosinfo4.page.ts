@@ -30,6 +30,7 @@ export class Avisosinfo4Page {
   mgrojo:String;
   mgnaranja:String;
   mgamarillo:String;
+  cadenaidistritos:string;
  
   lugafec:Lugarafectado[];
   data : any;
@@ -97,6 +98,7 @@ export class Avisosinfo4Page {
           this.lat=this.data.lat;
           this.lng=this.data.lng;
           this.lugafec=this.data.lugarafectado;
+          
       }})
     }
 
@@ -121,24 +123,29 @@ export class Avisosinfo4Page {
     }
 
     getProvDistAfectados(){
-      let codigoProv;
-      let codigoDep;
+      let codigoProv='';
+      let codigoDep='';
+      this.cadenaidistritos="";
       let tabalresul ="<table class='tablavert'><thead><tr><th>DEPARTAMENTO</th><th>PROVINCIA</th><th>DISTRITO</th></tr></thead><tbody>";
       this.lugafec.forEach(datos=>{
         if(codigoProv=="" && codigoDep==""){
           codigoDep=datos.codDep
           codigoProv=datos.codProv
+          this.cadenaidistritos+="iddist='"+datos.codDep+datos.codProv+datos.codDist+"'";
           tabalresul +="<tr><td>"+datos.nomdep+"</td><td>"+datos.nomProv+"</td><td>"+datos.nomDist+"</td></tr>";
         }else{
           if(codigoDep!=datos.codDep){
             codigoDep=datos.codDep
             codigoProv=datos.codProv
+            this.cadenaidistritos+=" or iddist='"+datos.codDep+datos.codProv+datos.codDist+"'";
             tabalresul +="<tr><td>"+datos.nomdep+"</td><td>"+datos.nomProv+"</td><td>"+datos.nomDist+"</td></tr>";
 
           }else if(codigoProv!=datos.codProv) {
             codigoProv=datos.codProv
+            this.cadenaidistritos+=" or iddist='"+datos.codDep+datos.codProv+datos.codDist+"'";
             tabalresul +="<tr><td>&nbsp;</td><td>"+datos.nomProv+"</td><td>"+datos.nomDist+"</td></tr>";
           }else{
+            this.cadenaidistritos+=" or iddist='"+datos.codDep+datos.codProv+datos.codDist+"'"
             tabalresul +="<tr><td>&nbsp;</td><td>&nbsp;</td><td>"+datos.nomDist+"</td></tr>";
           }
         }
@@ -146,7 +153,8 @@ export class Avisosinfo4Page {
       tabalresul +="</tbody></table>";
 
       if(this.lugafec.length<=0){
-        tabalresul="No se ha registrado los lugares afectados";
+        this.cadenaidistritos='';
+        tabalresul="No se ha registrado los lugares afectados.";
       }
 
       return tabalresul;
@@ -165,7 +173,6 @@ export class Avisosinfo4Page {
     }
 
     async openModal(fecha) {
-
       const modal = await this.modalcontroler.create({
         component: Avisosmap4Page ,
         componentProps: {
@@ -196,7 +203,8 @@ export class Avisosinfo4Page {
           'lugarafectado':this.lugafec,
           'lat':this.lat,
           'lng':this.lng,
-          'fechactual':fecha
+          'fechactual':fecha,
+          'cql_filter': this.cadenaidistritos
           }
       });
       return await modal.present();
