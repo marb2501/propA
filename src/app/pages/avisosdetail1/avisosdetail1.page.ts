@@ -141,9 +141,12 @@ export class Avisosdetail1Page implements OnInit{
                     if (Number(reaA.numero)===res.nroAviso){
                       reaA.codNivel=res.nivel.toString()
                       this.avisoMet.push(reaA);
+                      
                     }
                   })
                 })
+
+                this.avisoMet=Array.from(new Set(this.avisoMet));
             }
               
             },  (error)=>{console.log(error)});

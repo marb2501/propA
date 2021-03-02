@@ -188,7 +188,7 @@ export class PushnotiService {
          
                     return (filtr.nivel>1 && (fechiniAv==fechAc));}) 
                     this.ametideseptemp=[];
-
+                    this.ametidesep=Array.from(new Set(this.ametidesep));
                     if(this.ametidesep.length>0){
                       this.ametidesep.map(rest=>{
                         if(Number(rest.nroAviso)==numeroaviso){
@@ -215,15 +215,20 @@ export class PushnotiService {
                })
             }
           }else{     
-           this.api.getCurrentTemperature(this.locations.lat,this.locations.lng).subscribe((dato) => {
+           /*this.api.getCurrentTemperature(this.locations.lat,this.locations.lng).subscribe((dato) => {
               let obj = dato as any;
               let data = obj['data'][0];
               let dep= data.COD_DEP;
               let prov= data.COD_PROV;
-              let dist= data.COD_DIST;
-              let llave=dep+prov+dist;
+              let dist= data.COD_DIST;*/
+              this.api.getDepProvDist(this.locations.lat,this.locations.lng).subscribe((datow) => {
+                let obj = JSON.parse(datow.data);
+                const data = obj['features'];
+          
+                data.map(element => {
+                  let llave=element['properties'].iddist;
 
-              this.serviciowmsSenamhi.getAvisosHidrologicosVigentes(this.locations.lat,this.locations.lng)
+                  this.serviciowmsSenamhi.getAvisosHidrologicosVigentes(this.locations.lat,this.locations.lng)
                 .subscribe((response)=>{
                   let data = JSON.parse(response.data);
                   data.map(element => {
@@ -243,6 +248,7 @@ export class PushnotiService {
                       }
                   })
                 })
+              })
             })
           }
          });
@@ -285,7 +291,7 @@ export class PushnotiService {
          
                     return (filtr.nivel>1 && (fechiniAv==fechAc));}) 
                     this.ametideseptemp=[];
-
+                    this.ametidesep=Array.from(new Set(this.ametidesep));
                     if(this.ametidesep.length>0){
                       this.ametidesep.map(rest=>{
                         if(Number(rest.nroAviso)==numeroaviso){
@@ -316,13 +322,19 @@ export class PushnotiService {
             }
             
           }else{
-           this.api.getCurrentTemperature(this.locations.lat,this.locations.lng).subscribe((dato) => {
+            this.api.getDepProvDist(this.locations.lat,this.locations.lng).subscribe((datow) => {
+              let obj = JSON.parse(datow.data);
+              const data = obj['features'];
+        
+              data.map(element => {
+                let llave=element['properties'].iddist;
+           /*this.api.getCurrentTemperature(this.locations.lat,this.locations.lng).subscribe((dato) => {
             let obj = dato as any;
             let data = obj['data'][0];
             let dep= data.COD_DEP;
             let prov= data.COD_PROV;
             let dist= data.COD_DIST;
-            let llave=dep+prov+dist;
+            let llave=dep+prov+dist;*/
 
             this.serviciowmsSenamhi.getAvisosHidrologicosVigentes(this.locations.lat,this.locations.lng)
               .subscribe((response)=>{
@@ -353,7 +365,7 @@ export class PushnotiService {
                     }
                 })
               })
-
+            })
               
           })
    

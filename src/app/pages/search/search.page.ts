@@ -273,14 +273,30 @@ async retaurarposicion(){
         this.newitemGP.ciudad=data1[0].display_name;
       })
       
-      this.api.getCurrentTemperature(pos.coords.latitude, pos.coords.longitude)
+      this.api.getDepProvDist(pos.coords.latitude, pos.coords.longitude).subscribe((datow) => {
+        let obj = JSON.parse(datow.data);
+        const data = obj['features'];
+  
+        data.map(element => {
+          let nivl=element['properties'].iddist;
+          let ubig=nivl;
+          let dep=ubig.substr(0,2);
+          let prov=ubig.substr(2,2);
+          let dist=ubig.slice(-2);
+  
+          this.newitemGP.coddep= dep;
+          this.newitemGP.codprov= prov;
+          this.newitemGP.coddist= dist;
+        })
+
+     /* this.api.getCurrentTemperature(pos.coords.latitude, pos.coords.longitude)
       .subscribe((dato) => {
           let obj = dato as any;
           let data = obj['data'][0];
          
           this.newitemGP.coddep= data.COD_DEP;
           this.newitemGP.codprov= data.COD_PROV;
-          this.newitemGP.coddist= data.COD_DIST;
+          this.newitemGP.coddist= data.COD_DIST;*/
 
       })
 
@@ -318,7 +334,23 @@ async retaurarposicion(){
 
     },(error)=>{
      let ciudad=nombredata;
-      this.api.getCurrentTemperature( latinueva, longnueva).subscribe((dato) => {
+     this.api.getDepProvDist(latinueva, longnueva).subscribe((datow) => {
+      let obj = JSON.parse(datow.data);
+      const data = obj['features'];
+
+      data.map(element => {
+        let nivl=element['properties'].iddist;
+        let ubig=nivl;
+        let dep=ubig.substr(0,2);
+        let prov=ubig.substr(2,2);
+        let dist=ubig.slice(-2);
+
+        this.addItemUbicaActEleg(latinueva,longnueva,ciudad,dep,prov,dist);
+        this.addItemBusquedaR(latinueva,longnueva,ciudad,dep,prov,dist);
+      })
+    })
+
+      /*this.api.getCurrentTemperature( latinueva, longnueva).subscribe((dato) => {
         let obj = dato as any;
         let data = obj['data'][0];
         let dep= data.COD_DEP;
@@ -326,7 +358,8 @@ async retaurarposicion(){
         let dist= data.COD_DIST;
         this.addItemUbicaActEleg(latinueva,longnueva,ciudad,dep,prov,dist);
         this.addItemBusquedaR(latinueva,longnueva,ciudad,dep,prov,dist);
-      })
+      })*/
+
     })
   }
 

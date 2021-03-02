@@ -1,4 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HTTP } from '@ionic-native/http/ngx';
+import { from } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
@@ -10,7 +12,8 @@ import {
   pkgubicac,
   pkgresumen,
   urlSearchLocation,
-  urlGeoposionLocation
+  urlGeoposionLocation,
+  urlIDESEPDist
 } from '../globales';
 
 
@@ -21,7 +24,7 @@ export class ApiService {
 
   
 
-  constructor(public http: HttpClient) { }
+  constructor(public http: HttpClient, private nativeHttp: HTTP) { }
 
   
 
@@ -137,6 +140,27 @@ export class ApiService {
 
   }
 
+
+  getDepProvDist(lat,long){
+    let url=urlIDESEPDist;
+    let coordXMin=lat;
+    let coordYMin=long;
+
+    let coordXMax=0;
+    let coordYMax=0;
+
+    coordXMax=Number(coordXMin)+0.0000005;
+    coordYMax=Number(coordYMin)+0.0000005;
+    
+    let wmsurl="";
+
+    
+    wmsurl=url+'?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetFeatureInfo&FORMAT=image/png&TRANSPARENT=true&QUERY_LAYERS=g_carto_fundamento:distritos&LAYERS=g_carto_fundamento:distritos&INFO_FORMAT=application/json&I=122&J=314&WIDTH=412&HEIGHT=652&CRS=EPSG%3A4326&STYLES=&BBOX='+coordXMin+'%2C'+coordYMin+'%2C'+coordXMax+'%2C'+coordYMax;
+   
+    let native=this.nativeHttp.get(wmsurl,{},{'Content-type':'application/json'})
+    return from(native).pipe();
+
+  }
  
 
 

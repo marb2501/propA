@@ -292,7 +292,27 @@ export class MainPage {
       this.locations.descrip = data.DES_PRON;
     });
 
-    this.api.getCurrentTemperature(this.locations.lat, this.locations.lng).subscribe((dato) => {
+    this.api.getDepProvDist(this.locations.lat, this.locations.lng).subscribe((datow) => {
+      let obj = JSON.parse(datow.data);
+      const data = obj['features'];
+
+      data.map(element => {
+        let nivl=element['properties'].iddist;
+        let ubig=nivl;
+        let dep=ubig.substr(0,2);
+        let prov=ubig.substr(2,2);
+        let dist=ubig.slice(-2);
+
+        this.locations.COD_DEP = dep;
+        this.locations.COD_PROV = prov;
+        this.locations.COD_DIST = dist;
+        this.locations.AUXCOD_DEP = dep;
+        this.locations.AUXCOD_PROV = prov;
+        this.locations.AUXCOD_DIST = dist;
+
+      })
+
+    /*this.api.getCurrentTemperature(this.locations.lat, this.locations.lng).subscribe((dato) => {
           
       let obj = dato as any;
       let data = obj['data'][0];
@@ -301,7 +321,7 @@ export class MainPage {
       this.locations.COD_DIST = data.COD_DIST;
       this.locations.AUXCOD_DEP = data.COD_DEP;
       this.locations.AUXCOD_PROV = data.COD_PROV;
-      this.locations.AUXCOD_DIST = data.COD_DIST;
+      this.locations.AUXCOD_DIST = data.COD_DIST;*/
 
       this.bavisom1=[];
       this.bavisom2=[];
@@ -344,10 +364,12 @@ export class MainPage {
                     if (Number(reaA.numero)===res.nroAviso){
                       reaA.codNivel=res.nivel.toString()
                       this.bavisom1.push(reaA);
+                      return true
                     }
                   })
                 })
                 this.avisosmethidg=this.bavisom1.concat(this.bavisom2);
+                this.avisosmethidg=Array.from(new Set(this.avisosmethidg));
                 this.indiceData=this.avisosmethidg.length;
             }
               
@@ -373,7 +395,8 @@ export class MainPage {
             let info=elementa.lugarAfectado;
             let a=0;
             for (let i = 0; i < info.length; i++) {
-              if(info[i].codDep+info[i].codProv+info[i].codDist===llave){
+              let llaveabt=info[i].codDep+info[i].codProv+info[i].codDist;
+              if(llaveabt===llave){
                   a=1;
                   break;
               }
@@ -490,6 +513,8 @@ export class MainPage {
               this.locations.AUXciudad =data1[0].display_name;
               this.newitemGP.ciudad=data1[0].display_name;
             })
+
+            
    
             this.api.getEstaciones(pos.coords.latitude, pos.coords.longitude).subscribe((dato) => {
               
@@ -511,7 +536,31 @@ export class MainPage {
     
             });
     
-            this.api.getCurrentTemperature(pos.coords.latitude, pos.coords.longitude).subscribe((dato) => {
+
+            this.api.getDepProvDist(pos.coords.latitude, pos.coords.longitude).subscribe((datow) => {
+              let obj = JSON.parse(datow.data);
+              const data = obj['features'];
+
+              data.map(element => {
+                let nivl=element['properties'].iddist;
+                let ubig=nivl;
+                let dep=ubig.substr(0,2);
+                let prov=ubig.substr(2,2);
+                let dist=ubig.slice(-2);
+
+                this.locations.COD_DEP = dep;
+                this.locations.COD_PROV = prov;
+                this.locations.COD_DIST = dist;
+                this.locations.AUXCOD_DEP = dep;
+                this.locations.AUXCOD_PROV = prov;
+                this.locations.AUXCOD_DIST = dist;
+
+                this.newitemGP.coddep= dep;
+                this.newitemGP.codprov= prov;
+                this.newitemGP.coddist= dist;
+              })
+
+            /*this.api.getCurrentTemperature(pos.coords.latitude, pos.coords.longitude).subscribe((dato) => {
               
               let obj = dato as any;
               let data = obj['data'][0];
@@ -524,7 +573,7 @@ export class MainPage {
 
               this.newitemGP.coddep= data.COD_DEP;
               this.newitemGP.codprov= data.COD_PROV;
-              this.newitemGP.coddist= data.COD_DIST;
+              this.newitemGP.coddist= data.COD_DIST;*/
 
             this.bavisom1=[];
             this.bavisom2=[];
@@ -570,6 +619,7 @@ export class MainPage {
                         })
                       })
                       this.avisosmethidg=this.bavisom1.concat(this.bavisom2);
+                      this.avisosmethidg=Array.from(new Set(this.avisosmethidg));
                       this.indiceData=this.avisosmethidg.length;
                   }
                     
@@ -594,7 +644,8 @@ export class MainPage {
                     let info=elementa.lugarAfectado;
                     let a=0;
                     for (let i = 0; i < info.length; i++) {
-                      if(info[i].codDep+info[i].codProv+info[i].codDist===llave){
+                      let llaveabt=info[i].codDep+info[i].codProv+info[i].codDist;
+                      if(llaveabt===llave){
                           a=1;
                           break;
                       }
@@ -606,7 +657,7 @@ export class MainPage {
                     }
             
                   });
-          
+
                   this.bavisom2.reduce((unique,item)=>{
                     return unique.includes(item)?unique : [...unique,item]
                      },[])

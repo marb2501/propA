@@ -73,7 +73,6 @@ export class Avisosdetail4Page implements OnInit{
       this.dep=this.itemGP[0].coddep;
       this.prov=this.itemGP[0].codprov;
       this.distr=this.itemGP[0].coddist;
-
       this.avisoHidro=[];
       this.avisoHidroTemp=[];
   
@@ -89,7 +88,8 @@ export class Avisosdetail4Page implements OnInit{
             let info=element.lugarAfectado;
             let a=0;
             for (let i = 0; i < info.length; i++) {
-              if(info[i].codDep+info[i].codProv+info[i].codDist===llave){
+              let llaveabt=info[i].codDep+info[i].codProv+info[i].codDist;
+              if(llaveabt===llave){
                   a=1;
                   break;
               }
@@ -101,7 +101,7 @@ export class Avisosdetail4Page implements OnInit{
             }
     
           });
-         
+
           if( this.avisoHidro.length>1){
             this.avisoHidro.reduce((unique,item)=>{
               return unique.includes(item)?unique : [...unique,item]
