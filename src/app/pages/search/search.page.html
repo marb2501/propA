@@ -10,7 +10,7 @@
       
       <ion-col >
         <div style="position:relative">
-          <ion-searchbar autocomplete="on" debounce=500 (ionChange)="addressSearch($event)" [value]="selectedAddress"></ion-searchbar>
+          <ion-searchbar placeholder="Busca otra localidad" autocomplete="on" debounce=500 (ionChange)="addressSearch($event)" [value]="selectedAddress"></ion-searchbar>
             <div style="position:absolute; width:100%; z-index: 999;">
               <ion-list lines="none" *ngIf="searchResults!=null" class="stylelist">
                   <ion-item  class="stylelist2" button *ngFor="let a of searchResults" (click)="selectAddress(a)" color="none" > 

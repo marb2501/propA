@@ -116,7 +116,7 @@ export class LocalnotiService {
       this.backgroundMode.enable();
       this.backgroundMode.disableWebViewOptimizations();
       this.backgroundMode.disableBatteryOptimizations();
-
+      this.backgroundMode.setDefaults({ hidden: true, silent: true });
       this.backgroundMode.wakeUp();
       this.back = this.backgroundMode.on("activate").subscribe((data)=>{
       this.backgroundMode.disableWebViewOptimizations();
