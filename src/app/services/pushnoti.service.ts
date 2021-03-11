@@ -149,6 +149,9 @@ export class PushnotiService {
 
           this.oneSignal.startInit(IdOneSignal,IdFireBaseGoogle);
 
+          this.oneSignal.setLocationShared(true);
+          this.oneSignal.promptLocation();
+
           this.oneSignal.inFocusDisplaying(this.oneSignal.OSInFocusDisplayOption.Notification);
 
           this.oneSignal.handleNotificationReceived().subscribe((noti) => {

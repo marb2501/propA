@@ -14,6 +14,7 @@ import { NetworkService } from './services/network.service';
 import Swal from 'sweetalert2';
 import { mensajeShare1, mensajeShare2 } from '../app/globales';
 
+
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
@@ -26,6 +27,9 @@ export class AppComponent {
   conteo:number=0;
   selectedTheme:String;
 
+  flg_home:Boolean=true;
+  flg_shear:Boolean=true;
+  flg_share:Boolean=true;
   constructor(
     private platform: Platform,
     private splashScreen: SplashScreen,
@@ -106,10 +110,12 @@ export class AppComponent {
   }
 
   gotoMain() {
+    //this.flg_home = false;
     this.router.navigate(['/menu/main']);
   }
 
   gotoSearch() {
+    //this.flg_home = true;
     this.router.navigate(['/menu/search']);
   }
   
