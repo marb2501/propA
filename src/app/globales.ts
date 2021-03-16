@@ -155,6 +155,12 @@ export const leyendaavisoshidro = ['No es necesario tomar precauciones.',
 export const mensajeShare1="La aplicación ha hecho una captura de su pantalla para que pueda compartirla en sus redes sociales.";
 export const mensajeShare2="No se habilitó la opción.";
 
+export const niveltexto = ['Blanco',
+                           'Amarillo',
+                           'Naranja', 
+                           'Rojo'];
+
+
 //en el caso que no haya conexion a internet 
 export const menuSlide: any = [
   {

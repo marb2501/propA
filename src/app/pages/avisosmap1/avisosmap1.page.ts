@@ -5,7 +5,7 @@ import { Screenshot } from '@ionic-native/screenshot/ngx';
 import { Geolocation, GeolocationOptions, Geoposition } from '@ionic-native/geolocation/ngx';
 import { Map, tileLayer, marker, control, icon, DomUtil, popup} from 'leaflet';
 import { previous, iconmarker, leyendaavisosmet,leyendarecavisosmet,urlMapaLealeft,
-  urlIDESEPDepart,urlIDESEPProv , urlIDESEPServMet, mensajeShare1, mensajeShare2} from '../../globales';
+  urlIDESEPDepart,urlIDESEPProv , urlIDESEPServMet, mensajeShare1, mensajeShare2, niveltexto} from '../../globales';
 import { TipoavisoService } from '../../services/tipoaviso.service';
 import { TipoAviso } from '../../models/tipoaviso.model';
 import { HttpResponse } from '@angular/common/http';
@@ -210,7 +210,7 @@ export class Avisosmap1Page {
          let ne1 = bounds1.getNorthEast();
 
                 
-        this.wmssenamhi.getInfoAvisosB(1,this.viewparams,this.etiqueta,sw1.lat,sw1.lng,ne1.lat,ne1.lng,size1.x, size1.y,containerPotin1.x ,containerPotin1.y)
+        this.wmssenamhi.getInfoAvisosB(1,this.viewparams,this.etiqueta,this.latUb,this.lngUb,this.latUb,this.lngUb,size1.x, size1.y,containerPotin1.x ,containerPotin1.y)
         .subscribe((response)=>{
           let cabresl ="<table class='estilotabla'><tr><th>Información de Aviso al "+ this.fechactualreg+"</th></tr>";
           let ob1j = JSON.parse(response.data);
@@ -225,12 +225,12 @@ export class Avisosmap1Page {
               niveli=Number(niveli)-1;
             }else{
               niveli=0
-              dato="Nivel 1";
+              dato="Blanco";
             }
-           infotab="<tr><td>"+dato+":"+leyendaavisosmet[niveli]+"</td></tr>";
+           infotab="<tr><td>"+niveltexto[niveli]+":"+leyendaavisosmet[niveli]+"</td></tr>";
           });
           if(a==0){
-            infotab="<tr><td>Nivel 1:"+leyendaavisosmet[a]+"</td></tr>";
+            infotab="<tr><td>Blanco:"+leyendaavisosmet[a]+"</td></tr>";
           }
 
           cabresl+=infotab+"</table>";
@@ -263,10 +263,10 @@ export class Avisosmap1Page {
               let niveli=dato.slice(-1);
               if(Number(niveli)){
                 niveli=Number(niveli)-1;
-                
+                dato=niveltexto[niveli];
               }else{
                 niveli=0
-                dato="Nivel 1";
+                dato="Blanco";
               }
   
               infotab="<tr><td>"+dato+":"+leyendaavisosmet[niveli]+"</td></tr>";

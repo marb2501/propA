@@ -23,8 +23,8 @@ export class WmssenamhiService {
     let coordXMax=0;
     let coordYMax=0;
 
-    coordXMax=Number(coordX)+1.5;
-    coordYMax=Number(coordY)+1.5;
+    coordXMax=Number(coordX)+0.0000005;
+    coordYMax=Number(coordY)+0.0000005;
     
     let wmsurl="";
 
@@ -57,8 +57,8 @@ export class WmssenamhiService {
     let coordXMax=0;
     let coordYMax=0;
 
-    coordXMax=Number(coordX)+1;
-    coordYMax=Number(coordY)+1;
+    coordXMax=Number(coordX)+0.0000005;
+    coordYMax=Number(coordY)+0.0000005;
     
     let wmsurl="";
 
@@ -80,8 +80,8 @@ export class WmssenamhiService {
     let coordXMax=0;
     let coordYMax=0;
 
-    coordXMax=Number(coordmaxX);
-    coordYMax=Number(coordmaxY);
+    coordXMax=Number(coordmaxX)+0.0000005;
+    coordYMax=Number(coordmaxY)+0.0000005;
     
     let wmsurl="";
 
@@ -101,13 +101,12 @@ export class WmssenamhiService {
     let coordXMax=0;
     let coordYMax=0;
 
-    coordXMax=Number(coordmaxX);
-    coordYMax=Number(coordmaxY);
+    coordXMax=Number(coordmaxX)+0.0000005;
+    coordYMax=Number(coordmaxY)+0.0000005;
     
     let wmsurl="";
 
     wmsurl=url+viewparam+'&SERVICE=WMS&VERSION=1.3.0&REQUEST=GetFeatureInfo&FORMAT=image/png&TRANSPARENT=true&QUERY_LAYERS='+layeralerta+'&LAYERS='+layeralerta+'&INFO_FORMAT=application/json&I='+ejex.toFixed(0)+'&J='+ejey.toFixed(0)+'&WIDTH='+ancho+'&HEIGHT='+alto+'&CRS=EPSG%3A4326&STYLES=&BBOX='+coordXMin+'%2C'+coordYMin+'%2C'+coordXMax+'%2C'+coordYMax;
-   
     let native=this.nativeHttp.get(wmsurl,{},{'Content-type':'application/json'})
 
     
@@ -126,8 +125,8 @@ export class WmssenamhiService {
     let coordXMax=0;
     let coordYMax=0;
 
-    coordXMax=Number(coordX)+1.5;
-    coordYMax=Number(coordY)+1.5;
+    coordXMax=Number(coordX)+0.0000005;
+    coordYMax=Number(coordY)+0.0000005;
     
     let wmsurl="";
 

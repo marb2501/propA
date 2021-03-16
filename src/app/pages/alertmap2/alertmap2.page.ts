@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Map, tileLayer, marker, control, icon, DomUtil, popup} from 'leaflet';
 import { previous, iconmarker, leyendanotificaciones,
-  urlMapaLealeft, urlIDESEPDepart, urlIDESEPProv, urlIDESEPServMet, urlIDESEP24Horas, urlIDESEPQuebrada, leyendaavisosmet } from '../../globales';
+  urlMapaLealeft, urlIDESEPDepart, urlIDESEPProv, urlIDESEPServMet, urlIDESEP24Horas, urlIDESEPQuebrada, 
+  leyendaavisosmet, niveltexto } from '../../globales';
  import { WmssenamhiService } from '../../services/wmssenamhi.service';
 
 
@@ -154,10 +155,10 @@ export class Alertmap2Page {
               let niveli=dato.slice(-1);
               if(Number(niveli)){
                 niveli=Number(niveli)-1;
-                
+                dato=niveltexto[niveli];
               }else{
                 niveli=0
-                dato="Nivel 1";
+                dato="Blanco";
               }
 
               infotab="<tr><td>"+dato+":"+leyendaavisosmet[niveli]+"</td></tr>";
@@ -185,10 +186,10 @@ export class Alertmap2Page {
               let niveli=dato.slice(-1);
               if(Number(niveli)){
                 niveli=Number(niveli)-1;
-                
+                dato=niveltexto[niveli];
               }else{
                 niveli=0
-                dato="Nivel 1";
+                dato="Blanco";
               }
 
               infotab="<tr><td>"+dato+":"+leyendaavisosmet[niveli]+"</td></tr>";
