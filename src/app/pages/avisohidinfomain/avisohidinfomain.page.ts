@@ -5,6 +5,7 @@ import {MESESTIEMPO,DIASTIEMPO} from '../../globales';
 import { AvisoshidmapmainPage } from '../../pages/avisoshidmapmain/avisoshidmapmain.page';
 import { AvisometeoroService } from '../../services/avisometeoro.service';
 import { Lugarafectado } from '../../models/lugarafectado.model';
+import { StorageService } from '../../services/storage.service';
 
 @Component({
   selector: 'app-avisohidinfomain',
@@ -62,7 +63,13 @@ export class AvisohidinfomainPage implements OnInit {
 
   constructor(private modalcontroller: ModalController,
     private route: ActivatedRoute, public loadingController: LoadingController,private router:Router,
-    public avisosHidro: AvisometeoroService ) { 
+    public avisosHidro: AvisometeoroService, private storagese:StorageService ) { 
+
+      this.storagese.hiddenButtonApp({
+        main: true,
+        search: true,
+        share:true
+      });
 
       this.route.queryParams.subscribe(params => {
         if (params && params.special){
@@ -199,6 +206,14 @@ export class AvisohidinfomainPage implements OnInit {
 
   retornar(){
     this.router.navigate(['menu/main']);
+  }
+
+  ionViewWillEnter(){
+    this.storagese.hiddenButtonApp({
+      main: true,
+      search: true,
+      share:true
+    });
   }
 
 }

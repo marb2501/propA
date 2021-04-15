@@ -38,8 +38,8 @@
     }
 
     .tablavertB{
-        width: 100%;
-        font-size: 12px !important;
+        width: 90%;
+        font-size: 11px !important;
         align-items: LEFT;
         color:#ffffff
         //background: darkgray;
@@ -100,6 +100,12 @@
         font-weight: bold;
       }
 
+      .datamain2_1{
+        text-align: left;
+        color : #ffffff;
+        font-weight: bold;
+      }
+
       .datamain2Aviso{
         text-align: center;
         color:black;
@@ -155,4 +161,18 @@
         border-left:solid;
         border-color: white;
       }
+
+      .circle {
+        background: white;
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+    }
+
+    .datamain5{
+
+      color:#ffffff;
+      font-weight: bold;
+
+    }
 }

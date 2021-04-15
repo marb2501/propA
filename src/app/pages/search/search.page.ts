@@ -7,6 +7,7 @@ import { LoadingController, Platform, ToastController, IonList} from '@ionic/ang
 import { StorageService, Geolocaposicion, FavoritosBR, BusquedaR } from '../../services/storage.service';
 import { iMgsearchA, iMgsearchB } from '../../globales';
 import Swal from 'sweetalert2';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-search',
@@ -23,6 +24,7 @@ export class SearchPage {
   newitemFR:  FavoritosBR=<FavoritosBR>{};
   newitemBR:  BusquedaR=<BusquedaR>{}; 
 
+  titulolist="Búsqueda"
   selectedAddress=null;
   searchResults: NominatimResponse[];
 
@@ -33,6 +35,9 @@ export class SearchPage {
   indiceData:number=0;
   selectedTheme:String;
   locacionactual:string;
+
+  databack : any;
+  rutaback='';
  
   @ViewChild('myList1',{static:true})myList1:IonList;
   @ViewChild('myList2',{static:true})myList2:IonList;
@@ -41,8 +46,10 @@ export class SearchPage {
   constructor(private api: ApiService, 
               private storageService:StorageService,
               private plat:Platform,
+              public router: Router, 
               private toast:ToastController,
               private geolocation: Geolocation,
+              private route: ActivatedRoute,
               public loadingController: LoadingController) { 
 
                 this.storageService.getActiveTheme().subscribe(val=>{
@@ -51,6 +58,19 @@ export class SearchPage {
                   }else{
                     this.selectedTheme=a;}})
                 })
+
+                // inject desde main a app.component
+            this.storageService.hiddenButtonApp({
+                main: true,
+                search: false,
+                share:false
+            });
+             
+
+            this.route.queryParams.subscribe(params => {
+              this.databack = JSON.parse(params.special);
+              this.rutaback=this.databack.urlback
+            })
 
                 this.plat.ready().then(()=>{
                    this.loadItemsBR(); 
@@ -114,6 +134,9 @@ export class SearchPage {
    }
 
   async addItemBusquedaR(lat,long,ciudad, depart,prov,dist){
+
+    this.storageService.deleteallitemBusquedaR();
+
     this.newitemBR=null;
     this.newitemBR=<BusquedaR>{};
     this.newitemBR.id=Date.now();
@@ -122,11 +145,11 @@ export class SearchPage {
     this.newitemBR.ciudad=ciudad;
     this.newitemBR.coddep=depart;
     this.newitemBR.codprov=prov;
-    this.newitemBR.coddist=dist;
+    this.newitemBR.coddist=dist;    
 
     this.storageService.additemBusquedaR(this.newitemBR).then(it=>{
       this.newitemBR=null;
-      this.showToast('Se agregó a búsquedas recientes.');
+      this.showToast('Se registró como nueva ubicación actual.');
       this.loadItemsBR()
      })
   }
@@ -154,7 +177,7 @@ export class SearchPage {
   
     this.storageService.deleteitemGeoposition(item1.id).then(it1=>{
       this.showToast('Cargando...');
-      this.myList1.closeSlidingItems()
+      //this.myList1.closeSlidingItems()
       this.loadItemUbicaActEleg();
     })
   }
@@ -208,7 +231,7 @@ export class SearchPage {
       this.myList3.closeSlidingItems()
      })
 
-    this.deleteItemBusquedaR(this.newitemBR);
+    //this.deleteItemBusquedaR(this.newitemBR);
 }
 
 selecFavinMiUbicacion(itemFAV:FavoritosBR){
@@ -217,11 +240,20 @@ selecFavinMiUbicacion(itemFAV:FavoritosBR){
       this.deleteItemUbicaActEleg(items0[0]);
     }
     
-    setTimeout(()=>{this.storageService.additemGeoposition(itemFAV).then(it=>{
+    setTimeout(()=>{
+
+      this.storageService.deleteallitemBusquedaR();
+
+      this.storageService.additemGeoposition(itemFAV).then(it=>{
       this.showToast('Se actualizó la ubicación actual.');
       this.loadItemUbicaActEleg();
-    })},3000)
-    
+    });
+
+    this.storageService.additemBusquedaR(itemFAV).then(it1=>{
+      this.loadItemsBR()
+     })
+  },3000)
+   
   })
 }
 
@@ -261,6 +293,7 @@ async retaurarposicion(){
     (pos: Geoposition) => {
 
       
+
       this.newitemGP=null;
       this.newitemGP=<Geolocaposicion>{};
       this.newitemGP.id=Date.now();
@@ -288,16 +321,6 @@ async retaurarposicion(){
           this.newitemGP.codprov= prov;
           this.newitemGP.coddist= dist;
         })
-
-     /* this.api.getCurrentTemperature(pos.coords.latitude, pos.coords.longitude)
-      .subscribe((dato) => {
-          let obj = dato as any;
-          let data = obj['data'][0];
-         
-          this.newitemGP.coddep= data.COD_DEP;
-          this.newitemGP.codprov= data.COD_PROV;
-          this.newitemGP.coddist= data.COD_DIST;*/
-
       })
 
       this.storageService.getitemGeoposition().then((items0:Geolocaposicion[])=>{
@@ -306,11 +329,26 @@ async retaurarposicion(){
         }
       })
 
-      setTimeout(()=>{this.storageService.additemGeoposition(this.newitemGP).then(it=>{
+      setTimeout(()=>{
+        this.storageService.deleteallitemBusquedaR();
+
+        this.storageService.additemGeoposition(this.newitemGP).then(it=>{
         this.newitemGP=<Geolocaposicion>{};
         this.showToast('Se restauró la ubicación actual.');
         this.loadItemUbicaActEleg();
-       })},2000)
+       });
+
+       this.storageService.additemBusquedaR(this.newitemGP).then(it1=>{
+        this.loadItemsBR()
+       })
+      
+
+      
+      },2000)
+
+       // this.addItemBusquedaR(latinueva,longnueva,ciudad,dep,prov,dist);
+
+
     }); 
 
     await loading.dismiss();
@@ -415,5 +453,23 @@ async retaurarposicion(){
     }
   }
   
+  //retorno anterior
+  retornoPaginaAnterior(){
+    let infor=this.rutaback.substr(0, this.rutaback.indexOf('?')); 
+
+    if(infor==''){
+      this.router.navigate(['/menu/main']);
+    }else{
+      if(infor=='/menu/avisosinfo1'){
+        this.router.navigate(['/menu/avisosdetail1']);
+      }else if(infor=='/menu/avisosinfo4'){
+        this.router.navigate(['/menu/avisosdetail4']);
+      }else{
+        this.router.navigate([infor]);
+      }
+    }
+
+    
+  }
 
 }

@@ -47,19 +47,22 @@
      <ion-col><p>{{descripcion1}}</p></ion-col>
     </ion-row>
 
-   
+    <ion-row class="datamainjust">
+      <ion-col><p>Para la ubicación de : {{ciudad}}</p></ion-col>
+     </ion-row>
     
     <ion-row class="datamain2">
       <ion-col>VER MAPA(S)</ion-col>
     </ion-row>
 
     <ion-row class="datamain2">
-       <ion-col *ngFor="let fechasreg of listamapas;" (click)="openModal(fechasreg.fechaInicio,
+       <ion-col *ngFor="let fechasreg of listamapas; let i=index" (click)="openModal(fechasreg.fechaInicio,
                                                                           fechasreg.numMapa,
                                                                           fechasreg.nivelMapa,
                                                                           fechasreg.descripcion)">
           <ion-icon name="map-outline" ></ion-icon>
           {{ fechasreg.fechaInicio | date :'dd/MM/yy' }}
+          <p>{{ arrayNivel[i] }}</p>
         </ion-col>
     </ion-row>
   </ion-grid>

@@ -10,12 +10,12 @@
         <ion-icon name="home" class="maintitle"></ion-icon>
       </ion-button>
     </ion-buttons>
-    <ion-buttons slot="end">
+    <ion-buttons *ngIf="flg_shear" slot="end">
       <ion-button (click)="gotoSearch()">
         <ion-icon name="search" class="maintitle"></ion-icon>
       </ion-button>
     </ion-buttons>
-    <ion-buttons slot="end">
+    <ion-buttons *ngIf="flg_share" slot="end">
       <ion-button (click)="share()">
         <ion-icon name="share-social-outline" class="maintitle"></ion-icon>
       </ion-button>

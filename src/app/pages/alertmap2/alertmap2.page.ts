@@ -5,6 +5,7 @@ import { previous, iconmarker, leyendanotificaciones,
   urlMapaLealeft, urlIDESEPDepart, urlIDESEPProv, urlIDESEPServMet, urlIDESEP24Horas, urlIDESEPQuebrada, 
   leyendaavisosmet, niveltexto } from '../../globales';
  import { WmssenamhiService } from '../../services/wmssenamhi.service';
+import { StorageService } from '../../services/storage.service';
 
 
 @Component({
@@ -28,13 +29,23 @@ export class Alertmap2Page {
   viewparams='';
   urldat='';
 
-  constructor(private route: ActivatedRoute,public wmssenamhi:WmssenamhiService,
+  constructor(private route: ActivatedRoute,public wmssenamhi:WmssenamhiService, private storagese:StorageService,
               private router: Router) { 
+
+                this.storagese.hiddenButtonApp({
+                  main: true,
+                  search: true,
+                  share:true
+                });
+
                 this.route.queryParams.subscribe(params => {
                   if (params && params.special){
                     this.data = JSON.parse(params.special)
                   }
                 })
+
+
+
               }
 
   async ionViewDidEnter() {

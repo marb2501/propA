@@ -149,7 +149,7 @@
 
 .imgmaintermo { width:18px;};
 .imgmaintermo2 { width:10px;};
-.imgmaintermo3 { width:40px;};
+.imgmaintermo3 { width:30px;};
 
 
 .imgmenu { width:90%;};
@@ -380,6 +380,33 @@ ion-slide {
 
 .infodata>div:hover{
   background: #151570c4;
+}
+
+.tablavert2{
+  width: 100%;
+  border-right: 0px ;
+  border-left: 0px ;
+  border-top: 0px ;
+  border-bottom: 1px solid;
+  font-size: 10px !important;
+  text-align: left;
+  
+}
+
+.tablavert2 td {
+  padding: 3px;
+}
+
+.wrap-text {
+  width: 120px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.pooinfo{
+  margin-left: 10px;
+  color : #00499A;
 }
 
 

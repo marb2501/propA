@@ -5,6 +5,7 @@ import { WmssenamhiService } from '../../services/wmssenamhi.service';
 import { previous, MESESTIEMPO, DIASTIEMPO } from '../../globales';
 import { Lugarafectado } from '../../models/lugarafectado.model';
 import { AlertpopupmaphidroPage } from '../alertpopupmaphidro/alertpopupmaphidro.page';
+import { StorageService } from '../../services/storage.service';
 
 @Component({
   selector: 'app-alertmaphidro',
@@ -56,7 +57,14 @@ export class AlertmaphidroPage implements OnInit {
  
 
   constructor(private modalcontroler: ModalController,private route: ActivatedRoute,  public wmssenamhi:WmssenamhiService,
-    private router: Router,   public loadingController: LoadingController) { 
+    private router: Router,   public loadingController: LoadingController, private storagese:StorageService) {
+      
+      this.storagese.hiddenButtonApp({
+        main: true,
+        search: true,
+        share:true
+      });
+
       this.route.queryParams.subscribe(params => {
         if (params && params.special){
           this.data = JSON.parse(params.special)
@@ -214,5 +222,12 @@ export class AlertmaphidroPage implements OnInit {
     return await modal.present();
   }
 
+  ionViewWillEnter(){
+    this.storagese.hiddenButtonApp({
+      main: true,
+      search: true,
+      share:true
+    });
+  }
 
 }

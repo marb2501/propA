@@ -7,7 +7,7 @@ import { Screenshot } from '@ionic-native/screenshot/ngx';
 import { PushnotiService } from './services/pushnoti.service';
 import { PopinfoComponent } from './components/popinfo/popinfo.component';
 import { AvisoMeteoro } from './models/avisomet.model';
-import { Router } from '@angular/router';
+import { Router, NavigationExtras } from '@angular/router';
 import { StorageService } from './services/storage.service';
 import { LocalnotiService } from './services/localnoti.service';
 import { NetworkService } from './services/network.service';
@@ -27,9 +27,10 @@ export class AppComponent {
   conteo:number=0;
   selectedTheme:String;
 
-  flg_home:Boolean=true;
-  flg_shear:Boolean=true;
-  flg_share:Boolean=true;
+  flg_home=true;
+  flg_shear=true;
+  flg_share=true;
+
   constructor(
     private platform: Platform,
     private splashScreen: SplashScreen,
@@ -52,7 +53,15 @@ export class AppComponent {
 
     this.setting.getActiveTheme().subscribe(val=>{
       this.setting.getitemColor().then(a=>{if(a==null){this.selectedTheme=val}else{this.selectedTheme=a}})
-    })
+    });
+
+    //component recibe de
+    this.setting.getObservable().subscribe((data) => {
+      this.flg_home=data.main;
+      this.flg_shear=data.search;
+      this.flg_share=data.share;
+      //console.log('Data received', data);
+    });
 
   
     this.platform.ready().then(() => {
@@ -110,13 +119,28 @@ export class AppComponent {
   }
 
   gotoMain() {
-    //this.flg_home = false;
     this.router.navigate(['/menu/main']);
   }
 
   gotoSearch() {
-    //this.flg_home = true;
-    this.router.navigate(['/menu/search']);
+    let ruta='';
+    if(this.router.url!=''){
+      ruta=this.router.url
+    }else{
+      ruta='/menu/main';
+    }
+
+    let urlapram={'urlback': ruta };
+
+    let navigationExtra: NavigationExtras = {
+      queryParams:{
+        special : JSON.stringify(urlapram)
+      }
+    }
+    this.router.navigate(['/menu/search'],navigationExtra);
   }
+
+  //
+  
   
 }

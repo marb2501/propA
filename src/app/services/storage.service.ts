@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage';
 import { Platform } from '@ionic/angular';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 import { PushnotiService } from './pushnoti.service';
 
 
@@ -48,6 +48,7 @@ const ITEM_KEY_NCF='itemKeyNFondo';
 export class StorageService {
 
   public theme: BehaviorSubject<String>
+  private fooSubject = new Subject<any>();
 
   constructor(private storage:Storage,  private plt:Platform, private pushNot:PushnotiService) { 
     this.theme = new BehaviorSubject('dark-theme');
@@ -239,6 +240,14 @@ export class StorageService {
     });
   }
 
+
+  deleteallitemBusquedaR():Promise<BusquedaR>{
+   return this.storage.remove(ITEM_KEY_BR)
+  }
+
+
+
+
   /*******************************************************************************/
   //seccion datos de colordatos
   async setActiveTheme(val){
@@ -283,6 +292,13 @@ export class StorageService {
     await this.pushNot.toggleOneSignalNotifications(enabled);
   }
 
-  
+  //ocultamiento botones
+  hiddenButtonApp(data: any) {
+    this.fooSubject.next(data);
+  }
+
+  getObservable(): Subject<any> {
+    return this.fooSubject;
+  }
 
 }

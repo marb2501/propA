@@ -63,6 +63,13 @@ export class Avisosdetail1Page implements OnInit{
                     this.icono = params.special
                   }
                 })
+
+                // inject desde main a app.component
+                this.storageService.hiddenButtonApp({
+                  main: true,
+                  search: true,
+                  share:true
+                });
   }
 
   ngOnInit(){
@@ -78,6 +85,15 @@ export class Avisosdetail1Page implements OnInit{
   }
 
   ionViewWillEnter(){
+
+    // inject desde main a app.component
+    this.storageService.hiddenButtonApp({
+      main: true,
+      search: true,
+      share:true
+    });
+
+
     this.datacheck=[{name:'Mostrar los avisos meteorólogicos del país', selected:false}]
     this.avisoMet=[];
     this.nivelesAM=[];

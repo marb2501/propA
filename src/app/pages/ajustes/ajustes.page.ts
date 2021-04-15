@@ -18,8 +18,8 @@ export class AjustesPage implements OnInit{
   selectedTheme:String;
   darkmode:boolean=false;
   public theme: BehaviorSubject<String>;
-  titulolist="Ajustes";
-  newitemFR:  FavoritosBR=<FavoritosBR>{};
+  titulolist="Configuración y Ajustes";
+  //newitemFR:  FavoritosBR=<FavoritosBR>{};
   icono;
   enabledLocal: boolean;
   enabledExternal: boolean;
@@ -42,6 +42,13 @@ export class AjustesPage implements OnInit{
        this.selectedTheme=a;this.theme = new BehaviorSubject(a);}})
     })
 
+      // inject desde main a app.component
+      this.settings.hiddenButtonApp({
+        main: true,
+        search: true,
+        share:true
+      });
+
     this.route.queryParams.subscribe(params => {
       if (params && params.special){
         this.icono = params.special
@@ -52,7 +59,7 @@ export class AjustesPage implements OnInit{
   }
 
   ngOnInit(){
-    this.loadItemsFR();
+    //this.loadItemsFR();
     if(this.selectedTheme==='dark-theme'){
       this.darkmode=true
     }else{
@@ -60,11 +67,11 @@ export class AjustesPage implements OnInit{
     }
   }
 
-  loadItemsFR(){
+  /*loadItemsFR(){
     this.settings.getitemFavoritos().then(items1=>{
        this.itemFR=items1;
     })
-   }    
+   }   */ 
 
   toogleAppTheme(){
     if(this.selectedTheme=='dark-theme'){
@@ -95,13 +102,13 @@ export class AjustesPage implements OnInit{
     }
   }
 
-  async deleteItemFavoritos(item2:FavoritosBR){
+ /* async deleteItemFavoritos(item2:FavoritosBR){
     this.settings.deleteitemFavoritos(item2.id).then(it1=>{
       this.showToast('Ubicación favorita eliminada');
       this.myList3.closeSlidingItems()
       this.loadItemsFR();
     })
-  }
+  }*/
 
   async showToast(msg){
     const toast = await this.toast.create({
@@ -133,5 +140,13 @@ export class AjustesPage implements OnInit{
     this.enabledExternal = await this.settings.isActiveExternalNotifications();
   }
 
+  ionViewWillEnter(){
+     // inject desde main a app.component
+     this.settings.hiddenButtonApp({
+      main: true,
+      search: true,
+      share:true
+    });
+  } 
  
 }

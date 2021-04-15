@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import {MESESTIEMPO,DIASTIEMPO} from '../../globales';
 import { AvisosmetmapmainPage } from '../../pages/avisosmetmapmain/avisosmetmapmain.page';
 import { listaMapas } from '../../models/listamapasmet.model';
+import { StorageService } from '../../services/storage.service';
 
 @Component({
   selector: 'app-avisometinfomain',
@@ -39,7 +40,13 @@ export class AvisometinfomainPage implements OnInit {
 
 
   constructor(private modalcontroller: ModalController,private router:Router,
-    private route: ActivatedRoute) { 
+    private route: ActivatedRoute, private storagese:StorageService) { 
+
+      this.storagese.hiddenButtonApp({
+        main: true,
+        search: true,
+        share:true
+      });
 
       this.route.queryParams.subscribe(params => {
         if (params && params.special){
@@ -130,6 +137,14 @@ export class AvisometinfomainPage implements OnInit {
 
   retornar(){
     this.router.navigate(['menu/main']);
+  }
+
+  ionViewWillEnter(){
+    this.storagese.hiddenButtonApp({
+      main: true,
+      search: true,
+      share:true
+    });
   }
  
 

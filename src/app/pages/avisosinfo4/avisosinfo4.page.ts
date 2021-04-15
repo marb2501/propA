@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Lugarafectado } from '../../models/lugarafectado.model';
 import { MESESTIEMPO,DIASTIEMPO} from '../../globales';
 import { Avisosmap4Page } from '../avisosmap4/avisosmap4.page';
-
+import { StorageService } from '../../services/storage.service';
 
 @Component({
   selector: 'app-avisosinfo4',
@@ -65,8 +65,15 @@ export class Avisosinfo4Page {
 
   argFecha=[];
 
-  constructor(private modalcontroler: ModalController,private router:Router,
+  constructor(private modalcontroler: ModalController,private router:Router,private storageService:StorageService,
       private route: ActivatedRoute) { 
+
+           // inject desde main a app.component
+    this.storageService.hiddenButtonApp({
+      main: true,
+      search: true,
+      share:true
+    });
     
       this.route.queryParams.subscribe(params => {
         if (params && params.special){
@@ -210,5 +217,16 @@ export class Avisosinfo4Page {
       return await modal.present();
     }
 
+
+    ionViewWillEnter(){
+
+      // inject desde main a app.component
+      this.storageService.hiddenButtonApp({
+        main: true,
+        search: true,
+        share:true
+      });
+  
+    }  
 
 }

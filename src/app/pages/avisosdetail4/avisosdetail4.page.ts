@@ -40,6 +40,13 @@ export class Avisosdetail4Page implements OnInit{
         }
       })
 
+      // inject desde main a app.component
+    this.storageService.hiddenButtonApp({
+      main: true,
+      search: true,
+      share:true
+    });
+
      }
   
      checkControlEvent(check){
@@ -118,6 +125,14 @@ export class Avisosdetail4Page implements OnInit{
   }
 
   ionViewWillEnter(){
+
+      // inject desde main a app.component
+      this.storageService.hiddenButtonApp({
+        main: true,
+        search: true,
+        share:true
+      });
+
     this.datacheck=[{name:'Mostrar los avisos hidrológicos del país', selected:false}]
     this.cargaMisListadoAvisoHidro()
 

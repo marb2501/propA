@@ -17,7 +17,6 @@ import {
   precipitaD,
   rutaiconoD,
   rutaiconoN
-
 } from '../../globales';
 import { ApiService } from '../../services/api.service';
 import { AvisometeoroService } from '../../services/avisometeoro.service';
@@ -25,6 +24,9 @@ import { StorageService, Geolocaposicion } from '../../services/storage.service'
 import { Avisosmethidg } from '../../models/avisosmethidg.model';
 import { locationsMain} from '../../models/locationmain.model';
 import { AvisoMeteoroIDESEP } from '../../models/avisometidesep.model';
+import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
+import { PopoverController } from '@ionic/angular';
+import { PopinfoComponent } from '../../components/popinfo/popinfo.component';
 
 
 @Component({
@@ -83,16 +85,26 @@ export class MainPage {
               private api: ApiService,
               private storageService:StorageService,
               public loadingController: LoadingController,
+              private iab: InAppBrowser,
               private router:Router,
+              public popoverController: PopoverController,
               private amet: AvisometeoroService) {
                 this.sliderOne =
                 {
                   isBeginningSlide: true,
                   isEndSlide: false,
                 };
-      this.storageService.getActiveTheme().subscribe(val=>{
-        this.storageService.getitemColor().then(a=>{if(a==null){
-          this.selectedTheme=val;
+
+              // inject desde main a app.component
+              this.storageService.hiddenButtonApp({
+                main: false,
+                search: true,
+                share:true
+            });
+
+        this.storageService.getActiveTheme().subscribe(val=>{
+          this.storageService.getitemColor().then(a=>{if(a==null){
+            this.selectedTheme=val;
         }else{
           this.selectedTheme=a;}})
       })
@@ -120,7 +132,14 @@ export class MainPage {
   //////////al ingresa al app////////////////  
   ionViewWillEnter(){
 
-    
+    // inject desde main a app.component
+    this.storageService.hiddenButtonApp({
+      main: false,
+      search: true,
+      share:true
+    });
+
+
     this.loadItemUbicaActEleg().then(()=>{
       this.getReloadCordenadas();
     })
@@ -705,5 +724,22 @@ export class MainPage {
     e.target.complete();
   }
 
- 
+  videoSENAMHI(){
+    const browser = this.iab.create('https://www.youtube.com/watch?v=joVCu8gp_lY','_blank',{location:'no'});
+  }
+
+  async presentPopover(ev: any, dep:any,prov:any,dist:any) {
+    let data = {dep:dep, prov:prov, dist:dist};
+    const popover = await this.popoverController.create({
+      component: PopinfoComponent,
+      cssClass: 'my-custom-class',
+      event: ev,
+      translucent: true,
+      componentProps:data
+    });
+    await popover.present();
+
+  }
+
+
 }

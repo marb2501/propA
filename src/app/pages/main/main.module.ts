@@ -5,7 +5,7 @@ import { IonicModule } from '@ionic/angular';
 import { MainPageRoutingModule } from './main-routing.module';
 import { MainPage } from './main.page';
 import { IonicSelectableModule  } from 'ionic-selectable';
-import { AvisoshidmapmainPage } from '../../pages/avisoshidmapmain/avisoshidmapmain.page';
+
 
 @NgModule({
   imports: [
@@ -14,7 +14,8 @@ import { AvisoshidmapmainPage } from '../../pages/avisoshidmapmain/avisoshidmapm
     IonicModule,
     MainPageRoutingModule,
     IonicSelectableModule  ],
-  declarations: [MainPage]
+  declarations: [MainPage],
+
 
 })
 export class MainPageModule {}
