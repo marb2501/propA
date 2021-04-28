@@ -5,17 +5,32 @@
       <tr>
         <td>Departamento</td>
         <td>:</td>
-        <td>{{ departamento }}</td>
+        <td>&nbsp;{{ departamento | titlecase  }}</td>
       </tr>
       <tr>
         <td>Provincia</td>
         <td>:</td>
-        <td>{{ provincia}}</td>
+        <td>&nbsp;{{ provincia | titlecase }}</td>
       </tr>
       <tr>
         <td>Distrito</td>
         <td>:</td>
-        <td>{{ distrito}}</td>
+        <td>&nbsp;{{ distrito | titlecase }}</td>
+      </tr>
+      <tr>
+        <td>Distancia a la estación</td>
+        <td>:</td>
+        <td>&nbsp;{{ distancia | number:'1.0-0' }} {{ unidad }}</td>
+      </tr>
+      <tr>
+        <td>Latitud de la estación</td>
+        <td>:</td>
+        <td>&nbsp;{{ latitud }}</td>
+      </tr>
+      <tr>
+        <td>Longitud de la estación</td>
+        <td>:</td>
+        <td>&nbsp;{{ longitud }}</td>
       </tr>
     </tbody>
     </table>

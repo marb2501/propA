@@ -15,12 +15,39 @@
     <ion-row >
       
    </ion-row>
-    <ion-row class="datamain">
-        <ion-col>Fecha Inicio :{{ fechacat(fIni, 0)}}<br>
-          Fecha de Fin : {{ fechacat(fFin,0 )}} <br>
-          Plazo : {{ nPlazo }}
-        </ion-col>
-    </ion-row>
+   <ion-row >
+    <table class="tablavertC">
+      <tr>
+        <td class="tempdet3">Emitido</td>
+        <td >:</td>
+        <td style="text-align: left;margin-left: 2px;" colspan="4">{{fechacat(fEmi, 0)}} (hora local) </td>
+      </tr>
+      <tr>
+        <td class="tempdet3">Inicia</td>
+        <td >:</td>
+        <td style="text-align: left;margin-left: 2px;" colspan="4">{{ fechacat(fIni, 0)}} (hora local)</td>
+      </tr>
+      <tr>
+        <td class="tempdet3">Finaliza</td>
+        <td >:</td>
+        <td style="text-align: left;margin-left: 1px;" colspan="4">{{ fechacat(fFin,0 )}} (hora local) </td>
+       
+      </tr>
+      <tr>
+        <td class="tempdet3">Plazo</td>
+        <td >:</td>
+        <td style="text-align: left;margin-left: 2px;">{{ nPlazo }}</td>
+        
+      </tr>
+      <tr>
+        <td class="tempdet3">Para la ubicación de</td>
+        <td >:</td>
+        <td style="text-align: left;margin-left: 2px;">{{ciudad}} </td>
+        
+      </tr>
+    </table>
+
+   </ion-row>
 
     <ion-row class="datamain">
       <ion-col><p>Lugares Afectados</p></ion-col>
@@ -28,14 +55,21 @@
     </ion-row>
 
     <ion-row class="datamain2">
-      <ion-col>VER MAPA</ion-col>
-    </ion-row>
-    
-     <ion-row class="datamain2">
-      <ion-col *ngFor="let fechasreg of argFecha;" (click)="openModal(fechasreg)">
-         <ion-icon name="map-outline"  ></ion-icon>
-         {{ fechasreg | date :'dd/MM/yy' }}
-       </ion-col>
+        <table class="tablavert3">
+          <tr>
+            <td>Nivel de Aviso según el usuario</td>
+            <td [ngClass]="colorAvisoCuadro(codniubica)"><p [ngClass]="colortextoCuadro(codniubica)">{{ nivelubica | titlecase}}</p></td>
+          </tr>
+          <tr>
+            <td> <ion-icon name="eye-outline"  ></ion-icon> Ver Mapa</td>
+            <td> <ion-col *ngFor="let fechasreg of argFecha;" (click)="openModal(fechasreg)">
+              <ion-icon name="map-outline"  ></ion-icon>
+              {{ fechasreg | date :'dd-MMM' | uppercase }}
+            </ion-col></td>
+          </tr>
+        </table>
+
+
     </ion-row>
 
    <ion-row class="datamainjust">

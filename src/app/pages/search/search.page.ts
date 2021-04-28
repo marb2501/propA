@@ -464,6 +464,8 @@ async retaurarposicion(){
         this.router.navigate(['/menu/avisosdetail1']);
       }else if(infor=='/menu/avisosinfo4'){
         this.router.navigate(['/menu/avisosdetail4']);
+      }else if(infor=='/menu/avisometinfomain' || infor=='/menu/avisohidinfomain'){
+        this.router.navigate(['/menu/main']);  
       }else{
         this.router.navigate([infor]);
       }

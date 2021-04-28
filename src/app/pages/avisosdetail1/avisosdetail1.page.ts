@@ -41,7 +41,8 @@ export class Avisosdetail1Page implements OnInit{
   prov=null;
   ciudad;
   viewparams;
-  datacheck=[{name:'Mostrar los avisos meteorólogicos del país', selected:false}]
+  //datacheck=[{name:'Mostrar los avisos meteorólogicos del país', selected:false}]
+  datacheck=[{name:'Ver avisos del país', selected:false}]
   //array de niveles
   nivelesAM=[];
   icono;
@@ -73,7 +74,8 @@ export class Avisosdetail1Page implements OnInit{
   }
 
   ngOnInit(){
-    this.datacheck=[{name:'Mostrar los avisos meteorólogicos del país', selected:false}]
+    //this.datacheck=[{name:'Mostrar los avisos meteorólogicos del país', selected:false}]
+    this.datacheck=[{name:'Ver avisos del país', selected:false}]
     this.avisoMet=[];
     
     this.nivelesAM=[];
@@ -94,7 +96,8 @@ export class Avisosdetail1Page implements OnInit{
     });
 
 
-    this.datacheck=[{name:'Mostrar los avisos meteorólogicos del país', selected:false}]
+    //this.datacheck=[{name:'Mostrar los avisos meteorólogicos del país', selected:false}]
+    this.datacheck=[{name:'Ver avisos del país', selected:false}]
     this.avisoMet=[];
     this.nivelesAM=[];
     this.color24hnivel='';

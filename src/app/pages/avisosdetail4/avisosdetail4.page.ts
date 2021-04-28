@@ -25,8 +25,9 @@ export class Avisosdetail4Page implements OnInit{
   dep;
   prov;
   distr;
-  datacheck=[{name:'Mostrar los avisos hidrológicos del país', selected:false}]
-  
+  //datacheck=[{name:'Mostrar los avisos hidrológicos del país', selected:false}]
+  datacheck=[{name:'Ver avisos del país', selected:false}]
+
   constructor(private modalcontroller: ModalController, 
     private storageService:StorageService,
     private router:Router,
@@ -58,7 +59,8 @@ export class Avisosdetail4Page implements OnInit{
     }
 
    ngOnInit(){
-    this.datacheck=[{name:'Mostrar los avisos hidrológicos del país', selected:false}]
+    //this.datacheck=[{name:'Mostrar los avisos hidrológicos del país', selected:false}]
+    this.datacheck=[{name:'Ver avisos del país', selected:false}]
     this.cargaMisListadoAvisoHidro();
    
    } 
@@ -133,7 +135,8 @@ export class Avisosdetail4Page implements OnInit{
         share:true
       });
 
-    this.datacheck=[{name:'Mostrar los avisos hidrológicos del país', selected:false}]
+    //this.datacheck=[{name:'Mostrar los avisos hidrológicos del país', selected:false}]
+    this.datacheck=[{name:'Ver avisos del país', selected:false}]
     this.cargaMisListadoAvisoHidro()
 
   }

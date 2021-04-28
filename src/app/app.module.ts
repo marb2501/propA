@@ -1,6 +1,7 @@
-import { NgModule } from '@angular/core';
+import { LOCALE_ID, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
+import { registerLocaleData } from '@angular/common';
 
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
@@ -31,6 +32,9 @@ import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 import { LocalNotifications } from '@ionic-native/local-notifications/ngx';//
 import { BackgroundMode } from '@ionic-native/background-mode/ngx';
 import { Network} from '@ionic-native/network/ngx';
+import localeEsPe from '@angular/common/locales/es-PE';
+
+registerLocaleData(localeEsPe, 'es');
 
 @NgModule({
   declarations: [AppComponent, PopinfoComponent],
@@ -45,17 +49,19 @@ entryComponents: [PopinfoComponent],
     StatusBar,
     SplashScreen,
     Geolocation,
-    LocalNotifications,//
+    LocalNotifications,
     NativeGeocoder,
     Network,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+    { provide: LOCALE_ID, useValue: 'es-PE' },
     SocialSharing,
     Screenshot,
     OneSignal,
     HTTP,
     BackgroundMode,
     OpenNativeSettings,
-    InAppBrowser
+    InAppBrowser,
+    
   ],
   bootstrap: [AppComponent]
 })

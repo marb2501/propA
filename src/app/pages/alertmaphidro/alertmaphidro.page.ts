@@ -122,12 +122,18 @@ export class AlertmaphidroPage implements OnInit {
           this.avisoHidro.nomTitulo=element.nomTitulo;
           //cast fecha de inicio
           auxtiempoini=new Date(element.fecIni);
+          let hrs='0'+auxtiempoini.getHours()
+          let mns='0'+auxtiempoini.getMinutes()
+
           this.avisoHidro.fecIni=DIASTIEMPO[auxtiempoini.getDay()]+', '+auxtiempoini.getDate()+' de '+MESESTIEMPO[auxtiempoini.getMonth()]
-                  +' del '+auxtiempoini.getFullYear()+' a las '+auxtiempoini.getHours()+':'+auxtiempoini.getMinutes()+' hrs.';              
+                  +' del '+auxtiempoini.getFullYear()+' a las '+hrs.slice(-2)+':'+mns.slice(-2)+' hrs.';              
           //cast fecha fin
           auxtiempofin=new Date(element.fecFin);
+          let hrs2='0'+auxtiempofin.getHours()
+          let mns2='0'+auxtiempofin.getMinutes()
+
           this.avisoHidro.fecFin=DIASTIEMPO[auxtiempofin.getDay()]+', '+auxtiempofin.getDate()+' de '+MESESTIEMPO[auxtiempofin.getMonth()]
-                  +' del '+auxtiempofin.getFullYear()+' a las '+auxtiempofin.getHours()+':'+auxtiempofin.getMinutes()+' hrs.';
+                  +' del '+auxtiempofin.getFullYear()+' a las '+hrs2.slice(-2)+':'+mns2.slice(-2)+' hrs.';
                   
           this.avisoHidro.codPlazo=element.codPlazo;
           this.avisoHidro.nomPlazo=element.nomPlazo;

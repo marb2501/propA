@@ -19,51 +19,61 @@
    <ion-row >
     <table class="tablavertC">
       <tr>
-        <td class="tempdet3">Fecha de Emision</td>
+        <td class="tempdet3">Emitido</td>
         <td >:</td>
         <td style="text-align: left;margin-left: 2px;" colspan="4">{{fechaemision}} (hora local)</td>
       </tr>
       <tr>
-        <td class="tempdet3">Inicio del Evento</td>
+        <td class="tempdet3">Inicia</td>
         <td >:</td>
         <td style="text-align: left;margin-left: 2px;" colspan="4">{{fechainicio}} (hora local)</td>
       </tr>
       <tr>
-        <td class="tempdet3">Fin del Evento</td>
+        <td class="tempdet3">Finaliza</td>
         <td >:</td>
         <td style="text-align: left;margin-left: 1px;" colspan="4">{{fechafin}} (hora local) </td>
        
       </tr>
       <tr>
-        <td class="tempdet3">Periodo de Vigencia del aviso</td>
+        <td class="tempdet3">Vigencia</td>
         <td >:</td>
         <td style="text-align: left;margin-left: 2px;">{{vigencia}} horas </td>
+        
+      </tr>
+      <tr>
+        <td class="tempdet3">Para la ubicación de</td>
+        <td >:</td>
+        <td style="text-align: left;margin-left: 2px;">{{ciudad}} </td>
         
       </tr>
     </table>
 
    </ion-row>
-   <ion-row class="datamainjust">
-     <ion-col><p>{{descripcion1}}</p></ion-col>
-    </ion-row>
+    
+     <ion-row class="datamain2">
+      <table class="tablavert3">
+        <tr>
+          <td>Nivel de Aviso según el usuario</td>
+          <td *ngFor="let nivelav of arrayNivel; let i=index " [ngClass]="colorAvisoTD(i)">
+            <p [ngClass]="colortextoCuadro(i)">{{ nivelav }}</p>
+          </td>
+        </tr>
+        <tr>
+          <td> <ion-icon name="eye-outline"></ion-icon> Ver Mapa</td>
+          <td  *ngFor="let fechasreg of listamapas; let i=index" (click)="openModal(fechasreg.fechaInicio,
+                      fechasreg.numMapa,
+                      fechasreg.nivelMapa,
+                      fechasreg.descripcion)">
+                      <ion-icon name="map-outline" ></ion-icon>
+                      {{ fechasreg.fechaInicio | uppercase | date :'dd-MMM'  }}
+                    </td>
+        </tr>
+      </table>
+
+  </ion-row>
 
     <ion-row class="datamainjust">
-      <ion-col><p>Para la ubicación de : {{ciudad}}</p></ion-col>
+      <ion-col><p>{{descripcion1}}</p></ion-col>
      </ion-row>
-    
-    <ion-row class="datamain2">
-      <ion-col>VER MAPA(S)</ion-col>
-    </ion-row>
-
-    <ion-row class="datamain2">
-       <ion-col *ngFor="let fechasreg of listamapas; let i=index" (click)="openModal(fechasreg.fechaInicio,
-                                                                          fechasreg.numMapa,
-                                                                          fechasreg.nivelMapa,
-                                                                          fechasreg.descripcion)">
-          <ion-icon name="map-outline" ></ion-icon>
-          {{ fechasreg.fechaInicio | date :'dd/MM/yy' }}
-          <p>{{ arrayNivel[i] }}</p>
-        </ion-col>
-    </ion-row>
   </ion-grid>
 </ion-content>

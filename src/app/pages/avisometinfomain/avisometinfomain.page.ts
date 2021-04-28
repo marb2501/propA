@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import {MESESTIEMPO,DIASTIEMPO} from '../../globales';
 import { AvisosmetmapmainPage } from '../../pages/avisosmetmapmain/avisosmetmapmain.page';
 import { listaMapas } from '../../models/listamapasmet.model';
-import { StorageService } from '../../services/storage.service';
+import { StorageService, Geolocaposicion } from '../../services/storage.service';
 
 @Component({
   selector: 'app-avisometinfomain',
@@ -16,6 +16,7 @@ export class AvisometinfomainPage implements OnInit {
   titulomodal:string;
   tituloaviso:string;
   data : any;
+  ciudad;
 
   @Input() numero: string;
   @Input() tituloA: string;
@@ -30,6 +31,8 @@ export class AvisometinfomainPage implements OnInit {
   @Input() flaglayer: string;
   @Input() lmapas:Array<listaMapas>;
 
+  
+  itemGP:  Geolocaposicion[]=[];
   listamapas:listaMapas[];
   argFecha=[];
 
@@ -63,15 +66,25 @@ export class AvisometinfomainPage implements OnInit {
           this.lmapas=this.data.listaMapas;
 
           this.fechaaux2=new Date(this.fechaaux.getFullYear(),this.fechaaux.getMonth(),this.fechaaux.getDate(),this.fechaaux.getHours()+this.vigencia,this.fechaaux.getMinutes());
-     
+
+          let hrs='0'+this.fechaaux.getHours()
+          let mns='0'+this.fechaaux.getMinutes()
+
+          let hrs2='0'+this.fechaaux2.getHours()
+          let mns2='0'+this.fechaaux2.getMinutes()
+
+          let hrs3='0'+this.fechaaux3.getHours()
+          let mns3='0'+this.fechaaux3.getMinutes()
+
+
           this.fechainicio=DIASTIEMPO[this.fechaaux.getDay()]+', '+this.fechaaux.getDate()+' de '+MESESTIEMPO[this.fechaaux.getMonth()]
-      +' del '+this.fechaaux.getFullYear()+' a las '+this.fechaaux.getHours()+':'+this.fechaaux.getMinutes()+' hrs.'; 
+          +' del '+this.fechaaux.getFullYear()+' a las '+hrs.slice(-2)+':'+mns.slice(-2)+' hrs.'; 
 
-      this.fechafin=DIASTIEMPO[this.fechaaux2.getDay()]+', '+this.fechaaux2.getDate()+' de '+MESESTIEMPO[this.fechaaux2.getMonth()]
-      +' del '+this.fechaaux2.getFullYear()+' a las '+this.fechaaux2.getHours()+':'+this.fechaaux2.getMinutes()+' hrs.'; 
+          this.fechafin=DIASTIEMPO[this.fechaaux2.getDay()]+', '+this.fechaaux2.getDate()+' de '+MESESTIEMPO[this.fechaaux2.getMonth()]
+          +' del '+this.fechaaux2.getFullYear()+' a las '+hrs2.slice(-2)+':'+mns2.slice(-2)+' hrs.'; 
 
-      this.fechaemision=DIASTIEMPO[this.fechaaux3.getDay()]+', '+this.fechaaux3.getDate()+' de '+MESESTIEMPO[this.fechaaux3.getMonth()]
-      +' del '+this.fechaaux3.getFullYear()+' a las '+this.fechaaux3.getHours()+':'+this.fechaaux3.getMinutes()+' hrs.';
+          this.fechaemision=DIASTIEMPO[this.fechaaux3.getDay()]+', '+this.fechaaux3.getDate()+' de '+MESESTIEMPO[this.fechaaux3.getMonth()]
+          +' del '+this.fechaaux3.getFullYear()+' a las '+hrs3.slice(-2)+':'+mns3.slice(-2)+' hrs.';
         }
 
 
@@ -79,6 +92,14 @@ export class AvisometinfomainPage implements OnInit {
   }
 
   ngOnInit() {
+
+    this.storagese.getitemGeoposition().then((items0)=>{
+      this.itemGP=items0;
+      this.ciudad=this.itemGP[0].ciudad;
+    })
+
+
+
     this.argFecha=[];
     let fechatemp= new Date();
     let reul=Number(fechatemp.getMonth())+1;

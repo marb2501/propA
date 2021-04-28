@@ -12,13 +12,20 @@ export class PopinfoComponent implements OnInit {
   departamento;
   provincia;
   distrito;
+  distancia;
+  unidad;
+  latitud;
+  longitud;
 
   constructor(public navParams:NavParams) { 
 
     this.departamento=this.navParams.get('dep');
     this.provincia=this.navParams.get('prov');
     this.distrito=this.navParams.get('dist');
-
+    this.distancia=this.navParams.get('distancia');
+    this.unidad=this.navParams.get('unidad');
+    this.latitud=this.navParams.get('latitud');
+    this.longitud=this.navParams.get('longitud');
   }
 
   ngOnInit() {

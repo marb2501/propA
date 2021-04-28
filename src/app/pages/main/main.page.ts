@@ -286,7 +286,10 @@ export class MainPage {
       let data2=this.listado2[0];
       this.locations.TEMP = (data2.temperatura==null?"--°C":Math.round(data2.temperatura) + "°C") ;
       this.locations.HUME = (data2.humedad==null? "--%":data2.humedad + " %") ;
-      this.locations.PRECIPI = (data2.precipitacion==null?"--mm/h":Math.round(data2.precipitacion) + " mm/h") ;
+  
+      this.locations.PRECIPI =(data2.precipitacion==0? "0.0":data2.precipitacion);
+      //this.locations.PRECIPI = (data2.precipitacion==null?"--mm/h":Math.round(data2.precipitacion) + " mm/h") ;
+      
       this.locations.nombrestacion = data2.nomEsta;
       this.locations.depestacion=data2.nomDep;
       this.locations.provestacion=data2.nomProv;
@@ -543,7 +546,7 @@ export class MainPage {
               
               this.locations.TEMP = (data2.temperatura==null?"--°C":Math.round(data2.temperatura) + "°C") ;
               this.locations.HUME = (data2.humedad==null? "--%":data2.humedad + " %") ;
-              this.locations.PRECIPI = (data2.precipitacion==null?"--mm/h":Math.round(data2.precipitacion) + " mm/h") ;
+              this.locations.PRECIPI = (data2.precipitacion==0? "0.0":data2.precipitacion);//(data2.precipitacion==null?"--mm/h":data2.precipitacion + " mm/h") ;
               this.locations.nombrestacion = data2.nomEsta;
               this.locations.depestacion=data2.nomDep;
               this.locations.provestacion=data2.nomProv;
@@ -728,8 +731,8 @@ export class MainPage {
     const browser = this.iab.create('https://www.youtube.com/watch?v=joVCu8gp_lY','_blank',{location:'no'});
   }
 
-  async presentPopover(ev: any, dep:any,prov:any,dist:any) {
-    let data = {dep:dep, prov:prov, dist:dist};
+  async presentPopover(ev: any, dep:any,prov:any,dist:any,distancia:any,unidad:any, latest:any,lngest:any) {
+    let data = {dep:dep, prov:prov, dist:dist, distancia:distancia, unidad:unidad,latitud:latest,longitud:lngest};
     const popover = await this.popoverController.create({
       component: PopinfoComponent,
       cssClass: 'my-custom-class',

@@ -78,7 +78,12 @@
                     </tr>
                     <tr>
                     <td>
-                      <ion-label style="font-size: x-large;"> <img class="imgmaintermo" [src]="cambiarImagenMain2()" > {{locations.PRECIPI}}</ion-label>
+                      <ion-label style="font-size: x-large;" *ngIf="locations.PRECIPI!=null"> <img class="imgmaintermo" [src]="cambiarImagenMain2()" >
+                         {{locations.PRECIPI }} mm/h
+                       </ion-label>
+                       <ion-label style="font-size: x-large;" *ngIf="locations.PRECIPI==null"> <img class="imgmaintermo" [src]="cambiarImagenMain2()" >
+                        --mm/h
+                      </ion-label>
                     </td>
                     </tr>
                     </tbody>
@@ -91,75 +96,81 @@
               <ion-row>
                 <table class="tablavertC">
                   <tr style="font-weight: bold;">
-                    <td ><div class="circle"></div></td>
-                    <td class="tempdet3">Estación * </td>
+              
+                    <td class="tempdet3">Estación*</td>
                     <td >:</td>
                     <td style="text-align: left;margin-left: 2px;" colspan="4">{{locations.nombrestacion | titlecase}}</td>
                   </tr>
                   <tr>
-                    <td ><div class="circle"></div></td>
+                    
                     <td class="tempdet3">Ubicación</td>
                     <td >:</td>
                     <td style="text-align: left;margin-left: 2px; width: fit-content;" colspan="4"  >{{locations.depestacion | titlecase }}/{{locations.provestacion | titlecase}}/{{locations.distestacion | titlecase}}</td>
                   </tr>
                 
                   <tr>
-                    <td ><div class="circle"></div></td>
+                    
                     <td class="tempdet3">Altitud</td>
                     <td >:</td>
                     <td style="text-align: left;margin-left: 1px;" colspan="4">{{locations.altitud}} </td>
                   </tr>
                   <tr>
-                    <td ><div class="circle"></div></td>
+                   
                     <td class="tempdet3">Distancia</td>
                     <td >:</td>
                     <td style="text-align: left;margin-left: 2px;">{{locations.distancia}} </td>
                   </tr>
                   <tr>
-                    <td ><div class="circle"></div></td>
+                    
                     <td class="tempdet3">Hora</td>
                     <td >:</td>
-                    <td style="text-align: left;margin-left: 2px;">{{ locations.hora | date :'shortTime' }}</td>
+                    <td style="text-align: left;margin-left: 2px;">{{ locations.hora | date :'hh:mm a' | lowercase }}</td>
                   </tr>
                </table>
               </ion-row>
             </ion-grid>
             <ion-grid class="datamain"> 
-            <ion-row>*
+            <ion-row>
               <table >
-                <tr style="font-weight: bolder;" class="tablavert">
-                  <td ><ion-icon name="videocam-outline" (click)="videoSENAMHI()"></ion-icon></td>
-                  <td>Video para conocer qué es una estación</td>
+                <tr (click)="videoSENAMHI()">
+                  <td >*</td>
+                  <td><ion-label>¿Qué es una estación?</ion-label></td>
+                  <td><ion-icon name="videocam-outline" style="margin-top: 10px;"></ion-icon></td>
                 </tr>
               </table>
             </ion-row>
             </ion-grid> 
+            <ion-row style="padding-bottom: 10px;"></ion-row>
+
             <ion-grid class="datamain"> 
             <ion-label class="tempdet2"> Datos de estaciones más cercanas</ion-label>
+            <ion-row style="padding-bottom: 8px;"></ion-row>
             <ion-row >
               <ion-label class="hydrated">
                 <table frame="void" >
                   <tbody >
                   <tr style="font-weight: bolder;" class="tablavert2">
-                  <th>Estación</th>
-                  <th>Alt.</th>
-                  <th>Hora</th>
-                  <th>Temp.</th>
-                  <th>Hum.</th>
-                  <th>Precip.</th>
+                  <th >Estación</th>
+                  <th style="text-align: center">Dist. (km)</th>
+                  <th style="text-align: center">Alt. (m)</th>
+                  <th style="text-align: center">Hora (am/pm)</th>
+                  <th style="text-align: center">Temp.(°C)</th>
+                  <th style="text-align: center">Hum.(%)</th>
+                  <th style="text-align: center">Precip.(mm/h)</th>
                   </tr>
                   <tr  *ngFor="let tmp2 of listado2; let i = index;"  class="tablavert2">
                     <td><div style="font-weight: bolder;"> {{ tmp2.nomEsta | titlecase  }}</div>
-                      <div class="wrap-text" (click)="presentPopover($event,tmp2.nomDep,tmp2.nomProv,tmp2.nomDist)">{{ tmp2.nomDep | titlecase  }} / 
+                      <div class="wrap-text" (click)="presentPopover($event,tmp2.nomDep,tmp2.nomProv,tmp2.nomDist, tmp2.distancia,tmp2.unidad, tmp2.latitud,tmp2.longitud )">{{ tmp2.nomDep | titlecase  }} / 
                       {{ tmp2.nomProv | titlecase }} /
                       {{ tmp2.nomDist | titlecase  }} </div>
 
                     </td>
-                    <td>{{ tmp2.altitud }}  m</td>
-                    <td> <div *ngIf="tmp2.fecha!=null">{{ tmp2.fecha | date :'shortTime' }}</div><div *ngIf="tmp2.fecha==null">--</div></td>
-                    <td> <div *ngIf="tmp2.temperatura!=null">{{ tmp2.temperatura  | number:'1.0-0' }}°C</div><div *ngIf="tmp2.temperatura==null">--</div></td>
-                    <td> <div *ngIf="tmp2.humedad!=null">{{ tmp2.humedad  | number:'1.0-0' }} %</div><div *ngIf="tmp2.humedad==null">--</div></td>
-                    <td> {{ tmp2.precipitacion  | number:'1.0-0' }} mm/h</td>
+                    <td>{{ tmp2.distancia | number:'1.0-0' }}</td>
+                    <td>{{ tmp2.altitud }}</td>
+                    <td style="text-align: center"> <div *ngIf="tmp2.fecha!=null">{{ tmp2.fecha | date :'hh:mm' }}</div><div *ngIf="tmp2.fecha==null">--</div></td>
+                    <td style="text-align: center"> <div *ngIf="tmp2.temperatura!=null">{{ tmp2.temperatura  | number:'1.0-0' }}</div><div *ngIf="tmp2.temperatura==null">--</div></td>
+                    <td style="text-align: center"> <div *ngIf="tmp2.humedad!=null">{{ tmp2.humedad  | number:'1.0-0' }}</div><div *ngIf="tmp2.humedad==null">--</div></td>
+                    <td style="text-align: center"> <div *ngIf="tmp2.precipitacion!=null && tmp2.precipitacion==0">0.0</div><div *ngIf="tmp2.precipitacion!=null && tmp2.precipitacion>0" >{{ tmp2.precipitacion | number:'1.1-1' }}</div><div *ngIf="tmp2.precipitacion==null">--</div></td>
                   </tr>
               
                   </tbody>

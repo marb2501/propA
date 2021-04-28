@@ -18,7 +18,8 @@
    </ion-row>
 
    <ion-row class="tempdet2">
-    <ion-col style="TEXT-ALIGN: center;">
+    <ion-col style="TEXT-ALIGN: left;
+    margin-left: 15px;">
       <ion-label>CAMBIAR MODO DE PANTALLA:</ion-label>
     </ion-col>
      
@@ -37,22 +38,27 @@
      
    </ion-row>
    <ion-row class="tempdet2">
-    <ion-col style="TEXT-ALIGN: center;" ><ion-label>RECIBIR NOTIFICACIONES:</ion-label>
+    <ion-col style="TEXT-ALIGN: left;
+    margin-left: 15px;" ><ion-label>RECIBIR NOTIFICACIONES:</ion-label>
       
     </ion-col>
    
     </ion-row>
     <ion-row class="datamain2">
       <ion-col>
-       <!-- <ion-icon style="width: 40px;height: 40px;" name="notifications-outline" (click)="openModificaNot()"></ion-icon>-->
-       <ion-row>
-        <ion-label>De Temperatura</ion-label>
-        <ion-toggle [(ngModel)]="enabledLocal" (ionChange)="changeLocal($event)"></ion-toggle>
-      </ion-row>
-      <ion-row>
-        <ion-label>De Aviso Senamhi</ion-label>
-        <ion-toggle [(ngModel)]="enabledExternal" (ionChange)="changeExternal($event)"></ion-toggle>
-      </ion-row>
+
+        <table class="tablavert4">
+          <tr><td><ion-label>Temperatura</ion-label>
+                  <p style="color: gray;">Mostrar temperatura <br>actual en la barra de estado</p>
+            </td>
+            <td> <ion-toggle [(ngModel)]="enabledLocal" (ionChange)="changeLocal($event)"></ion-toggle></td>
+          </tr>
+          <tr><td><ion-label>Aviso Senamhi</ion-label>
+                  <p style="color: gray;">Recibir avisos de <br>peligros meteorológicos e hidrológicos</p>
+            </td>
+            <td ><ion-toggle [(ngModel)]="enabledExternal" (ionChange)="changeExternal($event)"></ion-toggle></td>
+          </tr>
+        </table>
      </ion-col>
        
      </ion-row>

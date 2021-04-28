@@ -64,7 +64,7 @@ export class LocalnotiService {
             let tiempo=hora.getHours()+':'+minuto.slice(-2);
 
             if(Number(data.temperatura)){
-              texto='La temperatura actual a las '+tiempo+' es: '+Math.round(data.temperatura).toString()+"°C\n"+data.nomDep+'/'+data.nomProv+'/'+data.nomDist+'/'+data.nomEsta+"\n";
+              texto='La temperatura a las '+tiempo+' es: '+Math.round(data.temperatura).toString()+"°C\n"+data.nomDep+'/'+data.nomProv+'/'+data.nomDist+'/'+data.nomEsta+"\n";
               valor=(Math.round(data.temperatura));
               if(valor<0){
                 valor=(Math.round(data.temperatura)*-1);

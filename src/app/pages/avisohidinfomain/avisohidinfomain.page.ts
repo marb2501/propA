@@ -5,7 +5,7 @@ import {MESESTIEMPO,DIASTIEMPO} from '../../globales';
 import { AvisoshidmapmainPage } from '../../pages/avisoshidmapmain/avisoshidmapmain.page';
 import { AvisometeoroService } from '../../services/avisometeoro.service';
 import { Lugarafectado } from '../../models/lugarafectado.model';
-import { StorageService } from '../../services/storage.service';
+import { StorageService, Geolocaposicion } from '../../services/storage.service';
 
 @Component({
   selector: 'app-avisohidinfomain',
@@ -46,6 +46,7 @@ export class AvisohidinfomainPage implements OnInit {
   @Input() numero: string;
   @Input() tituloA: string;
   @Input() fechainicio: string;
+  @Input() fechaemitido: string;
   @Input() fechafin: string;
   @Input() vigencia: number;
   @Input() nivel: string;
@@ -56,9 +57,11 @@ export class AvisohidinfomainPage implements OnInit {
   argFecha=[];
 
   lugafec:Lugarafectado[];
-
+  itemGP:  Geolocaposicion[]=[];
+  ciudad;
   fechaaux;
   fechaaux2;
+  fechaaux3;
   diferenciasdias;
 
   constructor(private modalcontroller: ModalController,
@@ -106,18 +109,37 @@ export class AvisohidinfomainPage implements OnInit {
           this.fechaaux=new Date(this.fecIni);
 
           this.fechaaux2=new Date(this.fecFin);
-    
-          this.fechainicio=DIASTIEMPO[this.fechaaux.getDay()]+', '+this.fechaaux.getDate()+' de '+MESESTIEMPO[this.fechaaux.getMonth()]
-      +' del '+this.fechaaux.getFullYear()+' a las '+this.fechaaux.getHours()+':'+this.fechaaux.getMinutes()+' hrs.'; 
 
-      this.fechafin=DIASTIEMPO[this.fechaaux2.getDay()]+', '+this.fechaaux2.getDate()+' de '+MESESTIEMPO[this.fechaaux2.getMonth()]
-      +' del '+this.fechaaux2.getFullYear()+' a las '+this.fechaaux2.getHours()+':'+this.fechaaux2.getMinutes()+' hrs.';         
+          this.fechaaux3=new Date(this.fecEmi);
+    
+          let hrs='0'+this.fechaaux.getHours()
+          let mns='0'+this.fechaaux.getMinutes()
+
+          let hrs2='0'+this.fechaaux2.getHours()
+          let mns2='0'+this.fechaaux2.getMinutes()
+
+          let hrs3='0'+this.fechaaux3.getHours()
+          let mns3='0'+this.fechaaux3.getMinutes()
+
+          this.fechaemitido=DIASTIEMPO[this.fechaaux3.getDay()]+', '+this.fechaaux3.getDate()+' de '+MESESTIEMPO[this.fechaaux3.getMonth()]
+          +' del '+this.fechaaux3.getFullYear()+' a las '+hrs3.slice(-2)+':'+mns3.slice(-2)+' hrs.'; 
+
+          this.fechainicio=DIASTIEMPO[this.fechaaux.getDay()]+', '+this.fechaaux.getDate()+' de '+MESESTIEMPO[this.fechaaux.getMonth()]
+          +' del '+this.fechaaux.getFullYear()+' a las '+hrs.slice(-2)+':'+mns.slice(-2)+' hrs.'; 
+
+          this.fechafin=DIASTIEMPO[this.fechaaux2.getDay()]+', '+this.fechaaux2.getDate()+' de '+MESESTIEMPO[this.fechaaux2.getMonth()]
+          +' del '+this.fechaaux2.getFullYear()+' a las '+hrs2.slice(-2)+':'+mns2.slice(-2)+' hrs.';         
 
         }
       })
   }
 
   ngOnInit() {
+
+    this.storagese.getitemGeoposition().then((items0)=>{
+      this.itemGP=items0;
+      this.ciudad=this.itemGP[0].ciudad;
+    })
     
     this.argFecha=[];
     let fecha=new Date();
@@ -137,6 +159,12 @@ export class AvisohidinfomainPage implements OnInit {
     : parseInt(d) === 3 
     ? 'bannerAvisoRojo' //bajo
     : 'blanco'; //vacio
+  }
+
+  colortextoCuadro(d){
+    return parseInt(d) != 0
+    ? 'negro' //muy alto
+    : 'datamain2'; //vacio
   }
 
 

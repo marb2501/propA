@@ -28,6 +28,7 @@ export class Avisosinfo1Page implements OnInit {
   itemGP:  Geolocaposicion[]=[];
   ciudad;
   arrayNivel:any[]=[];
+  arrayCodNivel:any[]=[];
   aniofechaem;
 
   @Input() numero: string;
@@ -72,16 +73,25 @@ export class Avisosinfo1Page implements OnInit {
 
           this.aniofechaem=this.fechaaux1.getFullYear();
 
-          this.fechaemision=DIASTIEMPO[this.fechaaux1.getDay()]+', '+this.fechaaux1.getDate()+' de '+MESESTIEMPO[this.fechaaux1.getMonth()]
-          +' del '+this.fechaaux1.getFullYear()+' a las '+this.fechaaux1.getHours()+':'+this.fechaaux1.getMinutes()+' hrs.'; 
-
           this.fechaaux2=new Date(this.fechaaux.getFullYear(),this.fechaaux.getMonth(),this.fechaaux.getDate(),this.fechaaux.getHours()+this.vigencia,this.fechaaux.getMinutes());
+
+          let hrs='0'+this.fechaaux.getHours()
+          let mns='0'+this.fechaaux.getMinutes()
+       
+          let hrs1='0'+this.fechaaux1.getHours()
+          let mns1='0'+this.fechaaux1.getMinutes()
+
+          let hrs2='0'+this.fechaaux2.getHours()
+          let mns2='0'+this.fechaaux2.getMinutes()
+
+          this.fechaemision=DIASTIEMPO[this.fechaaux1.getDay()]+', '+this.fechaaux1.getDate()+' de '+MESESTIEMPO[this.fechaaux1.getMonth()]
+          +' del '+this.fechaaux1.getFullYear()+'\n a las '+hrs1.slice(-2)+':'+mns1.slice(-2)+' hrs.'; 
      
           this.fechainicio=DIASTIEMPO[this.fechaaux.getDay()]+', '+this.fechaaux.getDate()+' de '+MESESTIEMPO[this.fechaaux.getMonth()]
-          +' del '+this.fechaaux.getFullYear()+' a las '+this.fechaaux.getHours()+':'+this.fechaaux.getMinutes()+' hrs.'; 
+          +' del '+this.fechaaux.getFullYear()+'\n a las '+hrs.slice(-2)+':'+mns.slice(-2)+' hrs.'; 
 
           this.fechafin=DIASTIEMPO[this.fechaaux2.getDay()]+', '+this.fechaaux2.getDate()+' de '+MESESTIEMPO[this.fechaaux2.getMonth()]
-          +' del '+this.fechaaux2.getFullYear()+' a las '+this.fechaaux2.getHours()+':'+this.fechaaux2.getMinutes()+' hrs.'; 
+          +' del '+this.fechaaux2.getFullYear()+'\n a las '+hrs2.slice(-2)+':'+mns2.slice(-2)+' hrs.'; 
 
         }
       })
@@ -92,6 +102,7 @@ export class Avisosinfo1Page implements OnInit {
     this.listamapas=this.lmapas;
     
     this.arrayNivel=[];
+    this.arrayCodNivel=[];
 
 
     this.storageService.getitemGeoposition().then((items0)=>{
@@ -113,6 +124,7 @@ export class Avisosinfo1Page implements OnInit {
               datawms.map(element => {
                 let dato=element['properties'].nivel;
                 let niveli=dato.slice(-1);
+                let textonivel='';
                 if(Number(niveli)){
                   niveli=Number(niveli)-1;
                   if(niveli<0){
@@ -123,8 +135,15 @@ export class Avisosinfo1Page implements OnInit {
                   resultado=0
                 }
 
-                let nivele="Nivel "+niveltexto[resultado];
+                if(resultado==0){
+                  textonivel='No está expuesto'
+                }else{
+                  textonivel=niveltexto[resultado];
+                }
+
+                let nivele=textonivel;
                 this.arrayNivel.push(nivele);
+                this.arrayCodNivel.push(resultado);
               })
 
             })
@@ -145,6 +164,26 @@ export class Avisosinfo1Page implements OnInit {
     : parseInt(d) === 3 
     ? 'bannerAvisoRojo' //bajo
     : 'blanco'; //vacio
+  }
+
+  colorAvisoTD(i){
+    let d=this.arrayCodNivel[i];
+    return parseInt(d) === 0
+    ? 'datamain2' //muy alto
+    : parseInt(d) === 1 
+    ? 'bannerAvisoAmarillo' //alto
+    : parseInt(d) === 2
+    ? 'bannerAvisoNaranja' //medio
+    : parseInt(d) === 3 
+    ? 'bannerAvisoRojo' //bajo
+    : 'datamain2'; //vacio
+  }
+
+  colortextoCuadro(i){
+    let d=this.arrayCodNivel[i];
+    return parseInt(d) != 0
+    ? 'negro' //muy alto
+    : 'datamain2'; //vacio
   }
 
   textoNivel(d){

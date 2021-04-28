@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Lugarafectado } from '../../models/lugarafectado.model';
 import { MESESTIEMPO,DIASTIEMPO} from '../../globales';
 import { Avisosmap4Page } from '../avisosmap4/avisosmap4.page';
-import { StorageService } from '../../services/storage.service';
+import { StorageService, Geolocaposicion } from '../../services/storage.service';
 
 @Component({
   selector: 'app-avisosinfo4',
@@ -34,6 +34,14 @@ export class Avisosinfo4Page {
  
   lugafec:Lugarafectado[];
   data : any;
+
+  itemGP:  Geolocaposicion[]=[];
+  ciudad;
+  dep;
+  prov;
+  distr;
+  nivelubica;
+  codniubica;
 
   @Input() codAviso: string;
   @Input() codNivel: string;
@@ -109,6 +117,17 @@ export class Avisosinfo4Page {
       }})
     }
 
+    colorAvisoCuadro(d){
+      return parseInt(d) === 0
+      ? 'datamain2' //muy alto
+      : parseInt(d) === 1 
+      ? 'bannerAvisoAmarillo' //alto
+      : parseInt(d) === 2
+      ? 'bannerAvisoNaranja' //medio
+      : parseInt(d) === 3 
+      ? 'bannerAvisoRojo' //bajo
+      : 'datamain2'; //vacio
+    }
 
 
     colorAviso(d){
@@ -123,10 +142,19 @@ export class Avisosinfo4Page {
       : 'blanco'; //vacio
     }
 
+    colortextoCuadro(d){
+      return parseInt(d) != 0
+      ? 'negro' //muy alto
+      : 'datamain2'; //vacio
+    }
+
     fechacat(fecha, vigencia){
       let fi=new Date(fecha);
       let ff=new Date(fi.getFullYear(),fi.getMonth(),fi.getDate(),fi.getHours()+vigencia,fi.getMinutes());
-      return DIASTIEMPO[ff.getDay()]+', '+ff.getDate()+' de '+MESESTIEMPO[ff.getMonth()]+' del '+ff.getFullYear()+' a las '+ff.getHours()+':'+ff.getMinutes()+' hrs.'; 
+      let hrs='0'+ff.getHours()
+      let mns='0'+ff.getMinutes()
+
+      return DIASTIEMPO[ff.getDay()]+', '+ff.getDate()+' de '+MESESTIEMPO[ff.getMonth()]+' del '+ff.getFullYear()+'\n a las '+hrs.slice(-2)+':'+mns.slice(-2)+' hrs.'; 
     }
 
     getProvDistAfectados(){
@@ -172,7 +200,25 @@ export class Avisosinfo4Page {
     }
 
     ngOnInit() {
-    
+      
+      this.storageService.getitemGeoposition().then((items0)=>{
+        this.itemGP=items0;
+        this.ciudad=this.itemGP[0].ciudad;
+        this.dep=this.itemGP[0].coddep;
+        this.prov=this.itemGP[0].codprov;
+        this.distr=this.itemGP[0].coddist;
+        this.nivelubica='No está expuesto'
+        this.codniubica=0;
+
+
+        this.lugafec.forEach(datos=>{
+          if(datos.codDep+'-'+datos.codProv+'-'+datos.codDist== this.dep+'-'+this.prov+'-'+this.distr){
+            this.nivelubica=this.colnivel.charAt(0).toUpperCase() + this.colnivel.slice(1);
+            this.codniubica=this.cnivel;
+          }
+        })
+      })
+
       this.argFecha=[];
       let fecha=new Date();
       this.argFecha.push(fecha);
