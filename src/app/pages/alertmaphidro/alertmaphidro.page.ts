@@ -5,7 +5,7 @@ import { WmssenamhiService } from '../../services/wmssenamhi.service';
 import { previous, MESESTIEMPO, DIASTIEMPO } from '../../globales';
 import { Lugarafectado } from '../../models/lugarafectado.model';
 import { AlertpopupmaphidroPage } from '../alertpopupmaphidro/alertpopupmaphidro.page';
-import { StorageService } from '../../services/storage.service';
+import { StorageService, Geolocaposicion } from '../../services/storage.service';
 
 @Component({
   selector: 'app-alertmaphidro',
@@ -22,6 +22,8 @@ export class AlertmaphidroPage implements OnInit {
   public lugarAfectado:Array<Lugarafectado>=[];
   argFecha=[];
   cadenaidistritos:string;
+  itemGP:  Geolocaposicion[]=[];
+  ciudad;
 
   avisoHidro =
     {
@@ -75,6 +77,13 @@ export class AlertmaphidroPage implements OnInit {
  
 
   async ngOnInit() {
+
+    this.storagese.getitemGeoposition().then((items0)=>{
+      this.itemGP=items0;
+      this.ciudad=this.itemGP[0].ciudad;
+    })
+
+
 
     const loading = await this.loadingController.create({
       cssClass: 'my-custom-class',
@@ -169,6 +178,11 @@ export class AlertmaphidroPage implements OnInit {
     : 'blanco'; //vacio
   }
 
+  colortextoCuadro(d){
+    return parseInt(d) != 0
+    ? 'negro' //muy alto
+    : 'datamain2'; //vacio
+  }
 
   getProvDistAfectados(){
     let codigoProv='';

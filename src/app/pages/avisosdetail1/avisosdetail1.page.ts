@@ -22,7 +22,7 @@ import { AvisoMeteoroIDESEP } from '../../models/avisometidesep.model';
   templateUrl: './avisosdetail1.page.html',
   styleUrls: ['./avisosdetail1.page.scss'],
 })
-export class Avisosdetail1Page implements OnInit{
+export class Avisosdetail1Page {
 
   public avisoMet: AvisoMeteoro[];
   public avisoMetAuxNivel: AvisoMeteoro[];
@@ -73,21 +73,8 @@ export class Avisosdetail1Page implements OnInit{
                 });
   }
 
-  ngOnInit(){
-    //this.datacheck=[{name:'Mostrar los avisos meteorólogicos del país', selected:false}]
-    this.datacheck=[{name:'Ver avisos del país', selected:false}]
-    this.avisoMet=[];
-    
-    this.nivelesAM=[];
-    this.color24hnivel='';
-    this.fecha24h='';
-     this.getColorNivel24Horas();
-     this.loadMenuMet();
-     this.cargaMisListadoAvisoMeteoro();
-  }
 
   ionViewWillEnter(){
-
     // inject desde main a app.component
     this.storageService.hiddenButtonApp({
       main: true,
@@ -108,11 +95,10 @@ export class Avisosdetail1Page implements OnInit{
   }
 
   checkControlEvent(check){
+    this.avisoMet=[];
     if(check['selected']){
-      this.avisoMet=[];
       this.cargaListadoAvisoMeteoro()
     }else{
-      this.avisoMet=[];
       this.cargaMisListadoAvisoMeteoro();
     }
   }
@@ -125,7 +111,7 @@ export class Avisosdetail1Page implements OnInit{
     
     await loading.present();
   
-   this.storageService.getitemGeoposition().then((items0)=>{
+  await this.storageService.getitemGeoposition().then((items0)=>{
       this.itemGP=items0;
 
       let dep=this.itemGP[0].coddep;
@@ -189,7 +175,7 @@ export class Avisosdetail1Page implements OnInit{
     await loading.present();
 
     this.avisoMet=[];
-    this.avisoMeteoro.getListaAvisoMeteoro()
+   await this.avisoMeteoro.getListaAvisoMeteoro()
       .subscribe(async (listaavisomet) =>{
         this.avisoMet=[];
         this.avisoMet=JSON.parse(listaavisomet.data);

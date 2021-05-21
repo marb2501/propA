@@ -2,7 +2,7 @@
 
 </ion-header>
 
-<ion-content padding responsive >
+<ion-content>
 
   <ion-grid  class="full-width" class="cardtransparente" >
     <ion-row style="margin-top:60px" class="datamain2Aviso">
@@ -53,20 +53,20 @@
      <ion-row class="datamain2">
       <table class="tablavert3">
         <tr>
-          <td>Nivel de Aviso según el usuario</td>
-          <td *ngFor="let nivelav of arrayNivel; let i=index " [ngClass]="colorAvisoTD(i)">
-            <p [ngClass]="colortextoCuadro(i)">{{ nivelav }}</p>
-          </td>
-        </tr>
-        <tr>
-          <td> <ion-icon name="eye-outline"></ion-icon> Ver Mapa</td>
+          <td>Mapas</td>
           <td  *ngFor="let fechasreg of listamapas; let i=index" (click)="openModal(fechasreg.fechaInicio,
                       fechasreg.numMapa,
                       fechasreg.nivelMapa,
                       fechasreg.descripcion)">
-                      <ion-icon name="map-outline" ></ion-icon>
-                      {{ fechasreg.fechaInicio | uppercase | date :'dd-MMM'  }}
+                      <ion-icon name="eye-outline"></ion-icon>
+                      {{ fechasreg.fechaInicio | titlecase | date :'dd-MMM'  }}
                     </td>
+        </tr>
+        <tr>
+          <td>Nivel de Aviso según el usuario</td>
+          <td *ngFor="let nivelav of arrayNivel; let i=index " [ngClass]="colorAvisoTD(i)">
+            <p [ngClass]="colortextoCuadro(i)">{{ nivelav }}</p>
+          </td>
         </tr>
       </table>
 

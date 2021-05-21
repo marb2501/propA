@@ -134,6 +134,13 @@ export class AvisometinfomainPage implements OnInit {
     : 'Blanco'; //vacio
   }
 
+  colortextoCuadro(d){
+    return parseInt(d) != 0
+    ? 'negro' //muy alto
+    : 'datamain2'; //vacio
+  }
+
+
   async openModal(fecha,variable,nivelmapa,descripcion) {
 
     const modal = await this.modalcontroller.create({

@@ -57,15 +57,15 @@
     <ion-row class="datamain2">
         <table class="tablavert3">
           <tr>
-            <td>Nivel de Aviso según el usuario</td>
-            <td [ngClass]="colorAvisoCuadro(codniubica)"><p [ngClass]="colortextoCuadro(codniubica)">{{ nivelubica | titlecase}}</p></td>
+            <td>Mapas</td>
+            <td> <ion-col *ngFor="let fechasreg of argFecha;" (click)="openModal(fechasreg)">
+              <ion-icon name="eye-outline"  ></ion-icon>
+              {{ fechasreg | date :'dd-MMM' | titlecase }}
+            </ion-col></td>
           </tr>
           <tr>
-            <td> <ion-icon name="eye-outline"  ></ion-icon> Ver Mapa</td>
-            <td> <ion-col *ngFor="let fechasreg of argFecha;" (click)="openModal(fechasreg)">
-              <ion-icon name="map-outline"  ></ion-icon>
-              {{ fechasreg | date :'dd-MMM' | uppercase }}
-            </ion-col></td>
+            <td>Nivel de Aviso según el usuario</td>
+            <td [ngClass]="colorAvisoCuadro(codniubica)"><p [ngClass]="colortextoCuadro(codniubica)">{{ nivelubica | titlecase}}</p></td>
           </tr>
         </table>
 

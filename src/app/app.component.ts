@@ -14,7 +14,6 @@ import { NetworkService } from './services/network.service';
 import Swal from 'sweetalert2';
 import { mensajeShare1, mensajeShare2 } from '../app/globales';
 
-
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',

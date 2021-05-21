@@ -8,6 +8,8 @@ import { StorageService, Geolocaposicion, FavoritosBR, BusquedaR } from '../../s
 import { iMgsearchA, iMgsearchB } from '../../globales';
 import Swal from 'sweetalert2';
 import { Router, ActivatedRoute } from '@angular/router';
+import { AndroidpermisionService } from '../../services/androidpermision.service';
+
 
 @Component({
   selector: 'app-search',
@@ -50,52 +52,57 @@ export class SearchPage {
               private toast:ToastController,
               private geolocation: Geolocation,
               private route: ActivatedRoute,
+              public androiaper:AndroidpermisionService,
               public loadingController: LoadingController) { 
 
-                this.storageService.getActiveTheme().subscribe(val=>{
-                  this.storageService.getitemColor().then(a=>{if(a==null){
-                    this.selectedTheme=val;
-                  }else{
-                    this.selectedTheme=a;}})
-                })
+              this.storageService.getActiveTheme().subscribe(val=>{
+                this.storageService.getitemColor().then(a=>{if(a==null){
+                  this.selectedTheme=val;
+                }else{
+                  this.selectedTheme=a;}})
+              })
 
                 // inject desde main a app.component
-            this.storageService.hiddenButtonApp({
-                main: true,
-                search: false,
-                share:false
-            });
+              this.storageService.hiddenButtonApp({
+                  main: true,
+                  search: false,
+                  share:false
+              });
              
+              this.route.queryParams.subscribe(params => {
+                this.databack = JSON.parse(params.special);
+                this.rutaback=this.databack.urlback
+              })
 
-            this.route.queryParams.subscribe(params => {
-              this.databack = JSON.parse(params.special);
-              this.rutaback=this.databack.urlback
-            })
-
-                this.plat.ready().then(()=>{
-                   this.loadItemsBR(); 
-                   this.loadItemsFR();
-                   this.loadItemUbicaActEleg();
-                })
-              }
+              this.plat.ready().then(()=>{
+                  this.loadItemsBR(); 
+                  this.loadItemsFR();
+                  this.loadItemUbicaActEleg();
+              })
+            }
    //carga de listas favoritos y recientes          
-   loadItemsFR(){
-    this.storageService.getitemFavoritos().then(items1=>{
- 
-      this.itemFR=items1;
+    loadItemsFR(){
+      this.storageService.getitemFavoritos().then(items1=>{
+        this.itemFR=items1;
     })
    }        
 
-   loadItemsBR(){
-    this.storageService.getitemBusquedaR().then(items2=>{
-      this.itemBR=items2;
+    loadItemsBR(){
+      this.storageService.getitemBusquedaR().then(items2=>{
+        this.itemBR=items2;
     })
    }
 
   async loadItemUbicaActEleg(){
     this.storageService.getitemGeoposition().then(async items0=>{
       this.itemGP=items0;
-      if(this.itemGP[0]!=undefined){
+      if(this.itemGP==null){
+        Swal.fire({
+          title:'Aviso',
+          text:"Ingrese una posición en el cuadro de búsqueda.",
+          backdrop:false
+        });
+      }else if(this.itemGP[0]!=undefined){
         if(this.itemGP[0].ciudad=="" || this.itemGP[0].ciudad=='undefined' || this.itemGP[0].ciudad==undefined){
           
           Swal.fire({
@@ -289,11 +296,8 @@ async retaurarposicion(){
     maxResults: 5
   };
 
-  this.geolocation.getCurrentPosition(this.options).then(
+  await this.geolocation.getCurrentPosition(this.options).then(
     (pos: Geoposition) => {
-
-      
-
       this.newitemGP=null;
       this.newitemGP=<Geolocaposicion>{};
       this.newitemGP.id=Date.now();
@@ -341,14 +345,7 @@ async retaurarposicion(){
        this.storageService.additemBusquedaR(this.newitemGP).then(it1=>{
         this.loadItemsBR()
        })
-      
-
-      
       },2000)
-
-       // this.addItemBusquedaR(latinueva,longnueva,ciudad,dep,prov,dist);
-
-
     }); 
 
     await loading.dismiss();
@@ -359,7 +356,7 @@ async retaurarposicion(){
    async getNuevasCordenadas(latinueva, longnueva, omsid, nombredata) {
      //elimino mi ubicacion actual
   
-    this.api.getInfoSearchOMS(omsid).subscribe((infodata)=>{
+    await this.api.getInfoSearchOMS(omsid).subscribe((infodata)=>{
       let data=infodata;
       let ubigeo=data.extratags['pe:ubigeo'];
       let ciudad=data.address[1].localname+'/'+data.extratags['wikipedia'].slice(3);
@@ -387,18 +384,7 @@ async retaurarposicion(){
         this.addItemBusquedaR(latinueva,longnueva,ciudad,dep,prov,dist);
       })
     })
-
-      /*this.api.getCurrentTemperature( latinueva, longnueva).subscribe((dato) => {
-        let obj = dato as any;
-        let data = obj['data'][0];
-        let dep= data.COD_DEP;
-        let prov= data.COD_PROV;
-        let dist= data.COD_DIST;
-        this.addItemUbicaActEleg(latinueva,longnueva,ciudad,dep,prov,dist);
-        this.addItemBusquedaR(latinueva,longnueva,ciudad,dep,prov,dist);
-      })*/
-
-    })
+   })
   }
 
   /****OK***/
@@ -470,8 +456,6 @@ async retaurarposicion(){
         this.router.navigate([infor]);
       }
     }
-
-    
   }
 
 }

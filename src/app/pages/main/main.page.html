@@ -1,5 +1,5 @@
 <ion-header></ion-header>
-<ion-content responsive>
+<ion-content>
  
 <ion-grid style="margin-top: 60px"  class="full-width" class="cardtransparente" >
   <ion-row>
@@ -97,7 +97,7 @@
                 <table class="tablavertC">
                   <tr style="font-weight: bold;">
               
-                    <td class="tempdet3">Estación*</td>
+                    <td class="tempdet3">Estación**</td>
                     <td >:</td>
                     <td style="text-align: left;margin-left: 2px;" colspan="4">{{locations.nombrestacion | titlecase}}</td>
                   </tr>
@@ -133,7 +133,7 @@
             <ion-row>
               <table >
                 <tr (click)="videoSENAMHI()">
-                  <td >*</td>
+                  <td >**</td>
                   <td><ion-label>¿Qué es una estación?</ion-label></td>
                   <td><ion-icon name="videocam-outline" style="margin-top: 10px;"></ion-icon></td>
                 </tr>
@@ -144,6 +144,7 @@
 
             <ion-grid class="datamain"> 
             <ion-label class="tempdet2"> Datos de estaciones más cercanas</ion-label>
+            <ion-row><ion-label class="tempdet4"> * Información por confirmar</ion-label></ion-row>
             <ion-row style="padding-bottom: 8px;"></ion-row>
             <ion-row >
               <ion-label class="hydrated">
@@ -155,7 +156,7 @@
                   <th style="text-align: center">Alt. (m)</th>
                   <th style="text-align: center">Hora (am/pm)</th>
                   <th style="text-align: center">Temp.(°C)</th>
-                  <th style="text-align: center">Hum.(%)</th>
+                 
                   <th style="text-align: center">Precip.(mm/h)</th>
                   </tr>
                   <tr  *ngFor="let tmp2 of listado2; let i = index;"  class="tablavert2">
@@ -165,12 +166,21 @@
                       {{ tmp2.nomDist | titlecase  }} </div>
 
                     </td>
-                    <td>{{ tmp2.distancia | number:'1.0-0' }}</td>
+                    <td style="text-align: center">{{ tmp2.distancia | number:'1.0-0' }}</td>
                     <td>{{ tmp2.altitud }}</td>
-                    <td style="text-align: center"> <div *ngIf="tmp2.fecha!=null">{{ tmp2.fecha | date :'hh:mm' }}</div><div *ngIf="tmp2.fecha==null">--</div></td>
-                    <td style="text-align: center"> <div *ngIf="tmp2.temperatura!=null">{{ tmp2.temperatura  | number:'1.0-0' }}</div><div *ngIf="tmp2.temperatura==null">--</div></td>
-                    <td style="text-align: center"> <div *ngIf="tmp2.humedad!=null">{{ tmp2.humedad  | number:'1.0-0' }}</div><div *ngIf="tmp2.humedad==null">--</div></td>
-                    <td style="text-align: center"> <div *ngIf="tmp2.precipitacion!=null && tmp2.precipitacion==0">0.0</div><div *ngIf="tmp2.precipitacion!=null && tmp2.precipitacion>0" >{{ tmp2.precipitacion | number:'1.1-1' }}</div><div *ngIf="tmp2.precipitacion==null">--</div></td>
+                    <td style="text-align: center"> 
+                        <div *ngIf="tmp2.fecha!=null" class="wrap-text1">{{ tmp2.fecha | date :'h a' }}</div>
+                        <div *ngIf="tmp2.fecha==null">--</div></td>
+                    <td style="text-align: center"> 
+                        <div *ngIf="tmp2.temperatura!=null && tmp2.flagTemperatura==0" class="wrap-text1" >{{ tmp2.temperatura  | number:'1.0-0' }}*</div>
+                        <div *ngIf="tmp2.temperatura!=null && tmp2.flagTemperatura==1" class="wrap-text1" >{{ tmp2.temperatura  | number:'1.0-0' }}</div>
+                        <div *ngIf="tmp2.temperatura==null">--</div>
+                        
+                    <td style="text-align: center"> 
+                      <div *ngIf="tmp2.precipitacion!=null && tmp2.precipitacion==0">0.0</div>
+                      <div *ngIf="tmp2.precipitacion!=null && tmp2.precipitacion>0 && tmp2.flagPrecipitacion==0" class="wrap-text1">{{ tmp2.precipitacion | number:'1.1-1' }}*</div>
+                      <div *ngIf="tmp2.precipitacion!=null && tmp2.precipitacion>0 && tmp2.flagPrecipitacion==1" class="wrap-text1">{{ tmp2.precipitacion | number:'1.1-1' }}</div>
+                      <div *ngIf="tmp2.precipitacion==null">--</div>
                   </tr>
               
                   </tbody>

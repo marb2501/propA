@@ -52,12 +52,18 @@
    <ion-row class="datamain2">
     <table class="tablavert3">
       <tr>
-        <td> <ion-icon name="eye-outline"></ion-icon> Ver Mapa</td>
+        <td>Mapa</td>
         <td *ngFor="let fechasreg of argFecha;" (click)="openModal(fechasreg.fechaInicio,
         fechasreg.numMapa,
         fechasreg.nivelMapa,
-        fechasreg.descripcion)"> <ion-icon name="map-outline"  ></ion-icon>
-        {{ fechasreg.fechaInicio | date :'dd-MMM' | uppercase }} </td>
+        fechasreg.descripcion)"> <ion-icon name="eye-outline"></ion-icon>
+        {{ fechasreg.fechaInicio | date :'dd-MMM' | titlecase }} </td>
+      </tr>
+      <tr>
+        <td>Nivel de Aviso según el usuario</td>
+        <td [ngClass]="colorAviso(nivel)">
+          <p [ngClass]="colortextoCuadro(nivel)"> {{ textoNivel(nivel)}} </p>
+        </td>
       </tr>
     </table>
 

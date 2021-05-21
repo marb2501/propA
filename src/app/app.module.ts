@@ -33,6 +33,11 @@ import { LocalNotifications } from '@ionic-native/local-notifications/ngx';//
 import { BackgroundMode } from '@ionic-native/background-mode/ngx';
 import { Network} from '@ionic-native/network/ngx';
 import localeEsPe from '@angular/common/locales/es-PE';
+import { AudioManagement } from '@ionic-native/audio-management/ngx';
+import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
+import { LocationAccuracy } from '@ionic-native/location-accuracy/ngx';
+import { Diagnostic } from '@ionic-native/diagnostic/ngx';
+
 
 registerLocaleData(localeEsPe, 'es');
 
@@ -52,6 +57,10 @@ entryComponents: [PopinfoComponent],
     LocalNotifications,
     NativeGeocoder,
     Network,
+    AudioManagement,
+    AndroidPermissions,
+    LocationAccuracy,
+    Diagnostic,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     { provide: LOCALE_ID, useValue: 'es-PE' },
     SocialSharing,

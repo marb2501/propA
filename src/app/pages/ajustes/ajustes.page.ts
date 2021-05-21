@@ -130,14 +130,14 @@ export class AjustesPage implements OnInit{
     this.localSe.callFunctions();
   }
 
-  changeExternal(evt){
+  /*changeExternal(evt){
     this.settings.saveStatusExternalNotification(evt.detail.checked);
     this.showToast('Notificaciones Externas ' + (evt.detail.checked? 'Activadas' : 'Desactivadas'));
-  }
+  }*/
 
   async reloadStatus(){
     this.enabledLocal = await this.settings.isActiveLocalNotifications();
-    this.enabledExternal = await this.settings.isActiveExternalNotifications();
+    //this.enabledExternal = await this.settings.isActiveExternalNotifications();
   }
 
   ionViewWillEnter(){

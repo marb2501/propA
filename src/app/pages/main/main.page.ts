@@ -27,7 +27,7 @@ import { AvisoMeteoroIDESEP } from '../../models/avisometidesep.model';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 import { PopoverController } from '@ionic/angular';
 import { PopinfoComponent } from '../../components/popinfo/popinfo.component';
-
+import { AndroidpermisionService } from '../../services/androidpermision.service';
 
 @Component({
   selector: 'app-main',
@@ -88,6 +88,7 @@ export class MainPage {
               private iab: InAppBrowser,
               private router:Router,
               public popoverController: PopoverController,
+              public _androidpermision:AndroidpermisionService,
               private amet: AvisometeoroService) {
                 this.sliderOne =
                 {
@@ -102,13 +103,14 @@ export class MainPage {
                 share:true
             });
 
-        this.storageService.getActiveTheme().subscribe(val=>{
-          this.storageService.getitemColor().then(a=>{if(a==null){
-            this.selectedTheme=val;
-        }else{
-          this.selectedTheme=a;}})
-      })
+            this._androidpermision.GPSOn();
 
+            this.storageService.getActiveTheme().subscribe(val=>{
+              this.storageService.getitemColor().then(a=>{if(a==null){
+                this.selectedTheme=val;
+            }else{
+              this.selectedTheme=a;}})
+          })
   }
 
   listado: any[];
@@ -139,10 +141,11 @@ export class MainPage {
       share:true
     });
 
-
     this.loadItemUbicaActEleg().then(()=>{
       this.getReloadCordenadas();
     })
+
+    setInterval(()=>{this.itinialDataCoordenadas()},600000)
   }
   //////////al ingresa al app////////////////
 
@@ -334,17 +337,6 @@ export class MainPage {
 
       })
 
-    /*this.api.getCurrentTemperature(this.locations.lat, this.locations.lng).subscribe((dato) => {
-          
-      let obj = dato as any;
-      let data = obj['data'][0];
-      this.locations.COD_DEP = data.COD_DEP;
-      this.locations.COD_PROV = data.COD_PROV;
-      this.locations.COD_DIST = data.COD_DIST;
-      this.locations.AUXCOD_DEP = data.COD_DEP;
-      this.locations.AUXCOD_PROV = data.COD_PROV;
-      this.locations.AUXCOD_DIST = data.COD_DIST;*/
-
       this.bavisom1=[];
       this.bavisom2=[];
       this.avisosmethidg=[];
@@ -352,6 +344,8 @@ export class MainPage {
       //avisos meteorologicos segun la posicion del usuario (lat/lon)
       this.amet.getAvisoMetIDESEPLatLon(this.locations.lat, this.locations.lng).subscribe((dato) => {
         this.ametideseptemp=JSON.parse(dato.data);
+
+
         if(this.ametideseptemp.length<=0 || this.ametideseptemp.length==null){
           this.bavisom1=[];
           this.avisosmethidg=this.bavisom1.concat(this.bavisom2);
@@ -360,11 +354,13 @@ export class MainPage {
           this.ametidesep=this.ametideseptemp.filter(function(filtr) {
             let fechini= new Date(filtr.fechaInicio);
             let fecact= new Date();
-            let dat='0'+(Number(fecact.getMonth())+1);
             let dat2='0'+(Number(fechini.getMonth())+1);
+            let dat='0'+(Number(fecact.getMonth())+1);
+            
   
             let fechiniAv=fechini.getFullYear()+'-'+dat2.slice(-2)+'-'+fechini.getDate();
             let fechAc=fecact.getFullYear()+'-'+dat.slice(-2)+'-'+fecact.getDate();
+            
  
             return (filtr.nivel>1 && (fechiniAv==fechAc));}) 
             this.ametideseptemp=[];
@@ -374,9 +370,10 @@ export class MainPage {
               this.avisosmethidg=this.bavisom1.concat(this.bavisom2);
               this.indiceData=this.avisosmethidg.length;
             }else{
+ 
               this.amet.getListaAvisoMeteoroGeoposicion(this.locations.COD_DEP,this.locations.COD_PROV, this.locations.COD_DIST)
             .subscribe(async (listaavisomet) =>{
-                
+
               if(listaavisomet.data!=null){
                 this.bavisom1=[];
                 this.bavisom1temp=[];
@@ -412,7 +409,7 @@ export class MainPage {
           });
         
           let llave= this.itemGPMain[0].coddep+this.itemGPMain[0].codprov + this.itemGPMain[0].coddist;
-
+          
           infor.map(elementa => {
             let info=elementa.lugarAfectado;
             let a=0;
@@ -582,27 +579,13 @@ export class MainPage {
                 this.newitemGP.coddist= dist;
               })
 
-            /*this.api.getCurrentTemperature(pos.coords.latitude, pos.coords.longitude).subscribe((dato) => {
-              
-              let obj = dato as any;
-              let data = obj['data'][0];
-              this.locations.COD_DEP = data.COD_DEP;
-              this.locations.COD_PROV = data.COD_PROV;
-              this.locations.COD_DIST = data.COD_DIST;
-              this.locations.AUXCOD_DEP = data.COD_DEP;
-              this.locations.AUXCOD_PROV = data.COD_PROV;
-              this.locations.AUXCOD_DIST = data.COD_DIST;
-
-              this.newitemGP.coddep= data.COD_DEP;
-              this.newitemGP.codprov= data.COD_PROV;
-              this.newitemGP.coddist= data.COD_DIST;*/
-
             this.bavisom1=[];
             this.bavisom2=[];
             this.avisosmethidg=[];
 
             this.amet.getAvisoMetIDESEPLatLon(pos.coords.latitude, pos.coords.longitude).subscribe((dato) => {
               this.ametideseptemp=JSON.parse(dato.data);
+
               if(this.ametideseptemp.length<=0 || this.ametideseptemp.length==null){
                 this.bavisom1=[];
                 this.avisosmethidg=this.bavisom1.concat(this.bavisom2);
@@ -611,23 +594,23 @@ export class MainPage {
                 this.ametidesep=this.ametideseptemp.filter(function(filtr) {
                   let fechini= new Date(filtr.fechaInicio);
                   let fecact= new Date();
-                  let dat='0'+(Number(fecact.getMonth())+1);
                   let dat2='0'+(Number(fechini.getMonth())+1);
-        
+                  let dat='0'+(Number(fecact.getMonth())+1);
+                          
                   let fechiniAv=fechini.getFullYear()+'-'+dat2.slice(-2)+'-'+fechini.getDate();
                   let fechAc=fecact.getFullYear()+'-'+dat.slice(-2)+'-'+fecact.getDate();
-       
+
                   return (filtr.nivel>1 &&(fechiniAv==fechAc));})
                   this.ametideseptemp=[];
-      
+
                   if(this.ametidesep.length<=0 || this.ametidesep.length==null){
                     this.bavisom1=[];
                     this.avisosmethidg=this.bavisom1.concat(this.bavisom2);
                     this.indiceData=this.avisosmethidg.length;
                   }else{
+                    
                     this.amet.getListaAvisoMeteoroGeoposicion(this.locations.COD_DEP,this.locations.COD_PROV, this.locations.COD_DIST)
                   .subscribe(async (listaavisomet) =>{
-                      
                     if(listaavisomet.data!=null){
                       this.bavisom1=[];
                       this.bavisom1temp=[];
@@ -667,6 +650,7 @@ export class MainPage {
                     let a=0;
                     for (let i = 0; i < info.length; i++) {
                       let llaveabt=info[i].codDep+info[i].codProv+info[i].codDist;
+
                       if(llaveabt===llave){
                           a=1;
                           break;
@@ -741,6 +725,10 @@ export class MainPage {
       componentProps:data
     });
     await popover.present();
+
+  }
+
+  recargarAutomaticamente(){
 
   }
 

@@ -4,6 +4,9 @@ import { Geolocation, GeolocationOptions, Geoposition } from '@ionic-native/geol
 import { ApiService } from './api.service';
 import { BackgroundMode } from '@ionic-native/background-mode/ngx';
 import { StorageService } from './storage.service';
+import { AudioManagement } from '@ionic-native/audio-management/ngx';
+import { environment } from 'src/environments/environment';
+
 
 @Injectable({
   providedIn: 'root'
@@ -20,7 +23,8 @@ export class LocalnotiService {
     private geolocation: Geolocation,
     public api:ApiService,
     private backgroundMode : BackgroundMode,
-    private storageS : StorageService ) { }
+    private storageS : StorageService,
+    public audioman: AudioManagement ) { }
 
     initialBackMode(){
       this.callFunctions();
@@ -61,7 +65,18 @@ export class LocalnotiService {
             
             let hora=new Date(data.fecha);
             let minuto='0'+hora.getMinutes();
-            let tiempo=hora.getHours()+':'+minuto.slice(-2);
+            let tiempo=''
+            let datoampm=''
+            if(hora.getHours()>12){
+              datoampm=' pm'
+              let cambiotiempo=hora.getHours()-12;
+              tiempo=cambiotiempo+datoampm;
+            }else{
+              datoampm=' am'
+              tiempo=hora.getHours()+datoampm;
+            }
+            
+            //let tiempo=hora.getHours()+':'+minuto.slice(-2);
 
             if(Number(data.temperatura)){
               texto='La temperatura a las '+tiempo+' es: '+Math.round(data.temperatura).toString()+"°C\n"+data.nomDep+'/'+data.nomProv+'/'+data.nomDist+'/'+data.nomEsta+"\n";
@@ -95,18 +110,32 @@ export class LocalnotiService {
         this.localNot.cancelAll();
         return true;
       }else{
+        this.setAudioMode();
+        this.localNot.setDefaults({
+          vibrate: false,
+          sticky:true,
+          lockscreen:true,
+          foreground:true,
+          sound: false, 
+          silent: false,
+          priority: 0,
+          wakeup: true
+        });
+
         this.localNot.schedule({
-          //id: 1,
-         // title: titulo,
           text:   texto,
           icon: "file://assets/senamhilogo.png",
           smallIcon: icono,
           sticky:true,
           lockscreen:true,
-          foreground:false,
-          sound: "",
+          foreground:true,
           vibrate: false,
-          trigger: { every: ELocalNotificationTriggerUnit.SECOND }
+          priority: 2,
+          sound: '',
+          wakeup: false,
+          trigger: {
+            every:ELocalNotificationTriggerUnit.SECOND
+          }
         });
       }
     }
@@ -123,5 +152,15 @@ export class LocalnotiService {
       this.backgroundMode.disableBatteryOptimizations();
       })
     }
+
+    setAudioMode() {
+      this.audioman.setAudioMode(AudioManagement.AudioMode.SILENT)
+        .then(() => {
+         console.log('Device audio mode is now SILENT');
+        })
+        .catch((reason) => {
+          console.log(reason);
+        });
+     }
 
 }

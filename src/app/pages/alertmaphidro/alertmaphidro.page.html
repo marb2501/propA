@@ -17,14 +17,39 @@
       
    </ion-row>
     <ion-row class="datamain">
-      <ion-col>Fecha de Inicio :{{ avisoHidro.fecIni }}<br>
-      Fecha  Fin : {{ avisoHidro.fecFin }} <br>
-      Plazo : {{ avisoHidro.nomPlazo }}
-      </ion-col>
-    </ion-row>
+      <ion-row>
+        <table class="tablavertC">
+          <tr>
+            <td class="tempdet3">Emitido</td>
+            <td >:</td>
+            <td style="text-align: left;margin-left: 2px;" colspan="4">{{ avisoHidro.fecEmi }} {{ avisoHidro.hrEmi }} (hora local)</td>
+          </tr>
+          <tr>
+            <td class="tempdet3">Inicia</td>
+            <td >:</td>
+            <td style="text-align: left;margin-left: 2px;" colspan="4">{{ avisoHidro.fecIni }} (hora local)</td>
+          </tr>
+          <tr>
+            <td class="tempdet3">Finaliza</td>
+            <td >:</td>
+            <td style="text-align: left;margin-left: 1px;" colspan="4">{{ avisoHidro.fecFin }} (hora local)</td>
+           
+          </tr>
+          <tr>
+            <td class="tempdet3">Plazo</td>
+            <td >:</td>
+            <td style="text-align: left;margin-left: 2px;">{{ avisoHidro.nomPlazo }}</td>
+            
+          </tr>
+          <tr>
+            <td class="tempdet3">Para la ubicación de</td>
+            <td >:</td>
+            <td style="text-align: left;margin-left: 2px;">{{ciudad}} </td>
+            
+          </tr>
+        </table>
+      </ion-row>
 
-    <ion-row class="datamain">
-      <ion-col><p>Tipo de Aviso : {{ avisoHidro.codTipoAviso }}</p></ion-col>
     </ion-row>
 
     <ion-row class="datamain">
@@ -33,15 +58,24 @@
     </ion-row>
 
     <ion-row class="datamain2">
-      <ion-col>VER MAPA</ion-col>
-    </ion-row>
-    
-     <ion-row class="datamain2">
-      <ion-col *ngFor="let fechasreg of argFecha;" (click)="openModal(fechasreg)">
-         <ion-icon name="map-outline"  ></ion-icon>
-         {{ fechasreg | date :'dd/MM/yy' }}
-       </ion-col>
-    </ion-row>
+      <table class="tablavert3">
+        <tr>
+          <td>Mapa</td>
+          <td> <ion-col *ngFor="let fechasreg of argFecha;" (click)="openModal(fechasreg)">
+            <ion-icon name="eye-outline"></ion-icon>
+            {{ fechasreg | date :'dd-MMM' | titlecase }}
+          </ion-col></td>
+        </tr>
+        <tr>
+          <td>Nivel de Aviso según el usuario</td>
+          <td [ngClass]="colorAviso(avisoHidro.codNivel)">
+            <p [ngClass]="colortextoCuadro(avisoHidro.codNivel)">{{ avisoHidro.colorNivel | Titlecase}}</p>
+          </td>
+        </tr>
+      </table>
+
+
+  </ion-row>
 
     
     <ion-row class="datamainjust">
