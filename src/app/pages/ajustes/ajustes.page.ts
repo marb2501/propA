@@ -5,7 +5,7 @@ import { BehaviorSubject } from 'rxjs';
 import { OpenNativeSettings } from '@ionic-native/open-native-settings/ngx';
 import { ToastController, IonList} from '@ionic/angular';
 import { LocalnotiService } from '../../services/localnoti.service';
-
+import { AndroidpermisionService } from '../../services/androidpermision.service';
 
 @Component({
   selector: 'app-ajustes',
@@ -23,6 +23,7 @@ export class AjustesPage implements OnInit{
   icono;
   enabledLocal: boolean;
   enabledExternal: boolean;
+  flagvali;
   
   @ViewChild('myList3',{static:true})myList3:IonList;
 
@@ -30,6 +31,7 @@ export class AjustesPage implements OnInit{
               private toast:ToastController,
               private route: ActivatedRoute,
               private localSe:LocalnotiService, 
+              public _androidpermision:AndroidpermisionService,
               private openNativeSettings: OpenNativeSettings) { 
     
     
@@ -54,6 +56,13 @@ export class AjustesPage implements OnInit{
         this.icono = params.special
       }
     })
+
+    this._androidpermision.ValidacionGPSLocation().then(r=>{
+     this.flagvali=r;
+      if(r==0){
+      this._androidpermision.gpsOntAlert()
+     }
+    });
 
     this.reloadStatus();
   }

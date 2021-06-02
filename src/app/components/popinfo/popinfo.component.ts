@@ -16,6 +16,7 @@ export class PopinfoComponent implements OnInit {
   unidad;
   latitud;
   longitud;
+  nombesta;
 
   constructor(public navParams:NavParams) { 
 
@@ -26,6 +27,7 @@ export class PopinfoComponent implements OnInit {
     this.unidad=this.navParams.get('unidad');
     this.latitud=this.navParams.get('latitud');
     this.longitud=this.navParams.get('longitud');
+    this.nombesta=this.navParams.get('nombest');
   }
 
   ngOnInit() {

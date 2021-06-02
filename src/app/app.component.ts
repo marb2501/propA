@@ -65,11 +65,17 @@ export class AppComponent {
   
     this.platform.ready().then(() => {
       //this.cargaListadoAvisoMeteoro();
-      this.statusBar.styleDefault();
-      this.networks.verificarNetwork();
-      this._localNotifi.initialBackMode();
-      this._pushProvider.init_notification();
-      this.splashScreen.hide();
+      if(this.platform.is('android')){
+        console.log("Plataforma android")
+        this.statusBar.styleDefault();
+        this.networks.verificarNetwork();
+        this._localNotifi.initialBackMode();
+        this._pushProvider.init_notification();
+        this.splashScreen.hide();
+      }else{
+        console.log("Plataforma no android")
+      }
+      
     });
   }
 

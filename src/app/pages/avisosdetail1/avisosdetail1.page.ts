@@ -15,7 +15,7 @@ import { AvisosmapquebraPage } from '../avisosmapquebra/avisosmapquebra.page';
 import { LoadingController } from '@ionic/angular';
 import { Map} from 'leaflet';
 import { AvisoMeteoroIDESEP } from '../../models/avisometidesep.model';
-
+import { AndroidpermisionService } from '../../services/androidpermision.service';
 
 @Component({
   selector: 'app-avisosdetail1',
@@ -55,6 +55,7 @@ export class Avisosdetail1Page {
               public loadingController: LoadingController,
               public wmssenamhi:WmssenamhiService,
               public avisoMeteoro: AvisometeoroService,
+              public _androidpermision:AndroidpermisionService,
               public menumetappService:MenumetService ) { 
 
                 this.avisoMet=[];
@@ -89,15 +90,31 @@ export class Avisosdetail1Page {
     this.nivelesAM=[];
     this.color24hnivel='';
     this.fecha24h='';
-    this.getColorNivel24Horas();
-    this.loadMenuMet();
-    this.cargaMisListadoAvisoMeteoro();
+
+     this.storageService.getitemGeoposition().then((items0)=>{
+      this.itemGP=items0;
+      if(this.itemGP==null || this.itemGP.length<=0){
+        this._androidpermision.gpsOntAlert()
+      }else{
+        this.getColorNivel24Horas();
+        this.loadMenuMet();
+        this.cargaMisListadoAvisoMeteoro();
+      }
+    })
   }
 
   checkControlEvent(check){
     this.avisoMet=[];
     if(check['selected']){
-      this.cargaListadoAvisoMeteoro()
+      this.storageService.getitemGeoposition().then((items0)=>{
+        this.itemGP=items0;
+        if(this.itemGP==null || this.itemGP.length<=0){
+          this._androidpermision.gpsOntAlert()
+        }else{
+          this.cargaListadoAvisoMeteoro()
+        }
+      })
+
     }else{
       this.cargaMisListadoAvisoMeteoro();
     }
@@ -159,6 +176,8 @@ export class Avisosdetail1Page {
             }
         }
       })    
+    }).catch(e=>{
+      this._androidpermision.gpsOntAlert()
     })
     await loading.dismiss();
    

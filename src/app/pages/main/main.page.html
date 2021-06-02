@@ -79,7 +79,7 @@
                     <tr>
                     <td>
                       <ion-label style="font-size: x-large;" *ngIf="locations.PRECIPI!=null"> <img class="imgmaintermo" [src]="cambiarImagenMain2()" >
-                         {{locations.PRECIPI }} mm/h
+                         {{locations.PRECIPI }}
                        </ion-label>
                        <ion-label style="font-size: x-large;" *ngIf="locations.PRECIPI==null"> <img class="imgmaintermo" [src]="cambiarImagenMain2()" >
                         --mm/h
@@ -161,7 +161,7 @@
                   </tr>
                   <tr  *ngFor="let tmp2 of listado2; let i = index;"  class="tablavert2">
                     <td><div style="font-weight: bolder;"> {{ tmp2.nomEsta | titlecase  }}</div>
-                      <div class="wrap-text" (click)="presentPopover($event,tmp2.nomDep,tmp2.nomProv,tmp2.nomDist, tmp2.distancia,tmp2.unidad, tmp2.latitud,tmp2.longitud )">{{ tmp2.nomDep | titlecase  }} / 
+                      <div class="wrap-text" (click)="presentPopover($event,tmp2.nomDep,tmp2.nomProv,tmp2.nomDist, tmp2.distancia,tmp2.unidad, tmp2.latitud,tmp2.longitud, tmp2.nomEsta )">{{ tmp2.nomDep | titlecase  }} / 
                       {{ tmp2.nomProv | titlecase }} /
                       {{ tmp2.nomDist | titlecase  }} </div>
 

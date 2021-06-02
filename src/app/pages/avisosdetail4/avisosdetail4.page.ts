@@ -5,6 +5,7 @@ import { StorageService, Geolocaposicion } from '../../services/storage.service'
 import { AvisoHidroEstacion } from '../../models/avisoshidroestacion.model';
 import { MESESTIEMPO} from '../../globales';
 import { ActivatedRoute, Router, NavigationExtras } from '@angular/router';
+import { AndroidpermisionService } from '../../services/androidpermision.service';
 
 @Component({
   selector: 'app-avisosdetail4',
@@ -33,6 +34,7 @@ export class Avisosdetail4Page implements OnInit{
     private router:Router,
     private route: ActivatedRoute,
     public loadingController: LoadingController,
+    public _androidpermision:AndroidpermisionService,
     public avisosHidro: AvisometeoroService ) {
 
       this.route.queryParams.subscribe(params => {
@@ -52,7 +54,15 @@ export class Avisosdetail4Page implements OnInit{
   
      checkControlEvent(check){
       if(check['selected']){
-        this.cargaListadoAvisoHidrolo();
+        this.storageService.getitemGeoposition().then((items0)=>{
+          this.itemGP=items0;
+          if(this.itemGP==null || this.itemGP.length<=0){
+            this._androidpermision.gpsOntAlert()
+          }else{
+            this.cargaListadoAvisoHidrolo();
+          }
+        })
+        
       }else{
         this.cargaMisListadoAvisoHidro();
       }
@@ -61,7 +71,16 @@ export class Avisosdetail4Page implements OnInit{
    ngOnInit(){
     //this.datacheck=[{name:'Mostrar los avisos hidrológicos del país', selected:false}]
     this.datacheck=[{name:'Ver avisos del país', selected:false}]
-    this.cargaMisListadoAvisoHidro();
+    this.storageService.getitemGeoposition().then((items0)=>{
+      this.itemGP=items0;
+      if(this.itemGP==null || this.itemGP.length<=0){
+        this._androidpermision.gpsOntAlert()
+      }else{
+        this.cargaMisListadoAvisoHidro();
+      }
+    })
+
+    
    
    } 
    //carga losa visos vigentes que me correspoende por departameto y provincia
@@ -122,6 +141,8 @@ export class Avisosdetail4Page implements OnInit{
           this.avisoHidroTemp=[];
 
       }, (error)=>{console.log(error)});         
+    }).catch(e=>{
+      this._androidpermision.gpsOntAlert();
     })
     await loading.dismiss();
   }

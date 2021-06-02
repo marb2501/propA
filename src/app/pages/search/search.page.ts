@@ -40,6 +40,9 @@ export class SearchPage {
 
   databack : any;
   rutaback='';
+
+  flaghid=1;
+  flagselec=0;
  
   @ViewChild('myList1',{static:true})myList1:IonList;
   @ViewChild('myList2',{static:true})myList2:IonList;
@@ -94,27 +97,50 @@ export class SearchPage {
    }
 
   async loadItemUbicaActEleg(){
-    this.storageService.getitemGeoposition().then(async items0=>{
+
+    this.options = {
+      timeout: 10000,
+      maximumAge: 3000,
+      enableHighAccuracy: true
+    };
+  
+    this.optionsNative = {
+      useLocale: true,
+      maxResults: 5
+    };
+  
+    await this.geolocation.getCurrentPosition(this.options).then(
+      async (pos: Geoposition) => {
+        this.flaghid=1;
+      }).catch(e=>{
+        this.flaghid=0;
+      })
+
+
+    await this.storageService.getitemGeoposition().then(async (items0)=>{
       this.itemGP=items0;
       if(this.itemGP==null){
-        Swal.fire({
-          title:'Aviso',
-          text:"Ingrese una posición en el cuadro de búsqueda.",
-          backdrop:false
-        });
-      }else if(this.itemGP[0]!=undefined){
-        if(this.itemGP[0].ciudad=="" || this.itemGP[0].ciudad=='undefined' || this.itemGP[0].ciudad==undefined){
-          
+        if(this.flaghid==0 && this.flagselec!=1){
           Swal.fire({
             title:'Aviso',
-            text:"Requiere actualizar su posición actual.",
+            text:"Ingrese una posición en el cuadro de búsqueda.",
             backdrop:false
           });
+        }
+      }else if(this.itemGP[0]!=undefined){
+        if(this.itemGP[0].ciudad=="" || this.itemGP[0].ciudad=='undefined' || this.itemGP[0].ciudad==undefined){
+          if(this.flaghid==0){
+            Swal.fire({
+              title:'Aviso',
+              text:"Requiere actualizar su posición actual.",
+              backdrop:false
+            });
+          }
+          
         }else{
           this.locacionactual=this.itemGP[0].ciudad;
         }
       }
-      
     })
    }
 
@@ -287,6 +313,7 @@ async retaurarposicion(){
   });
   await loading.present();
   this.options = {
+    timeout: 10000,
     maximumAge: 3000,
     enableHighAccuracy: true
   };
@@ -298,6 +325,7 @@ async retaurarposicion(){
 
   await this.geolocation.getCurrentPosition(this.options).then(
     (pos: Geoposition) => {
+     
       this.newitemGP=null;
       this.newitemGP=<Geolocaposicion>{};
       this.newitemGP.id=Date.now();
@@ -346,6 +374,8 @@ async retaurarposicion(){
         this.loadItemsBR()
        })
       },2000)
+    }).catch(s=>{
+      this.flaghid=0;
     }); 
 
     await loading.dismiss();
@@ -389,7 +419,7 @@ async retaurarposicion(){
 
   /****OK***/
 
-  selectAddress(address:any){
+  async selectAddress(address:any){
     //this.selectedAddress=address.displayName;
     this.searchResults = null;
     this.storageService.getitemGeoposition().then((items0:Geolocaposicion[])=>{
@@ -397,7 +427,9 @@ async retaurarposicion(){
         this.deleteItemUbicaActEleg(items0[0]);
       }
     })
-    this.loadItemUbicaActEleg(); 
+    this.flagselec=1
+
+    await this.loadItemUbicaActEleg(); 
     this.getNuevasCordenadas(address.latitude, address.longitude, address.omsid, address.displayName)   
   }
 

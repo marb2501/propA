@@ -43,15 +43,16 @@ export class MainPage {
   public bavisom1:Avisosmethidg[];
   public bavisom1temp:Avisosmethidg[];
   public bavisom2:Avisosmethidg[];
-  itemGPMain:  Geolocaposicion[]=[];
-  newitemGP:  Geolocaposicion=<Geolocaposicion>{};
-  selectedTheme:String;
-
+ 
   public avisosmethidg:Avisosmethidg[];
   public bavisom2temp:Avisosmethidg[];
 
   public ametideseptemp:AvisoMeteoroIDESEP[];
   public ametidesep:AvisoMeteoroIDESEP[];
+
+  itemGPMain:  Geolocaposicion[]=[];
+  newitemGP:  Geolocaposicion=<Geolocaposicion>{};
+  selectedTheme:String;
 
   httpOptions = {
     headers: new HttpHeaders({
@@ -102,9 +103,7 @@ export class MainPage {
                 search: true,
                 share:true
             });
-
-            this._androidpermision.GPSOn();
-
+          
             this.storageService.getActiveTheme().subscribe(val=>{
               this.storageService.getitemColor().then(a=>{if(a==null){
                 this.selectedTheme=val;
@@ -145,7 +144,7 @@ export class MainPage {
       this.getReloadCordenadas();
     })
 
-    setInterval(()=>{this.itinialDataCoordenadas()},600000)
+    setInterval(()=>{this.itinialDataCoordenadas()},300000)//300000=5 minutos
   }
   //////////al ingresa al app////////////////
 
@@ -273,11 +272,7 @@ export class MainPage {
     await loading.dismiss();
   }
 
-  
-
   async getCordenadasNew() {
-    
-
     this.locations.lat = this.itemGPMain[0].lat.toString();
     this.locations.lng = this.itemGPMain[0].long.toString();
     this.locations.ciudad= this.itemGPMain[0].ciudad;
@@ -287,10 +282,32 @@ export class MainPage {
       let obj2 = dato as any;
       this.listado2=obj2;
       let data2=this.listado2[0];
-      this.locations.TEMP = (data2.temperatura==null?"--°C":Math.round(data2.temperatura) + "°C") ;
-      this.locations.HUME = (data2.humedad==null? "--%":data2.humedad + " %") ;
-  
-      this.locations.PRECIPI =(data2.precipitacion==0? "0.0":data2.precipitacion);
+      let fflagtemp='';
+      let fflaghum='';
+      let fflagpre='';
+      if(data2.flagTemperatura==0){
+        fflagtemp="*";
+      }
+      if(data2.flagHumedad==0){
+        fflaghum="*";
+      }
+
+      if(data2.flagPrecipitacion==0){
+        fflagpre="*";
+      }
+
+      if(data2.precipitacion==null){
+        this.locations.PRECIPI="--mm/h"
+      }else if(data2.precipitacion==0){
+        this.locations.PRECIPI="0.0mm/h"
+      }else{
+        this.locations.PRECIPI=data2.precipitacion+'mm/h'+fflagpre
+      }
+
+
+      this.locations.TEMP = (data2.temperatura==null?"--°C":Math.round(data2.temperatura)+"°C"+fflagtemp) ;
+      this.locations.HUME = (data2.humedad==null? "--%":data2.humedad +"%"+fflaghum) ;
+      //this.locations.PRECIPI =(data2.precipitacion==0? "0.0mm/h":data2.precipitacion+'mm/h'+fflagpre);
       //this.locations.PRECIPI = (data2.precipitacion==null?"--mm/h":Math.round(data2.precipitacion) + " mm/h") ;
       
       this.locations.nombrestacion = data2.nomEsta;
@@ -387,9 +404,16 @@ export class MainPage {
                     }
                   })
                 })
+
+                this.bavisom1.reduce((unique,item)=>{
+                  return unique.includes(item)?unique : [...unique,item]
+                    },[])
+
                 this.avisosmethidg=this.bavisom1.concat(this.bavisom2);
                 this.avisosmethidg=Array.from(new Set(this.avisosmethidg));
                 this.indiceData=this.avisosmethidg.length;
+               
+                
             }
               
             }, (error)=>{this.indiceData=0; console.log(error)});
@@ -400,7 +424,6 @@ export class MainPage {
 
      this.amet.getAvisosHidrologicosLatLong(this.locations.lat, this.locations.lng)
       .subscribe(async (listaavisohid) =>{
-          
         if(listaavisohid.data!=null){
           this.bavisom2temp=[];
           this.bavisom2temp=JSON.parse(listaavisohid.data);
@@ -409,7 +432,6 @@ export class MainPage {
           });
         
           let llave= this.itemGPMain[0].coddep+this.itemGPMain[0].codprov + this.itemGPMain[0].coddist;
-          
           infor.map(elementa => {
             let info=elementa.lugarAfectado;
             let a=0;
@@ -418,6 +440,7 @@ export class MainPage {
               if(llaveabt===llave){
                   a=1;
                   break;
+
               }
             }
     
@@ -427,7 +450,7 @@ export class MainPage {
             }
     
           });
-  
+
           this.bavisom2.reduce((unique,item)=>{
             return unique.includes(item)?unique : [...unique,item]
               },[])
@@ -506,13 +529,15 @@ export class MainPage {
   //inicializa ubicacion cuando el sistema abre por primera vez
   async itinialDataCoordenadas(){
     this.options = {
+      timeout: 10000,
       maximumAge: 3000,
       enableHighAccuracy: true
     };
     this.bavisom1=[];
+
     this.geolocation.getCurrentPosition(this.options).then(
       (pos: Geoposition) => {
-  
+
         this.loadItemUbicaActEleg().then((a)=>{
           if(this.itemGPMain==null || this.itemGPMain.length<=0){
 
@@ -532,18 +557,38 @@ export class MainPage {
               this.locations.AUXciudad =data1[0].display_name;
               this.newitemGP.ciudad=data1[0].display_name;
             })
-
-            
-   
+ 
             this.api.getEstaciones(pos.coords.latitude, pos.coords.longitude).subscribe((dato) => {
               
               let obj2 = dato as any;
               this.listado2=obj2;
               let data2=this.listado2[0];
               
-              this.locations.TEMP = (data2.temperatura==null?"--°C":Math.round(data2.temperatura) + "°C") ;
-              this.locations.HUME = (data2.humedad==null? "--%":data2.humedad + " %") ;
-              this.locations.PRECIPI = (data2.precipitacion==0? "0.0":data2.precipitacion);//(data2.precipitacion==null?"--mm/h":data2.precipitacion + " mm/h") ;
+              let fflagtemp='';
+              let fflaghum='';
+              let fflagpre='';
+              if(data2.flagTemperatura==0){
+                fflagtemp="*";
+              }
+              if(data2.flagHumedad==0){
+                fflaghum="*";
+              }
+        
+              if(data2.flagPrecipitacion==0){
+                fflagpre="*";
+              }
+ 
+              if(data2.precipitacion==null){
+                this.locations.PRECIPI="--mm/h"
+              }else if(data2.precipitacion==0){
+                this.locations.PRECIPI="0.0mm/h"
+              }else{
+                this.locations.PRECIPI=data2.precipitacion+'mm/h'+fflagpre
+              }
+
+              this.locations.TEMP = (data2.temperatura==null?"--°C":Math.round(data2.temperatura) + "°C"+fflagtemp) ;
+              this.locations.HUME = (data2.humedad==null? "--%":data2.humedad + "%"+fflaghum) ;
+              //this.locations.PRECIPI = (data2.precipitacion==0? "0.0mm/h":data2.precipitacion+'mm/h'+fflagpre);//(data2.precipitacion==null?"--mm/h":data2.precipitacion + " mm/h") ;
               this.locations.nombrestacion = data2.nomEsta;
               this.locations.depestacion=data2.nomDep;
               this.locations.provestacion=data2.nomProv;
@@ -623,9 +668,15 @@ export class MainPage {
                           }
                         })
                       })
+
+                      this.bavisom1.reduce((unique,item)=>{
+                        return unique.includes(item)?unique : [...unique,item]
+                          },[])
+
                       this.avisosmethidg=this.bavisom1.concat(this.bavisom2);
                       this.avisosmethidg=Array.from(new Set(this.avisosmethidg));
                       this.indiceData=this.avisosmethidg.length;
+
                   }
                     
                   }, (error)=>{this.indiceData=0; console.log(error)});
@@ -636,7 +687,6 @@ export class MainPage {
             
               this.amet.getAvisosHidrologicosLatLong(pos.coords.latitude, pos.coords.longitude)
               .subscribe(async (listaavisohid) =>{
-                  
                 if(listaavisohid.data!=null){
                   this.bavisom2temp=[];
                   this.bavisom2temp=JSON.parse(listaavisohid.data);
@@ -645,12 +695,12 @@ export class MainPage {
                   });
                 
                   let llave= this.locations.COD_DEP+this.locations.COD_PROV + this.locations.COD_DIST;
+
                   infor.map(elementa => {
                     let info=elementa.lugarAfectado;
                     let a=0;
                     for (let i = 0; i < info.length; i++) {
                       let llaveabt=info[i].codDep+info[i].codProv+info[i].codDist;
-
                       if(llaveabt===llave){
                           a=1;
                           break;
@@ -675,9 +725,6 @@ export class MainPage {
                 }
                 
               }, (error)=>{this.indiceData=0; console.log(error)});
-              
-             
-
             });
     
             this.api.getCurrentDataTime(pos.coords.latitude, pos.coords.longitude).subscribe((dato) => {
@@ -703,6 +750,21 @@ export class MainPage {
             this.getCordenadasNew()
           }
         });
+      }).catch(e=>{
+        console.log(e);
+        
+        this.loadItemUbicaActEleg().then((a)=>{
+          if(this.itemGPMain==null || this.itemGPMain.length<=0){
+            this._androidpermision.gpsOntAlert().then(i=>{
+              //this.redirigiraBusqueda();
+            });
+            
+          }else{
+            this.getCordenadasNew()
+          }
+        })
+
+        
       }); 
   }
 
@@ -715,8 +777,8 @@ export class MainPage {
     const browser = this.iab.create('https://www.youtube.com/watch?v=joVCu8gp_lY','_blank',{location:'no'});
   }
 
-  async presentPopover(ev: any, dep:any,prov:any,dist:any,distancia:any,unidad:any, latest:any,lngest:any) {
-    let data = {dep:dep, prov:prov, dist:dist, distancia:distancia, unidad:unidad,latitud:latest,longitud:lngest};
+  async presentPopover(ev: any, dep:any,prov:any,dist:any,distancia:any,unidad:any, latest:any,lngest:any, nombestacion:any) {
+    let data = {dep:dep, prov:prov, dist:dist, distancia:distancia, unidad:unidad,latitud:latest,longitud:lngest,nombest:nombestacion};
     const popover = await this.popoverController.create({
       component: PopinfoComponent,
       cssClass: 'my-custom-class',
@@ -728,9 +790,10 @@ export class MainPage {
 
   }
 
-  recargarAutomaticamente(){
-
+  redirigiraBusqueda(){
+    this.router.navigate(['/menu/search']);
   }
+
 
 
 }

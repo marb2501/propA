@@ -42,9 +42,11 @@
       </ion-col>
     </ion-row>
     <ion-row  >
-      <ion-col ><ion-item (click)="retaurarposicion()" color="none" lines="none" class="datamain5"><ion-icon name="refresh-circle-outline"></ion-icon>&nbsp;&nbsp;Regresar a mi ubicación actual
+     
+      <ion-col><ion-item *ngIf="flaghid!=0" (click)="retaurarposicion()" color="none" lines="none" class="datamain5"><ion-icon name="refresh-circle-outline"></ion-icon>&nbsp;&nbsp;Regresar a mi ubicación actual
        </ion-item>
       </ion-col>
+     
     </ion-row>
  
     <ion-row>
