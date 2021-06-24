@@ -62,7 +62,9 @@ export class Avisosdetail1Page {
                
                 this.route.queryParams.subscribe(params => {
                   if (params && params.special){
-                    this.icono = params.special
+                      this.icono = params.special
+                  }else{
+                    this.icono='assets/images/iconmenu/cloudy-night-outline.svg'
                   }
                 })
 

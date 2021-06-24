@@ -28,6 +28,7 @@ import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 import { PopoverController } from '@ionic/angular';
 import { PopinfoComponent } from '../../components/popinfo/popinfo.component';
 import { AndroidpermisionService } from '../../services/androidpermision.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-main',
@@ -255,7 +256,7 @@ export class MainPage {
   ////////////////////////////recarga de Información del app//////////////////////////////////
 
   async loadItemUbicaActEleg(){
-    this.storageService.getitemGeoposition().then(items0=>{
+    this.storageService.getitemGeoposition().then(async items0=>{
       this.itemGPMain=items0;
     })
    }
@@ -537,234 +538,51 @@ export class MainPage {
 
     this.geolocation.getCurrentPosition(this.options).then(
       (pos: Geoposition) => {
-
-        this.loadItemUbicaActEleg().then((a)=>{
-          if(this.itemGPMain==null || this.itemGPMain.length<=0){
-
-            this.newitemGP=null;
-            this.newitemGP=<Geolocaposicion>{};
-            this.newitemGP.id=Date.now();
-            this.newitemGP.lat=pos.coords.latitude;
-            this.newitemGP.long=pos.coords.longitude;
-
-            this.locations.lat = pos.coords.latitude.toString();
-            this.locations.lng = pos.coords.longitude.toString();
-
-            this.api.getUbicacionCoordLatLong(pos.coords.latitude, pos.coords.longitude).subscribe((infodata1)=>{
-              let data1=infodata1;
-             
-              this.locations.ciudad=data1[0].display_name;
-              this.locations.AUXciudad =data1[0].display_name;
-              this.newitemGP.ciudad=data1[0].display_name;
+        if(this.itemGPMain==null || this.itemGPMain.length<=0){
+          this.storageService.additemGeoDefault().then(async t=>{
+                
+            let newItemsInsertGP=<Geolocaposicion>{};
+            newItemsInsertGP.id=t.id
+            newItemsInsertGP.lat=t.lat
+            newItemsInsertGP.long=t.long
+            newItemsInsertGP.ciudad=t.ciudad
+            newItemsInsertGP.coddep=t.coddep
+            newItemsInsertGP.codprov=t.codprov
+            newItemsInsertGP.coddist=t.coddist
+            this.storageService.additemGeoposition(newItemsInsertGP).then(async resl=>{
+              this.itemGPMain=resl
+              this.getCordenadasNew();
             })
- 
-            this.api.getEstaciones(pos.coords.latitude, pos.coords.longitude).subscribe((dato) => {
-              
-              let obj2 = dato as any;
-              this.listado2=obj2;
-              let data2=this.listado2[0];
-              
-              let fflagtemp='';
-              let fflaghum='';
-              let fflagpre='';
-              if(data2.flagTemperatura==0){
-                fflagtemp="*";
-              }
-              if(data2.flagHumedad==0){
-                fflaghum="*";
-              }
+          })
+        }
+        this.getCordenadasNew();
         
-              if(data2.flagPrecipitacion==0){
-                fflagpre="*";
-              }
- 
-              if(data2.precipitacion==null){
-                this.locations.PRECIPI="--mm/h"
-              }else if(data2.precipitacion==0){
-                this.locations.PRECIPI="0.0mm/h"
-              }else{
-                this.locations.PRECIPI=data2.precipitacion+'mm/h'+fflagpre
-              }
-
-              this.locations.TEMP = (data2.temperatura==null?"--°C":Math.round(data2.temperatura) + "°C"+fflagtemp) ;
-              this.locations.HUME = (data2.humedad==null? "--%":data2.humedad + "%"+fflaghum) ;
-              //this.locations.PRECIPI = (data2.precipitacion==0? "0.0mm/h":data2.precipitacion+'mm/h'+fflagpre);//(data2.precipitacion==null?"--mm/h":data2.precipitacion + " mm/h") ;
-              this.locations.nombrestacion = data2.nomEsta;
-              this.locations.depestacion=data2.nomDep;
-              this.locations.provestacion=data2.nomProv;
-              this.locations.distestacion=data2.nomDist;
-              this.locations.altitud = data2.altitud+" m";
-              this.locations.distancia = Math.round(data2.distancia)+" "+data2.unidad;
-              this.locations.hora = data2.fecha
-              this.listado2.shift();
-    
-            });
-    
-
-            this.api.getDepProvDist(pos.coords.latitude, pos.coords.longitude).subscribe((datow) => {
-              let obj = JSON.parse(datow.data);
-              const data = obj['features'];
-
-              data.map(element => {
-                let nivl=element['properties'].iddist;
-                let ubig=nivl;
-                let dep=ubig.substr(0,2);
-                let prov=ubig.substr(2,2);
-                let dist=ubig.slice(-2);
-
-                this.locations.COD_DEP = dep;
-                this.locations.COD_PROV = prov;
-                this.locations.COD_DIST = dist;
-                this.locations.AUXCOD_DEP = dep;
-                this.locations.AUXCOD_PROV = prov;
-                this.locations.AUXCOD_DIST = dist;
-
-                this.newitemGP.coddep= dep;
-                this.newitemGP.codprov= prov;
-                this.newitemGP.coddist= dist;
-              })
-
-            this.bavisom1=[];
-            this.bavisom2=[];
-            this.avisosmethidg=[];
-
-            this.amet.getAvisoMetIDESEPLatLon(pos.coords.latitude, pos.coords.longitude).subscribe((dato) => {
-              this.ametideseptemp=JSON.parse(dato.data);
-
-              if(this.ametideseptemp.length<=0 || this.ametideseptemp.length==null){
-                this.bavisom1=[];
-                this.avisosmethidg=this.bavisom1.concat(this.bavisom2);
-                this.indiceData=this.avisosmethidg.length;
-              }else{
-                this.ametidesep=this.ametideseptemp.filter(function(filtr) {
-                  let fechini= new Date(filtr.fechaInicio);
-                  let fecact= new Date();
-                  let dat2='0'+(Number(fechini.getMonth())+1);
-                  let dat='0'+(Number(fecact.getMonth())+1);
-                          
-                  let fechiniAv=fechini.getFullYear()+'-'+dat2.slice(-2)+'-'+fechini.getDate();
-                  let fechAc=fecact.getFullYear()+'-'+dat.slice(-2)+'-'+fecact.getDate();
-
-                  return (filtr.nivel>1 &&(fechiniAv==fechAc));})
-                  this.ametideseptemp=[];
-
-                  if(this.ametidesep.length<=0 || this.ametidesep.length==null){
-                    this.bavisom1=[];
-                    this.avisosmethidg=this.bavisom1.concat(this.bavisom2);
-                    this.indiceData=this.avisosmethidg.length;
-                  }else{
-                    
-                    this.amet.getListaAvisoMeteoroGeoposicion(this.locations.COD_DEP,this.locations.COD_PROV, this.locations.COD_DIST)
-                  .subscribe(async (listaavisomet) =>{
-                    if(listaavisomet.data!=null){
-                      this.bavisom1=[];
-                      this.bavisom1temp=[];
-                      this.bavisom1temp=JSON.parse(listaavisomet.data);
-                      this.bavisom1temp.map(reaA=>{
-                        this.ametidesep.map(res=>{
-                        if (Number(reaA.numero)===res.nroAviso){
-                            reaA.codNivel=res.nivel.toString()
-                            this.bavisom1.push(reaA);
-                          }
-                        })
-                      })
-
-                      this.bavisom1.reduce((unique,item)=>{
-                        return unique.includes(item)?unique : [...unique,item]
-                          },[])
-
-                      this.avisosmethidg=this.bavisom1.concat(this.bavisom2);
-                      this.avisosmethidg=Array.from(new Set(this.avisosmethidg));
-                      this.indiceData=this.avisosmethidg.length;
-
-                  }
-                    
-                  }, (error)=>{this.indiceData=0; console.log(error)});
-      
-                  }
-              }
-            })
-            
-              this.amet.getAvisosHidrologicosLatLong(pos.coords.latitude, pos.coords.longitude)
-              .subscribe(async (listaavisohid) =>{
-                if(listaavisohid.data!=null){
-                  this.bavisom2temp=[];
-                  this.bavisom2temp=JSON.parse(listaavisohid.data);
-                  let infor=this.bavisom2temp.filter(function(filtr) {
-                    return filtr.lugarAfectado.length>0;
-                  });
-                
-                  let llave= this.locations.COD_DEP+this.locations.COD_PROV + this.locations.COD_DIST;
-
-                  infor.map(elementa => {
-                    let info=elementa.lugarAfectado;
-                    let a=0;
-                    for (let i = 0; i < info.length; i++) {
-                      let llaveabt=info[i].codDep+info[i].codProv+info[i].codDist;
-                      if(llaveabt===llave){
-                          a=1;
-                          break;
-                      }
-                    }
-            
-                    if(a==1){
-                      this.bavisom2.push(elementa);
-                      a=0;
-                    }
-            
-                  });
-
-                  this.bavisom2.reduce((unique,item)=>{
-                    return unique.includes(item)?unique : [...unique,item]
-                     },[])
-                  
-                  this.bavisom2temp=[];
-                  this.bavisom1temp=[];   
-                  this.avisosmethidg=this.bavisom1.concat(this.bavisom2);
-                  this.indiceData=this.avisosmethidg.length;
-                }
-                
-              }, (error)=>{this.indiceData=0; console.log(error)});
-            });
-    
-            this.api.getCurrentDataTime(pos.coords.latitude, pos.coords.longitude).subscribe((dato) => {
-              
-              let obj = dato as any;
-              this.listado = obj['data'];
-              let data = obj['data'][0];
-              this.locations.titulo = data.HOY;
-              this.locations.diaactual = data.NOM_DIA;
-              this.locations.tempmax = data.TEMP_MAX + "°";
-              this.locations.tempmin = data.TEMP_MIN + "°";
-              this.locations.descrip_abre=data.DES_PRON_ABREV
-              this.locations.zona=data.ZONA
-              this.locations.descrip = data.DES_PRON;
-            });
-
-            this.storageService.deleteAllGeoposition().then((a)=>{
-              this.storageService.additemGeoposition(this.newitemGP).then(it=>{
-                this.newitemGP=<Geolocaposicion>{};
-              })  
-            });
-          }else{
-            this.getCordenadasNew()
-          }
-        });
       }).catch(e=>{
         console.log(e);
         
         this.loadItemUbicaActEleg().then((a)=>{
           if(this.itemGPMain==null || this.itemGPMain.length<=0){
             this._androidpermision.gpsOntAlert().then(i=>{
-              //this.redirigiraBusqueda();
+              this.storageService.additemGeoDefault().then(t=>{
+                
+                let newItemsInsertGP=<Geolocaposicion>{};
+                newItemsInsertGP.id=t.id
+                newItemsInsertGP.lat=t.lat
+                newItemsInsertGP.long=t.long
+                newItemsInsertGP.ciudad=t.ciudad
+                newItemsInsertGP.coddep=t.coddep
+                newItemsInsertGP.codprov=t.codprov
+                newItemsInsertGP.coddist=t.coddist
+                this.storageService.additemGeoposition(newItemsInsertGP).then(resl=>{
+                  this.itemGPMain=resl
+                  this.getCordenadasNew()
+                })
+              })
             });
-            
           }else{
             this.getCordenadasNew()
           }
         })
-
-        
       }); 
   }
 
@@ -774,7 +592,18 @@ export class MainPage {
   }
 
   videoSENAMHI(){
-    const browser = this.iab.create('https://www.youtube.com/watch?v=joVCu8gp_lY','_blank',{location:'no'});
+   this.api.getVideoEstacion().subscribe(et=>{
+      let urlvideo=et.data
+      if(urlvideo!=""){
+        const browser = this.iab.create(urlvideo,'_blank',{location:'no'});
+      }else{
+        Swal.fire({
+          title:'Aviso',
+          text:'No se ha registrado el video de estaciones',
+          backdrop:false
+        });
+      }      
+   })
   }
 
   async presentPopover(ev: any, dep:any,prov:any,dist:any,distancia:any,unidad:any, latest:any,lngest:any, nombestacion:any) {

@@ -73,9 +73,9 @@
                     <td  rowspan="2">
                     <table style="text-align: initial;">
                     <tbody>
-                    <tr>
+                    <!--<tr>
                     <td><ion-label style="font-size: x-large;"> <img class="imgmaintermo" [src]="cambiarImagenMain()" > {{locations.HUME}}</ion-label></td>
-                    </tr>
+                    </tr>-->
                     <tr>
                     <td>
                       <ion-label style="font-size: x-large;" *ngIf="locations.PRECIPI!=null"> <img class="imgmaintermo" [src]="cambiarImagenMain2()" >
@@ -97,7 +97,12 @@
                 <table class="tablavertC">
                   <tr style="font-weight: bold;">
               
-                    <td class="tempdet3">Estación**</td>
+                    <td style="text-align: center;margin-left: 2px;" colspan="6" class="tempdet4">* Datos por confirmar</td>
+                      
+                  </tr>
+                  <tr style="font-weight: bold;">
+              
+                    <td class="tempdet3">Estación</td>
                     <td >:</td>
                     <td style="text-align: left;margin-left: 2px;" colspan="4">{{locations.nombrestacion | titlecase}}</td>
                   </tr>
@@ -133,7 +138,7 @@
             <ion-row>
               <table >
                 <tr (click)="videoSENAMHI()">
-                  <td >**</td>
+                  <td ></td>
                   <td><ion-label>¿Qué es una estación?</ion-label></td>
                   <td><ion-icon name="videocam-outline" style="margin-top: 10px;"></ion-icon></td>
                 </tr>
@@ -144,7 +149,7 @@
 
             <ion-grid class="datamain"> 
             <ion-label class="tempdet2"> Datos de estaciones más cercanas</ion-label>
-            <ion-row><ion-label class="tempdet4"> * Información por confirmar</ion-label></ion-row>
+            <ion-row><ion-label class="tempdet4"> * Datos por confirmar</ion-label></ion-row>
             <ion-row style="padding-bottom: 8px;"></ion-row>
             <ion-row >
               <ion-label class="hydrated">
@@ -167,7 +172,7 @@
 
                     </td>
                     <td style="text-align: center">{{ tmp2.distancia | number:'1.0-0' }}</td>
-                    <td>{{ tmp2.altitud }}</td>
+                    <td style="text-align: center">{{ tmp2.altitud }}</td>
                     <td style="text-align: center"> 
                         <div *ngIf="tmp2.fecha!=null" class="wrap-text1">{{ tmp2.fecha | date :'h a' }}</div>
                         <div *ngIf="tmp2.fecha==null">--</div></td>

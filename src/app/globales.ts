@@ -58,6 +58,13 @@ export const urlIDESEPDist='https://idesep.senamhi.gob.pe:443/geoserver/g_carto_
 export const urlMapaLealeft='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
 export const layermet='g_aviso:view_aviso';
 
+export const latSenamhi='-12.0791994'
+export const lngSenamhi='-77.0428641'
+export const SenamhiText='Servicio Nacional de Meteorología e Hidrología del Perú';
+export const codDepSenamhi='15'
+export const codProvSenamhi='01'
+export const codDistSenamhi='13'
+
 export const sizepopuphidro: any = { minWidth:300, maxHeight:'auto' };
 
 export const stylesWMSDist=['00_00_Limite_Distrito_Peru','00_00_Limite_Distrito_Peru_nivel_2',
@@ -166,13 +173,13 @@ export const menuSlide: any = [
   {
     title: 'Avisos Meteorológicos',
     url: '/menu/avisosdetail1',
-    icon: '',
+    icon: 'assets/images/iconmenu/cloudy-night-outline.svg',
     status: 1
   },
   {
     title: 'Avisos Hidrológicos',
     url: '/menu/avisosdetail4',
-    icon: '',
+    icon: 'assets/images/iconmenu/hidro_sena.svg',
     status: 1
   }
 ];

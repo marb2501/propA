@@ -40,6 +40,8 @@ export class Avisosdetail4Page implements OnInit{
       this.route.queryParams.subscribe(params => {
         if (params && params.special){
           this.icono = params.special
+        }else{
+          this.icono='assets/images/iconmenu/hidro_sena.svg'
         }
       })
 

@@ -13,7 +13,8 @@ import {
   pkgresumen,
   urlSearchLocation,
   urlGeoposionLocation,
-  urlIDESEPDist
+  urlIDESEPDist,
+  dominioAvisosJava
 } from '../globales';
 
 
@@ -22,7 +23,7 @@ import {
 })
 export class ApiService {
 
-  
+  private urlvideo = dominioAvisosJava;
 
   constructor(public http: HttpClient, private nativeHttp: HTTP) { }
 
@@ -161,7 +162,11 @@ export class ApiService {
     return from(native).pipe();
 
   }
- 
 
+  getVideoEstacion(){
+    let urlvideo=this.urlvideo+'getvideoapp';
+    let native=this.nativeHttp.get(urlvideo,{},{'Content-type':'application/json'})
+    return from(native).pipe();
+  }
 
 }

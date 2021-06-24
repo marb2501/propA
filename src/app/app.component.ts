@@ -128,6 +128,7 @@ export class AppComponent {
   }
 
   gotoSearch() {
+
     let ruta='';
     if(this.router.url!=''){
       ruta=this.router.url

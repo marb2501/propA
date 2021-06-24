@@ -76,24 +76,26 @@ export class SearchPage {
                 this.databack = JSON.parse(params.special);
                 this.rutaback=this.databack.urlback
               })
-
-              this.plat.ready().then(()=>{
-                  this.loadItemsBR(); 
-                  this.loadItemsFR();
-                  this.loadItemUbicaActEleg();
-              })
+             
             }
    //carga de listas favoritos y recientes          
-    loadItemsFR(){
-      this.storageService.getitemFavoritos().then(items1=>{
+   async loadItemsFR(){
+      await this.storageService.getitemFavoritos().then(items1=>{
         this.itemFR=items1;
     })
    }        
 
-    loadItemsBR(){
-      this.storageService.getitemBusquedaR().then(items2=>{
+    async loadItemsBR(){
+      await this.storageService.getitemBusquedaR().then(items2=>{
         this.itemBR=items2;
     })
+   }
+
+   ionViewWillEnter(){
+    this.loadItemUbicaActEleg();
+    this.loadItemsFR();
+    this.loadItemsBR();
+   
    }
 
   async loadItemUbicaActEleg(){
@@ -126,6 +128,7 @@ export class SearchPage {
             text:"Ingrese una posición en el cuadro de búsqueda.",
             backdrop:false
           });
+        }else{
         }
       }else if(this.itemGP[0]!=undefined){
         if(this.itemGP[0].ciudad=="" || this.itemGP[0].ciudad=='undefined' || this.itemGP[0].ciudad==undefined){
@@ -135,10 +138,29 @@ export class SearchPage {
               text:"Requiere actualizar su posición actual.",
               backdrop:false
             });
+          }else{
           }
           
         }else{
-          this.locacionactual=this.itemGP[0].ciudad;
+          
+          this.newitemBR=null;
+          this.newitemBR=<BusquedaR>{};
+          this.newitemBR.id=this.itemGP[0].id;
+          this.newitemBR.lat=this.itemGP[0].lat;
+          this.newitemBR.long=this.itemGP[0].long;
+          this.newitemBR.ciudad=this.itemGP[0].ciudad;
+          this.newitemBR.coddep=this.itemGP[0].coddep;
+          this.newitemBR.codprov=this.itemGP[0].codprov;
+          this.newitemBR.coddist=this.itemGP[0].coddist;
+
+          this.storageService.getitemBusquedaR().then(items2=>{
+            if(items2==null){
+              this.storageService.additemBusquedaR(this.newitemBR).then(it=>{
+                this.newitemBR=null;
+                this.loadItemsBR();
+              })
+            }
+          })
         }
       }
     })
@@ -474,6 +496,8 @@ async retaurarposicion(){
   //retorno anterior
   retornoPaginaAnterior(){
     let infor=this.rutaback.substr(0, this.rutaback.indexOf('?')); 
+    console.log('retorno de pagina')
+    console.log(infor)
 
     if(infor==''){
       this.router.navigate(['/menu/main']);

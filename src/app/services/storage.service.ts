@@ -3,6 +3,7 @@ import { Storage } from '@ionic/storage';
 import { Platform } from '@ionic/angular';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { PushnotiService } from './pushnoti.service';
+import {latSenamhi, lngSenamhi, SenamhiText, codDepSenamhi, codProvSenamhi, codDistSenamhi} from '../globales'
 
 
 export interface Geolocaposicion{
@@ -54,18 +55,41 @@ export class StorageService {
     this.theme = new BehaviorSubject('dark-theme');
   }
 
+  //Set del valor SENAMHI por defecto
+  async additemGeoDefault():Promise<any>{
+ 
+    let newItemsInsertGP=<Geolocaposicion>{};
+    let toKeep: Geolocaposicion[] = [];
+
+    await this.storage.set(ITEM_KEY_GP,toKeep);
+
+    newItemsInsertGP.id=1
+    newItemsInsertGP.lat=parseFloat(latSenamhi)
+    newItemsInsertGP.long=parseFloat(lngSenamhi)
+    newItemsInsertGP.ciudad=SenamhiText
+    newItemsInsertGP.coddep=codDepSenamhi
+    newItemsInsertGP.codprov=codProvSenamhi
+    newItemsInsertGP.coddist=codDistSenamhi
+    
+    return newItemsInsertGP;
+  }
+
+
+
+
+
   //seccion dato para cambio de infomracion en el app
   async additemGeoposition(itemGPST:Geolocaposicion):Promise<any>{
-    return await this.storage.get(ITEM_KEY_GP).then((items1:Geolocaposicion[])=>{
+    return await this.storage.get(ITEM_KEY_GP).then(async (items1:Geolocaposicion[])=>{
       if(items1){
         let newItemsInsertGP:Geolocaposicion[] = [];
         for(let i1 of items1){
           newItemsInsertGP.push(i1);
         }
         newItemsInsertGP.push(itemGPST);
-        return this.storage.set(ITEM_KEY_GP,newItemsInsertGP)
+        return await this.storage.set(ITEM_KEY_GP,newItemsInsertGP)
       }else{
-        return this.storage.set(ITEM_KEY_GP,[itemGPST])
+        return await this.storage.set(ITEM_KEY_GP,[itemGPST])
       }
     });
   }
@@ -74,8 +98,8 @@ export class StorageService {
     return await this.storage.get(ITEM_KEY_GP);
   }
 
-  updateitemGeoposition(itemGPST:Geolocaposicion):Promise<any>{
-    return this.storage.get(ITEM_KEY_GP).then((items1:Geolocaposicion[])=>{
+  async updateitemGeoposition(itemGPST:Geolocaposicion):Promise<any>{
+    return this.storage.get(ITEM_KEY_GP).then(async (items1:Geolocaposicion[])=>{
       if(!items1 || items1.length===0){
           return null;
       }
@@ -89,12 +113,12 @@ export class StorageService {
         }
       }
 
-      return this.storage.set(ITEM_KEY_GP,newItemsA);
+      return await this.storage.set(ITEM_KEY_GP,newItemsA);
     });
   }
 
   async deleteitemGeoposition(id:number):Promise<Geolocaposicion>{
-    return await this.storage.get(ITEM_KEY_GP).then((items1:Geolocaposicion[])=>{
+    return await this.storage.get(ITEM_KEY_GP).then(async (items1:Geolocaposicion[])=>{
       if(!items1 || items1.length===0){
         return null;
       }
@@ -107,7 +131,7 @@ export class StorageService {
         }
       }
 
-      return this.storage.set(ITEM_KEY_GP,toKeep);
+      return await this.storage.set(ITEM_KEY_GP,toKeep);
 
     });
   }

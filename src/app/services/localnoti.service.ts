@@ -154,7 +154,10 @@ export class LocalnotiService {
               sound: 'null',
               silent:false,
               wakeup: false,
-              group:'temp'
+              group:'temp',
+              trigger:{
+                every:ELocalNotificationTriggerUnit.SECOND
+              }
             
             })
             //this.argLisNoti.push(this.datListNoti)
@@ -264,8 +267,8 @@ export class LocalnotiService {
                           this.datListNoti.group='aviso'
                           
                           console.log("aviso meteorolgico")
-                          this.localNot.schedule(this.datListNoti)
-                          //this.argLisNoti.push(this.datListNoti)
+                          //this.localNot.schedule(this.datListNoti)
+
                         })    
                  
                     }
@@ -342,8 +345,8 @@ export class LocalnotiService {
                       this.datListNoti.wakeup=false
                       this.datListNoti.group='aviso'
                       console.log("aviso hidrologico")
-                      this.localNot.schedule(this.datListNoti)
-                      //this.argLisNoti.push(this.datListNoti)
+                      //this.localNot.schedule(this.datListNoti)
+                      
                     })    
                     this.bavisom2temp=[];
                     this.bavisom1temp=[];   
