@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { dominioAvisosJava } from '../globales';
+import { dominioAvisosJava, dominioMenuApp } from '../globales';
 import { MenuApp } from '../models/menu.model';
-
+import { HTTP } from '@ionic-native/http/ngx';
+import { from, of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -11,9 +12,10 @@ import { MenuApp } from '../models/menu.model';
 export class MenuappService {
 
   private url = dominioAvisosJava;
+  private urlmenu= dominioMenuApp;
   dataMenu:MenuApp[];
 
-  constructor(public httpMenuApp: HttpClient) { }
+  constructor(public httpMenuApp: HttpClient, private nativeHttp: HTTP) { }
 
   getMenu():Observable<HttpResponse<MenuApp[]>> {
         
@@ -21,6 +23,13 @@ export class MenuappService {
     
 
     return this.httpMenuApp.get<MenuApp[]>(urlEndPoint,{ observe: 'response' });
+  }
+
+  getMenu1(){
+    this.nativeHttp.setRequestTimeout(120.0);
+    let native=this.nativeHttp.get(this.urlmenu,{},{'Content-type':'application/json'})
+    return from(native).pipe();
+
   }
 
  

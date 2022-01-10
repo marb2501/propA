@@ -18,7 +18,7 @@
         </ion-card-content>
       </ion-card></ion-col>
   </ion-row>
-  <ion-row>
+  <!--<ion-row>
     <ion-col> 
       <ion-list style="background: none;">
         <ion-item *ngFor="let ch of datacheck" (click)="checkControlEvent(ch)" color="none" lines="none">
@@ -28,51 +28,80 @@
       </ion-list>
  
     </ion-col>
-  </ion-row>
+  </ion-row>-->
    <ion-row class="cardtransparente">
-    <ion-col><ion-list class="cardtransparente">
-      <div *ngIf="avisoHidro?.length == 0 || avisoHidro?.length==null">
-        <ion-item class="datamain4" color="none" lines="none">No se registraron avisos </ion-item>
-      </div>
-      <div class="listaavisosmarco">
-       <div *ngIf="avisoHidro?.length > 0">
-      <ion-item-sliding *ngFor="let aviso of avisoHidro" >
-        
-       
-        <ion-item color="none" lines="none" (click)="openAvisoTextInfo(aviso.codAviso, aviso.codNivel, aviso.colorNivel,
-                                                    aviso.colorHexa, aviso.fecEmi, aviso.hrEmi, aviso.nomTitulo, aviso.fecIni,
-                                                    aviso.fecFin, aviso.codPlazo, aviso.nomPlazo, aviso.descrip1, aviso.descrip2,
-                                                    aviso.rutaImg, aviso.msgRojo, aviso.msgNaranja, aviso.msgAmarillo, 
-                                                    aviso.lugarAfectado, aviso.codEsta, aviso.latEsta,
-                                                    aviso.lonEsta, aviso.altitudEsta, aviso.depEsta, aviso.provEsta, aviso.distEsta)" >
-          <ion-icon name="alert" item-left [class]="getColor(aviso.codNivel)">
-          
-        </ion-icon>
-        <ion-label class="datamain4 ion-text-wrap">{{ aviso.nomTitulo}}
-          <p>{{ fechacat(aviso.fecIni,aviso.fecFin)}}</p>
-        </ion-label>
-        
-      <!--  <ion-icon class="datamain4" name="information-circle-outline" slot="end"
-         (click)="openModalInfo(aviso.codAviso, aviso.codNivel, aviso.colorNivel,
-                                aviso.colorHexa, aviso.fecEmi, aviso.hrEmi, aviso.nomTitulo, aviso.fecIni,
-                                aviso.fecFin, aviso.codPlazo, aviso.nomPlazo, aviso.descrip1, aviso.descrip2,
-                                aviso.rutaImg, aviso.msgRojo, aviso.msgNaranja, aviso.msgAmarillo, aviso.lugarAfectado )"></ion-icon>-->
-       <!-- <ion-icon class="datamain4" name="map-outline" slot="end" (click)="openModal(aviso.codAviso, 
-                                                                  aviso.codNivel, 
-                                                                  aviso.colorNivel,
-                                                                  aviso.colorHexa, 
-                                                                  aviso.fecEmi, 
-                                                                  aviso.hrEmi, 
-                                                                  aviso.nomTitulo, 
-                                                                  aviso.fecIni,
-        aviso.fecFin, aviso.codPlazo, aviso.nomPlazo, aviso.descrip1, aviso.descrip2,
-        aviso.rutaImg, aviso.msgRojo, aviso.msgNaranja, aviso.msgAmarillo, aviso.codEsta, aviso.latEsta,
-        aviso.lonEsta, aviso.altitudEsta, aviso.depEsta, aviso.provEsta, aviso.distEsta, aviso.lugarAfectado)" ></ion-icon>-->
-      </ion-item>
-   
-       </ion-item-sliding>
-    </div>
-  </div>
-    </ion-list></ion-col>
-  </ion-row></ion-grid> 
+    <ion-col>
+      <ion-list *ngFor="let item of flagAccordionA; let i=index" class="accordion-list" color="none" lines="none">
+        <ion-item tappable (click)="toogleSectionA(i)" [ngClass]="{'section-active': item.open, 'section':!item.open}">
+          <ion-icon slot="end" name="add" *ngIf="item.open"></ion-icon>
+          <ion-icon slot="end" name="remove" *ngIf="!item.open"></ion-icon> 
+          <ion-label>
+            {{ item.name}}
+          </ion-label>
+        </ion-item>
+        <div *ngIf="!item.open">
+          <!--seccion avisos hidorlogicos según mi posicion-->
+          <div *ngIf="avisoHidro?.length == 0 || avisoHidro?.length==null">
+            <ion-item class="datamain4" color="none" lines="none">No se registraron avisos </ion-item>
+          </div>
+          <div *ngIf="avisoHidro?.length > 0">
+            <ion-item-sliding *ngFor="let aviso of avisoHidro" >
+                <ion-item color="none" lines="none" (click)="openAvisoTextInfo(aviso.codAviso, aviso.codNivel, aviso.colorNivel,
+                                                          aviso.colorHexa, aviso.fecEmi, aviso.hrEmi, aviso.nomTitulo, aviso.fecIni,
+                                                          aviso.fecFin, aviso.codPlazo, aviso.nomPlazo, aviso.descrip1, aviso.descrip2,
+                                                          aviso.rutaImg, aviso.msgRojo, aviso.msgNaranja, aviso.msgAmarillo, 
+                                                          aviso.lugarAfectado, aviso.codEsta, aviso.latEsta,
+                                                          aviso.lonEsta, aviso.altitudEsta, aviso.depEsta, aviso.provEsta, aviso.distEsta)" >
+                <ion-icon name="alert" item-left [class]="getColor(aviso.codNivel)">
+                
+              </ion-icon>
+              <ion-label class="datamain4 ion-text-wrap">{{ aviso.nomTitulo}}
+                <p>{{ fechacat(aviso.fecIni,aviso.fecFin)}}</p>
+              </ion-label>
+            </ion-item>
+            </ion-item-sliding>
+          </div>
+           <!--seccion avisos hidorlogicos según mi posicion-->
+        </div>
+      </ion-list>
+       </ion-col>
+      </ion-row>
+      <ion-row class="cardtransparente">
+        <ion-col>
+          <ion-list *ngFor="let itemB of flagAccordionB; let j=index" class="accordion-list" color="none" lines="none">
+            <ion-item tappable (click)="toogleSectionB(j)" [ngClass]="{'section-active': itemB.open, 'section':!itemB.open}">
+              <ion-icon slot="end" name="add" *ngIf="itemB.open"></ion-icon>
+              <ion-icon slot="end" name="remove" *ngIf="!itemB.open"></ion-icon> 
+              <ion-label>
+                {{ itemB.name}}
+              </ion-label>
+            </ion-item>
+            <div *ngIf="!itemB.open">
+               <!--SECCION DE avisos hidrologicos totales-->
+               <div *ngIf="avisoHidroAll?.length == 0 || avisoHidroAll?.length==null">
+                <ion-item class="datamain4" color="none" lines="none">No se registraron avisos </ion-item>
+              </div>
+              <div *ngIf="avisoHidroAll?.length > 0">
+                <ion-item-sliding *ngFor="let avisoA of avisoHidroAll" >
+                    <ion-item color="none" lines="none" (click)="openAvisoTextInfo(avisoA.codAviso, avisoA.codNivel, avisoA.colorNivel,
+                                                              avisoA.colorHexa, avisoA.fecEmi, avisoA.hrEmi, avisoA.nomTitulo, avisoA.fecIni,
+                                                              avisoA.fecFin, avisoA.codPlazo, avisoA.nomPlazo, avisoA.descrip1, avisoA.descrip2,
+                                                              avisoA.rutaImg, avisoA.msgRojo, avisoA.msgNaranja, avisoA.msgAmarillo, 
+                                                              avisoA.lugarAfectado, avisoA.codEsta, avisoA.latEsta,
+                                                              avisoA.lonEsta, avisoA.altitudEsta, avisoA.depEsta, avisoA.provEsta, avisoA.distEsta)" >
+                    <ion-icon name="alert" item-left [class]="getColor(avisoA.codNivel)">
+                    
+                  </ion-icon>
+                  <ion-label class="datamain4 ion-text-wrap">{{ avisoA.nomTitulo}}
+                    <p>{{ fechacat(avisoA.fecIni,avisoA.fecFin)}}</p>
+                  </ion-label>
+                </ion-item>
+                </ion-item-sliding>
+              </div>
+               <!--SECCION DE avisos hidrologicos totales-->
+            </div>
+          </ion-list>
+        </ion-col>
+      </ion-row>
+    </ion-grid> 
 </ion-content>

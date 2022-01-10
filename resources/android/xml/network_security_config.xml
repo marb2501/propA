@@ -8,7 +8,9 @@
     <domain-config cleartextTrafficPermitted="true">
         <domain includeSubdomains="true">localhost</domain>
          <domain includeSubdomains="true">http://sgd.senamhi.gob.pe</domain>
-         <domain includeSubdomains="true">http://idesep.senamhi.gob.pe:80</domain>
-         <domain includeSubdomains="true">http://idesep.senamhi.gob.pe</domain>
+         <domain includeSubdomains="true">https://idesep.senamhi.gob.pe:80</domain>
+         <domain includeSubdomains="true">https://idesep.senamhi.gob.pe:443</domain>
+         <domain includeSubdomains="true">https://idesep.senamhi.gob.pe</domain>
+         <domain includeSubdomains="true">http://190.119.131.28:9091/</domain>
     </domain-config>
 </network-security-config>

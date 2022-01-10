@@ -112,19 +112,7 @@
                     <td >:</td>
                     <td style="text-align: left;margin-left: 2px; width: fit-content;" colspan="4"  >{{locations.depestacion | titlecase }}/{{locations.provestacion | titlecase}}/{{locations.distestacion | titlecase}}</td>
                   </tr>
-                
-                  <tr>
-                    
-                    <td class="tempdet3">Altitud</td>
-                    <td >:</td>
-                    <td style="text-align: left;margin-left: 1px;" colspan="4">{{locations.altitud}} </td>
-                  </tr>
-                  <tr>
                    
-                    <td class="tempdet3">Distancia</td>
-                    <td >:</td>
-                    <td style="text-align: left;margin-left: 2px;">{{locations.distancia}} </td>
-                  </tr>
                   <tr>
                     
                     <td class="tempdet3">Hora</td>
@@ -132,9 +120,39 @@
                     <td style="text-align: left;margin-left: 2px;">{{ locations.hora | date :'hh:mm a' | lowercase }}</td>
                   </tr>
                </table>
+               <ion-col>
+                <ion-list *ngFor="let itemB of flagAccordionB; let j=index" class="accordion-list" color="none" lines="none">
+                  <ion-item tappable (click)="toogleSectionB(j)" [ngClass]="{'section-active': itemB.open, 'section':!itemB.open}">
+                    <ion-icon slot="end" name="add" *ngIf="itemB.open"></ion-icon>
+                    <ion-icon slot="end" name="remove" *ngIf="!itemB.open"></ion-icon> 
+                    <ion-label>
+                      {{ itemB.name}}
+                    </ion-label>
+                  </ion-item>
+          
+                  <div *ngIf="!itemB.open">
+                    <table class="tablavertC">
+                                         
+                      <tr>
+                        
+                        <td class="tempdet3">Altitud</td>
+                        <td >:</td>
+                        <td style="text-align: left;margin-left: 1px;" colspan="4">{{locations.altitud}} </td>
+                      </tr>
+                      <tr>
+                       
+                        <td class="tempdet3">Distancia</td>
+                        <td >:</td>
+                        <td style="text-align: left;margin-left: 2px;">{{locations.distancia}} </td>
+                      </tr>
+
+                   </table>
+                  </div>
+                </ion-list>
+               </ion-col>
               </ion-row>
             </ion-grid>
-            <ion-grid class="datamain"> 
+           <!-- <ion-grid class="datamain"> 
             <ion-row>
               <table >
                 <tr (click)="videoSENAMHI()">
@@ -144,10 +162,65 @@
                 </tr>
               </table>
             </ion-row>
-            </ion-grid> 
-            <ion-row style="padding-bottom: 10px;"></ion-row>
+            </ion-grid> -->
+            <ion-row style="padding-bottom: 5px;"></ion-row>
 
-            <ion-grid class="datamain"> 
+            <ion-row class="datamain">
+              <ion-col>
+                <ion-list *ngFor="let item of flagAccordionA; let i=index" class="accordion-list" color="none" lines="none">
+                  <ion-item tappable (click)="toogleSectionA(i)" [ngClass]="{'section-active': item.open, 'section':!item.open}">
+                    <ion-icon slot="end" name="add" *ngIf="item.open"></ion-icon>
+                    <ion-icon slot="end" name="remove" *ngIf="!item.open"></ion-icon> 
+                    <ion-label>
+                      {{ item.name}}
+                    </ion-label>
+                  </ion-item>
+                  <div *ngIf="!item.open" style="padding-bottom: 10px;">
+                    <ion-label class="hydrated">
+                      <table frame="void" >
+                        <tbody >
+                        <tr style="font-weight: bolder;" class="tablavert2">
+                        <th >Estación</th>
+                        <th style="text-align: center">Dist. (km)</th>
+                        <th style="text-align: center">Alt. (m)</th>
+                        <th style="text-align: center">Hora (am/pm)</th>
+                        <th style="text-align: center">Temp.(°C)</th>
+                       
+                        <th style="text-align: center">Precip.(mm/h)</th>
+                        </tr>
+                        <tr  *ngFor="let tmp2 of listado2; let i = index;"  class="tablavert2">
+                          <td><div style="font-weight: bolder;"> {{ tmp2.nomEsta | titlecase  }}</div>
+                            <div class="wrap-text" (click)="presentPopover($event,tmp2.nomDep,tmp2.nomProv,tmp2.nomDist, tmp2.distancia,tmp2.unidad, tmp2.latitud,tmp2.longitud, tmp2.nomEsta )">{{ tmp2.nomDep | titlecase  }} / 
+                            {{ tmp2.nomProv | titlecase }} /
+                            {{ tmp2.nomDist | titlecase  }} </div>
+      
+                          </td>
+                          <td style="text-align: center">{{ tmp2.distancia | number:'1.0-0' }}</td>
+                          <td style="text-align: center">{{ tmp2.altitud }}</td>
+                          <td style="text-align: center"> 
+                              <div *ngIf="tmp2.fecha!=null" class="wrap-text1">{{ tmp2.fecha | date :'h a' }}</div>
+                              <div *ngIf="tmp2.fecha==null">--</div></td>
+                          <td style="text-align: center"> 
+                              <div *ngIf="tmp2.temperatura!=null && tmp2.flagTemperatura==0" class="wrap-text1" >{{ tmp2.temperatura  | number:'1.0-0' }}*</div>
+                              <div *ngIf="tmp2.temperatura!=null && tmp2.flagTemperatura==1" class="wrap-text1" >{{ tmp2.temperatura  | number:'1.0-0' }}</div>
+                              <div *ngIf="tmp2.temperatura==null">--</div>
+                              
+                          <td style="text-align: center"> 
+                            <div *ngIf="tmp2.precipitacion!=null && tmp2.precipitacion==0">0.0</div>
+                            <div *ngIf="tmp2.precipitacion!=null && tmp2.precipitacion>0 && tmp2.flagPrecipitacion==0" class="wrap-text1">{{ tmp2.precipitacion | number:'1.1-1' }}*</div>
+                            <div *ngIf="tmp2.precipitacion!=null && tmp2.precipitacion>0 && tmp2.flagPrecipitacion==1" class="wrap-text1">{{ tmp2.precipitacion | number:'1.1-1' }}</div>
+                            <div *ngIf="tmp2.precipitacion==null">--</div>
+                        </tr>
+                    
+                        </tbody>
+                        </table>
+                  </ion-label>
+                  </div>
+                </ion-list>
+              </ion-col>
+            </ion-row>
+
+           <!-- <ion-grid class="datamain"> 
             <ion-label class="tempdet2"> Datos de estaciones más cercanas</ion-label>
             <ion-row><ion-label class="tempdet4"> * Datos por confirmar</ion-label></ion-row>
             <ion-row style="padding-bottom: 8px;"></ion-row>
@@ -192,7 +265,7 @@
                   </table>
             </ion-label>
             </ion-row>
-          </ion-grid>
+          </ion-grid>-->
           <ion-grid class="datamain">
             <ion-row>
               <ion-col>

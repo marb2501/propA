@@ -9,6 +9,7 @@ import { OpenNativeSettings } from '@ionic-native/open-native-settings/ngx';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 import { StorageService } from '../../services/storage.service';
 import Swal from 'sweetalert2';
+import { from, of } from 'rxjs';
 
 @Component({
   selector: 'app-menu',
@@ -18,7 +19,7 @@ import Swal from 'sweetalert2';
 export class MenuPage implements OnInit{
 
   pages: MenuApp[]=[];
- 
+  public menuapp:MenuApp[]; 
   selectedTheme:String;
 
 
@@ -46,21 +47,48 @@ export class MenuPage implements OnInit{
   }
   
   loadMenu(){
-    
-    this.menuappService.getMenu().pipe(
-      catchError(e => {
+    //this.pages=menuSlide;
+    this.menuappService.getMenu1().subscribe((response) =>{
+      
+      this.menuapp=JSON.parse(response.data);
+     
+       this.pages=this.menuapp;
 
+
+
+    }, err=>{
+      //alert(JSON.parse(err))
+      this.pages=menuSlide;
+    });
+    
+   /* this.menuappService.getMenu1()
+    .pipe(catchError( data => of(JSON.stringify(data))))
+    .subscribe((data)=>{
+    
+      alert('subscribe : ' + JSON.stringify(data));
+    }
+     )*/
+
+    /*this.menuappService.getMenu().pipe(
+      catchError(e => {
+    
         this.pages=menuSlide; 
 
         return throwError(e)
         })
     ).subscribe(reponse => {
       if (reponse.body==null){
-        this.pages=menuSlide; 
+        this.pages=menuSlide;
+         
       }else{
-        this.pages= reponse.body;
+        
+        if (reponse.body.length>0){
+           this.pages= reponse.body; 
+        }else{
+          this.pages=menuSlide;
+        }
       }
-    })
+    })*/
   }
 
  

@@ -16,7 +16,9 @@ import {
   humedadD,
   precipitaD,
   rutaiconoD,
-  rutaiconoN
+  rutaiconoN,
+  accordionmain1,
+  accordionmain2
 } from '../../globales';
 import { ApiService } from '../../services/api.service';
 import { AvisometeoroService } from '../../services/avisometeoro.service';
@@ -54,6 +56,11 @@ export class MainPage {
   itemGPMain:  Geolocaposicion[]=[];
   newitemGP:  Geolocaposicion=<Geolocaposicion>{};
   selectedTheme:String;
+
+  flagAccordionA;
+  flagAccordionB;
+  automaticCloseA = false;
+  automaticCloseB = false;
 
   httpOptions = {
     headers: new HttpHeaders({
@@ -111,6 +118,12 @@ export class MainPage {
             }else{
               this.selectedTheme=a;}})
           })
+
+          this.flagAccordionA = accordionmain1['items'];
+          this.flagAccordionA[0].open=true;
+          
+          this.flagAccordionB = accordionmain2['items'];
+          this.flagAccordionB[0].open=true;
   }
 
   listado: any[];
@@ -623,6 +636,24 @@ export class MainPage {
     this.router.navigate(['/menu/search']);
   }
 
+  toogleSectionA(index){
+    this.flagAccordionA[index].open =!this.flagAccordionA[index].open;
 
+    if(this.automaticCloseA && this.flagAccordionA[index].open){
+      this.flagAccordionA
+      .filter((item, itemIndex)=>itemIndex !=index)
+      .map(item =>item.open = false);
+    }
+  }
+
+  toogleSectionB(index){
+    this.flagAccordionB[index].open =!this.flagAccordionB[index].open;
+
+    if(this.automaticCloseB && this.flagAccordionB[index].open){
+      this.flagAccordionB
+      .filter((item, itemIndex)=>itemIndex !=index)
+      .map(item =>item.open = false);
+    }
+  }
 
 }

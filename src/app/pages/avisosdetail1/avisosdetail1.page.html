@@ -17,7 +17,7 @@
         </ion-card-content>
       </ion-card></ion-col>
   </ion-row>
-  <ion-row>
+  <!--<ion-row>
     <ion-col> 
       <ion-list style="background: none;">
         <ion-item *ngFor="let ch of datacheck" (click)="checkControlEvent(ch)" color="none" lines="none">
@@ -28,55 +28,118 @@
     </ion-col>
   </ion-row>
   <ion-row class="cardtransparente">
-    <ion-col><ion-list class="cardtransparente">
-      <ion-item-sliding *ngFor="let avisoExtra of pagesMet" >
-        <ion-item  *ngIf="avisoExtra.valuemet=='avisosmap24h' && getColor24H()!='blanco'" color="none" lines="none">
-          <ion-icon name="alert" item-left [class]="getColor24H()"></ion-icon>
-          <ion-label class="datamain4 ion-text-wrap" style="font-size:14px;">{{ avisoExtra.title }}<p>Fecha de Inicio: {{fecha24h}}</p><p>Vigencia: 24 horas</p> </ion-label>
-          <ion-icon class="datamain4" name="map-outline" slot="end" (click)="openModalExtra(avisoExtra.url, avisoExtra.valuemet)" ></ion-icon>
-        </ion-item>
-        <ion-item *ngIf="avisoExtra.valuemet=='avisosmapquebra'" color="none" lines="none">
-          <ion-label class="datamain4 ion-text-wrap">{{ avisoExtra.title}} 
-          </ion-label>
-          <ion-icon class="datamain4" name="map-outline" slot="end" (click)="openModalExtra(avisoExtra.url, avisoExtra.valuemet)" ></ion-icon>
-        </ion-item>
-      </ion-item-sliding>
-    </ion-list></ion-col>
-  </ion-row>
-   <ion-row class="cardtransparente">
-    <ion-col><ion-list class="cardtransparente">
-      <div *ngIf="avisoMet?.length === 0 || avisoMet?.length==null || avisoMet==undefined">
-        <ion-item class="datamain4" color="none" lines="none">No se registraron avisos </ion-item>
-      </div>
-      <div class="listaavisosmarco">
-        
-        <ion-item-sliding *ngFor="let aviso of avisoMet;" >
-          <ion-item color="none" lines="none"  (click)="openAvisoTextInfo(aviso.numero, 
-                                                                          aviso.titulo, 
-                                                                          aviso.fechaEmision,
-                                                                          aviso.fechaInicioEvento,
-                                                                          aviso.vaAlerta,
-                                                                          aviso.descripcionGeneral, 
-                                                                          aviso.codNivel,
-                                                                          aviso.listaMapas)"> <!--*ngIf="getAvisoAfectados(aviso.numero)>0"-->
-            <ion-icon  name="alert" item-left [class]="getColor(aviso.codNivel)"></ion-icon>
-            <ion-label class="datamain4 ion-text-wrap">{{ aviso.titulo}} 
-              <p>{{ fechacat(aviso.fechaInicioEvento,aviso.vaAlerta )}}</p><p>(Vigencia: {{aviso.vaAlerta}} horas)</p>
-            </ion-label>
-           <!-- <ion-icon class="datamain4" name="information-circle-outline" slot="end" (click)="openAvisoTextInfo(aviso.numero, 
-                                                                                      aviso.titulo, 
-                                                                                      aviso.fechaEmision,
-                                                                                      aviso.fechaInicioEvento,
-                                                                                      aviso.vaAlerta,
-                                                                                      aviso.descripcionGeneral, 
-                                                                                      aviso.codNivel,
-                                                                                      aviso.listaMapas)"></ion-icon>-->
-           
+    <ion-col>
+      <ion-list class="cardtransparente">
+        <ion-item-sliding *ngFor="let avisoExtra of pagesMet" >
+          <ion-item  *ngIf="avisoExtra.valuemet=='avisosmap24h' && getColor24H()!='blanco'" color="none" lines="none">
+            <ion-icon name="alert" item-left [class]="getColor24H()"></ion-icon>
+            <ion-label class="datamain4 ion-text-wrap" style="font-size:14px;">{{ avisoExtra.title }}<p>Fecha de Inicio: {{fecha24h}}</p><p>Vigencia: 24 horas</p> </ion-label>
+            <ion-icon class="datamain4" name="map-outline" slot="end" (click)="openModalExtra(avisoExtra.url, avisoExtra.valuemet)" ></ion-icon>
           </ion-item>
- 
+          <ion-item *ngIf="avisoExtra.valuemet=='avisosmapquebra'" color="none" lines="none">
+            <ion-label class="datamain4 ion-text-wrap">{{ avisoExtra.title}} 
+            </ion-label>
+            <ion-icon class="datamain4" name="map-outline" slot="end" (click)="openModalExtra(avisoExtra.url, avisoExtra.valuemet)" ></ion-icon>
+          </ion-item>
         </ion-item-sliding>
-      </div>
+      </ion-list>
+     </ion-col>
+  </ion-row>-->
 
-    </ion-list></ion-col>
-  </ion-row></ion-grid> 
+    <ion-row class="cardtransparente">
+   
+    <ion-col>
+      <ion-list *ngFor="let item of flagAccordionA; let i=index" class="accordion-list" color="none" lines="none">
+        <ion-item tappable (click)="toogleSectionA(i)" [ngClass]="{'section-active': item.open, 'section':!item.open}">
+          <ion-icon slot="end" name="add" *ngIf="item.open"></ion-icon>
+          <ion-icon slot="end" name="remove" *ngIf="!item.open"></ion-icon> 
+          <ion-label>
+            {{ item.name}}
+          </ion-label>
+        </ion-item>
+        <div *ngIf="!item.open">
+          <!--seccion de avisos meteorologicos segun mi posicion-->
+          <div *ngIf="avisoMet?.length === 0 || avisoMet?.length==null || avisoMet==undefined">
+            <ion-item class="datamain4" color="none" lines="none">No se registraron avisos </ion-item>
+          </div>
+          <ion-item-sliding *ngFor="let aviso of avisoMet;" >
+            <ion-item color="none" lines="none"  (click)="openAvisoTextInfo(aviso.numero, 
+                                                                            aviso.titulo, 
+                                                                            aviso.fechaEmision,
+                                                                            aviso.fechaInicioEvento,
+                                                                            aviso.vaAlerta,
+                                                                            aviso.descripcionGeneral, 
+                                                                            aviso.codNivel,
+                                                                            aviso.listaMapas)"> 
+              <ion-icon  name="alert" item-left [class]="getColor(aviso.codNivel)"></ion-icon>
+              <ion-label class="datamain4 ion-text-wrap">{{ aviso.titulo}} 
+                <p>{{ fechacat(aviso.fechaInicioEvento,aviso.vaAlerta )}}</p><p>(Vigencia: {{aviso.vaAlerta}} horas)</p>
+              </ion-label>
+           
+             
+            </ion-item>
+   
+          </ion-item-sliding>
+           <!--seccion de avisos meteorologicos segun mi posicion-->
+          <!--seccion de avisos lluvia 24 horas y quebradas-->
+          <ion-item-sliding *ngFor="let avisoExtra of pagesMet" >
+            <ion-item  *ngIf="avisoExtra.valuemet=='avisosmap24h' && getColor24H()!='blanco'" color="none" lines="none">
+              <ion-icon name="alert" item-left [class]="getColor24H()"></ion-icon>
+              <ion-label class="datamain4 ion-text-wrap" style="font-size:14px;">{{ avisoExtra.title }}<p>Fecha de Inicio: {{fecha24h}}</p><p>Vigencia: 24 horas</p> </ion-label>
+              <ion-icon class="datamain4" name="map-outline" slot="end" (click)="openModalExtra(avisoExtra.url, avisoExtra.valuemet)" ></ion-icon>
+            </ion-item>
+            <ion-item *ngIf="avisoExtra.valuemet=='avisosmapquebra'" color="none" lines="none">
+              <ion-label class="datamain4 ion-text-wrap">{{ avisoExtra.title}} 
+              </ion-label>
+              <ion-icon class="datamain4" name="map-outline" slot="end" (click)="openModalExtra(avisoExtra.url, avisoExtra.valuemet)" ></ion-icon>
+            </ion-item>
+          </ion-item-sliding>
+           <!--seccion de avisos lluvia 24 horas y quebradas-->
+        </div>
+      </ion-list>
+  </ion-col>
+  </ion-row>
+
+  <ion-row class="cardtransparente">
+    <ion-col>
+      <ion-list *ngFor="let itemB of flagAccordionB; let j=index" class="accordion-list" color="none" lines="none">
+        
+        <ion-item tappable (click)="toogleSectionB(j)" [ngClass]="{'section-active': itemB.open, 'section':!itemB.open}">
+          <ion-icon slot="end" name="add" *ngIf="itemB.open"></ion-icon>
+          <ion-icon slot="end" name="remove" *ngIf="!itemB.open"></ion-icon> 
+          <ion-label>
+            {{ itemB.name}}
+          </ion-label>
+        </ion-item>
+
+        <div *ngIf="!itemB.open">
+          <!--SECCION DE avisos meteorologicos totales-->
+          <div *ngIf="avisoMetAll?.length === 0 || avisoMetAll?.length==null || avisoMetAll==undefined">
+            <ion-item class="datamain4" color="none" lines="none">No se registraron avisos </ion-item>
+          </div>
+          <ion-item-sliding *ngFor="let avisoA of avisoMetAll;" >
+            <ion-item color="none" lines="none"  (click)="openAvisoTextInfo(avisoA.numero, 
+                                                                            avisoA.titulo, 
+                                                                            avisoA.fechaEmision,
+                                                                            avisoA.fechaInicioEvento,
+                                                                            avisoA.vaAlerta,
+                                                                            avisoA.descripcionGeneral, 
+                                                                            avisoA.codNivel,
+                                                                            avisoA.listaMapas)"> 
+              <ion-icon  name="alert" item-left [class]="getColor(avisoA.codNivel)"></ion-icon>
+              <ion-label class="datamain4 ion-text-wrap">{{ avisoA.titulo}} 
+                <p>{{ fechacat(avisoA.fechaInicioEvento,avisoA.vaAlerta )}}</p><p>(Vigencia: {{avisoA.vaAlerta}} horas)</p>
+              </ion-label>
+           
+             
+            </ion-item>
+   
+          </ion-item-sliding>
+          <!--seccion de avisos meteorologicos totales-->
+        </div>
+      </ion-list>
+    </ion-col>
+  </ion-row>
+ 
+</ion-grid> 
 </ion-content>

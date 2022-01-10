@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { ActivatedRoute, Router, NavigationExtras } from '@angular/router';
-import { previous, MESESTIEMPO,layermet} from '../../globales';
+import { previous, MESESTIEMPO, accordionposiciontotal, accordionpaistotal} from '../../globales';
 import { AvisometeoroService } from '../../services/avisometeoro.service';
 import { AvisoMeteoro } from '../../models/avisomet.model';
 import { StorageService, Geolocaposicion} from '../../services/storage.service';
 import { WmssenamhiService } from '../../services/wmssenamhi.service';
 import { MenumetService } from '../../services/menumet.service';
-import { MenuMetApp } from '../../models/menumet.model';
+import { MenuMetApp,  } from '../../models/menumet.model';
 import { catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs';
 import { Avisosmap24hPage } from '../avisosmap24h/avisosmap24h.page';
@@ -25,6 +25,7 @@ import { AndroidpermisionService } from '../../services/androidpermision.service
 export class Avisosdetail1Page {
 
   public avisoMet: AvisoMeteoro[];
+  public avisoMetAll: AvisoMeteoro[];
   public avisoMetAuxNivel: AvisoMeteoro[];
 
   public ametideseptemp:AvisoMeteoroIDESEP[];
@@ -42,11 +43,15 @@ export class Avisosdetail1Page {
   ciudad;
   viewparams;
   //datacheck=[{name:'Mostrar los avisos meteorólogicos del país', selected:false}]
-  datacheck=[{name:'Ver avisos del país', selected:false}]
+  //datacheck=[{name:'Ver avisos del país', selected:false}]
   //array de niveles
   nivelesAM=[];
   icono;
   map: Map;
+  flagAccordionA;
+  flagAccordionB;
+  automaticCloseA = false;
+  automaticCloseB = false;
   
    constructor(private modalcontroller: ModalController, 
               private storageService:StorageService,
@@ -59,6 +64,7 @@ export class Avisosdetail1Page {
               public menumetappService:MenumetService ) { 
 
                 this.avisoMet=[];
+                this.avisoMetAll=[];
                
                 this.route.queryParams.subscribe(params => {
                   if (params && params.special){
@@ -74,6 +80,12 @@ export class Avisosdetail1Page {
                   search: true,
                   share:true
                 });
+
+      this.flagAccordionA = accordionposiciontotal['items'];
+      this.flagAccordionA[0].open=true;
+      
+      this.flagAccordionB = accordionpaistotal['items'];
+      this.flagAccordionB[0].open=true;
   }
 
 
@@ -87,8 +99,9 @@ export class Avisosdetail1Page {
 
 
     //this.datacheck=[{name:'Mostrar los avisos meteorólogicos del país', selected:false}]
-    this.datacheck=[{name:'Ver avisos del país', selected:false}]
+   // this.datacheck=[{name:'Ver avisos del país', selected:false}]
     this.avisoMet=[];
+    this.avisoMetAll=[];
     this.nivelesAM=[];
     this.color24hnivel='';
     this.fecha24h='';
@@ -101,11 +114,12 @@ export class Avisosdetail1Page {
         this.getColorNivel24Horas();
         this.loadMenuMet();
         this.cargaMisListadoAvisoMeteoro();
+        this.cargaListadoAvisoMeteoro()
       }
     })
   }
 
-  checkControlEvent(check){
+  /*checkControlEvent(check){
     this.avisoMet=[];
     if(check['selected']){
       this.storageService.getitemGeoposition().then((items0)=>{
@@ -120,7 +134,7 @@ export class Avisosdetail1Page {
     }else{
       this.cargaMisListadoAvisoMeteoro();
     }
-  }
+  }*/
 
     async cargaMisListadoAvisoMeteoro(){
     const loading = await this.loadingController.create({
@@ -195,11 +209,11 @@ export class Avisosdetail1Page {
 
     await loading.present();
 
-    this.avisoMet=[];
+    this.avisoMetAll=[];
    await this.avisoMeteoro.getListaAvisoMeteoro()
       .subscribe(async (listaavisomet) =>{
-        this.avisoMet=[];
-        this.avisoMet=JSON.parse(listaavisomet.data);
+        this.avisoMetAll=[];
+        this.avisoMetAll=JSON.parse(listaavisomet.data);
        
       }, (error)=>{console.log(error)});
 
@@ -353,4 +367,28 @@ async openAvisoTextInfo(numero, titulo, fechaemi, fechaaviso, vigencia, descripc
          });
        });
   }
+
+  toogleSectionA(index){
+    this.flagAccordionA[index].open =!this.flagAccordionA[index].open;
+
+    if(this.automaticCloseA && this.flagAccordionA[index].open){
+      this.flagAccordionA
+      .filter((item, itemIndex)=>itemIndex !=index)
+      .map(item =>item.open = false);
+    }
+  }
+
+  toogleSectionB(index){
+    this.flagAccordionB[index].open =!this.flagAccordionB[index].open;
+
+    if(this.automaticCloseB && this.flagAccordionB[index].open){
+      this.flagAccordionB
+      .filter((item, itemIndex)=>itemIndex !=index)
+      .map(item =>item.open = false);
+    }
+  }
+
+
+
+
 }  

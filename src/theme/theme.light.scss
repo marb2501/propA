@@ -175,4 +175,35 @@
       font-weight: bold;
     }
 
+    .accordion-list{
+      margin-bottom : 4px;
+      --ion-item-background : transparent;
+      --ion-item-color: #00499A;
+     
+      .section, .section-active {
+        --min-height : 58px;
+        --ion-item-color: #00499A;
+        border:outset;
+      }
+    }
+    
+    .section{
+      --ion-item-background: transparent;
+      --ion-item-color: #00499A;
+      border:outset;
+      ion-icon{
+        color: #00499A;
+      }
+    }
+    
+    .section-active{
+      --ion-item-background: transparent;
+      --ion-item-color:#00499A;
+      font-weight: 600;
+    
+      ion-icon{
+        color:#00499A;
+      }
+    }
+
 }

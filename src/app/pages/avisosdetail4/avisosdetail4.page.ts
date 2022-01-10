@@ -3,7 +3,7 @@ import { ModalController, LoadingController } from '@ionic/angular';
 import { AvisometeoroService } from '../../services/avisometeoro.service';
 import { StorageService, Geolocaposicion } from '../../services/storage.service';
 import { AvisoHidroEstacion } from '../../models/avisoshidroestacion.model';
-import { MESESTIEMPO} from '../../globales';
+import { MESESTIEMPO, accordionposiciontotal, accordionpaistotal} from '../../globales';
 import { ActivatedRoute, Router, NavigationExtras } from '@angular/router';
 import { AndroidpermisionService } from '../../services/androidpermision.service';
 
@@ -15,6 +15,7 @@ import { AndroidpermisionService } from '../../services/androidpermision.service
 export class Avisosdetail4Page implements OnInit{
 
   public avisoHidro: AvisoHidroEstacion[];
+  public avisoHidroAll: AvisoHidroEstacion[];
   public avisoHidroTemp: AvisoHidroEstacion[];
   titulolist="Avisos Hidrológicos";
   
@@ -26,8 +27,12 @@ export class Avisosdetail4Page implements OnInit{
   dep;
   prov;
   distr;
+  flagAccordionA;
+  flagAccordionB;
+  automaticCloseA = false;
+  automaticCloseB = false;
   //datacheck=[{name:'Mostrar los avisos hidrológicos del país', selected:false}]
-  datacheck=[{name:'Ver avisos del país', selected:false}]
+  //datacheck=[{name:'Ver avisos del país', selected:false}]
 
   constructor(private modalcontroller: ModalController, 
     private storageService:StorageService,
@@ -46,15 +51,21 @@ export class Avisosdetail4Page implements OnInit{
       })
 
       // inject desde main a app.component
-    this.storageService.hiddenButtonApp({
-      main: true,
-      search: true,
-      share:true
-    });
+        this.storageService.hiddenButtonApp({
+          main: true,
+          search: true,
+          share:true
+        });
+
+        this.flagAccordionA = accordionposiciontotal['items'];
+        this.flagAccordionA[0].open=true;
+        
+        this.flagAccordionB = accordionpaistotal['items'];
+        this.flagAccordionB[0].open=true;
 
      }
   
-     checkControlEvent(check){
+    /* checkControlEvent(check){
       if(check['selected']){
         this.storageService.getitemGeoposition().then((items0)=>{
           this.itemGP=items0;
@@ -68,17 +79,18 @@ export class Avisosdetail4Page implements OnInit{
       }else{
         this.cargaMisListadoAvisoHidro();
       }
-    }
+    }*/
 
    ngOnInit(){
     //this.datacheck=[{name:'Mostrar los avisos hidrológicos del país', selected:false}]
-    this.datacheck=[{name:'Ver avisos del país', selected:false}]
+   // this.datacheck=[{name:'Ver avisos del país', selected:false}]
     this.storageService.getitemGeoposition().then((items0)=>{
       this.itemGP=items0;
       if(this.itemGP==null || this.itemGP.length<=0){
         this._androidpermision.gpsOntAlert()
       }else{
         this.cargaMisListadoAvisoHidro();
+        this.cargaListadoAvisoHidrolo();
       }
     })
 
@@ -159,8 +171,9 @@ export class Avisosdetail4Page implements OnInit{
       });
 
     //this.datacheck=[{name:'Mostrar los avisos hidrológicos del país', selected:false}]
-    this.datacheck=[{name:'Ver avisos del país', selected:false}]
-    this.cargaMisListadoAvisoHidro()
+    //this.datacheck=[{name:'Ver avisos del país', selected:false}]
+    this.cargaMisListadoAvisoHidro();
+    this.cargaListadoAvisoHidrolo();
 
   }
 
@@ -174,11 +187,11 @@ export class Avisosdetail4Page implements OnInit{
     
     await loading.present();
 
-    this.avisoHidro=[];
+    this.avisoHidroAll=[];
     this.avisosHidro.getAvisosHidrologicos()
       .subscribe(async (result) =>{
         
-        this.avisoHidro=JSON.parse(result.data);
+        this.avisoHidroAll=JSON.parse(result.data);
        
       }, (error)=>{console.log(error)});
       await loading.dismiss();
@@ -249,6 +262,24 @@ export class Avisosdetail4Page implements OnInit{
             ff.getDate()+' de '+MESESTIEMPO[ff.getMonth()]+' del '+ff.getFullYear()
   }
 
-  
+  toogleSectionA(index){
+    this.flagAccordionA[index].open =!this.flagAccordionA[index].open;
+
+    if(this.automaticCloseA && this.flagAccordionA[index].open){
+      this.flagAccordionA
+      .filter((item, itemIndex)=>itemIndex !=index)
+      .map(item =>item.open = false);
+    }
+  }
+
+  toogleSectionB(index){
+    this.flagAccordionB[index].open =!this.flagAccordionB[index].open;
+
+    if(this.automaticCloseB && this.flagAccordionB[index].open){
+      this.flagAccordionB
+      .filter((item, itemIndex)=>itemIndex !=index)
+      .map(item =>item.open = false);
+    }
+  }
 
 }

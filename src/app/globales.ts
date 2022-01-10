@@ -33,6 +33,7 @@ export const IdOneSignal = '260b6d9e-6182-4b44-a2a2-acb55fe75fda';//prod
 export const dominioAvisosJava ='http://190.119.131.28:9091/NotificadorAppInstitucional-0.0.1-SNAPSHOT/api/';
 export const dominioAvisosMeteorologicos ='http://sisper.senamhi.gob.pe:9091/appinstitucional/api/';
 export const dominioAvisoMetHidroPageMain='http://sisper.senamhi.gob.pe:9091/appinstitucional/api/aviso/meteo/hidro/';
+export const dominioMenuApp = 'http://sisper.senamhi.gob.pe:9091/menu/api/menuapp';
 export const dominioEstacionesWS = 'http://siscal.senamhi.gob.pe:8081/sQualityControl/datos/datactual/';
 export const urlWSAvisosHidrologicos ='http://siscal.senamhi.gob.pe:8081/sisweb-avisos/avisos/lista/';
 //export const pkgtempact = 'PKG_TMP.SP_TIEMPOACTUAL_BYZONA';
@@ -171,18 +172,94 @@ export const niveltexto = ['Blanco',
 //en el caso que no haya conexion a internet 
 export const menuSlide: any = [
   {
-    title: 'Avisos Meteorológicos',
-    url: '/menu/avisosdetail1',
-    icon: 'assets/images/iconmenu/cloudy-night-outline.svg',
-    status: 1
+  "id": 1,
+  "title": "¿Qué es una estación?",
+  "url": "https://www.youtube.com/watch?v=9G3YpRS--_4&t=217s",
+  "icon": "videocam-outline",
+  "status": 1,
+  "tipoenlace": 1,
+  "submenu": []
   },
   {
-    title: 'Avisos Hidrológicos',
-    url: '/menu/avisosdetail4',
-    icon: 'assets/images/iconmenu/hidro_sena.svg',
-    status: 1
+  "id": 4,
+  "title": "Avisos Meteorológicos",
+  "url": "/menu/avisosdetail1",
+  "icon": "cloudy-night-outline",
+  "status": 1,
+  "tipoenlace": 0,
+  "submenu": []
+  },
+  {
+  "id": 5,
+  "title": "Avisos Hidrológicos",
+  "url": "/menu/avisosdetail4",
+  "icon": "hidro_sena",
+  "status": 1,
+  "tipoenlace": 0,
+  "submenu": []
+  },
+  {
+  "id": 6,
+  "title": "Imágenes satelitales",
+  "url": "https://www.senamhi.gob.pe/?p=satelites-goes16",
+  "icon": "satelite_sena",
+  "status": 1,
+  "tipoenlace": 1,
+  "submenu": []
+  },
+  {
+  "id": 7,
+  "title": "Datos hidrometeorológicos ",
+  "url": "https://www.senamhi.gob.pe/servicios/?p=estaciones",
+  "icon": "thunderstorm-outline",
+  "status": 1,
+  "tipoenlace": 1,
+  "submenu": []
+  },
+  {
+  "id": 8,
+  "title": "Pronóstico climático",
+  "url": "https://www.senamhi.gob.pe/?p=pronostico-climatico",
+  "icon": "sunny-outline",
+  "status": 1,
+  "tipoenlace": 1,
+  "submenu": []
+  },
+  {
+  "id": 9,
+  "title": "Boletines de riesgo agroclimático",
+  "url": "https://www.gob.pe/9946-pronosticos-de-riesgo-agroclimatico-del-senamhi",
+  "icon": "newspaper-outline",
+  "status": 1,
+  "tipoenlace": 1,
+  "submenu": []
+  },
+  {
+  "id": 10,
+  "title": "Configuración y Ajustes",
+  "url": "/menu/ajustes",
+  "icon": "settings-outline",
+  "status": 1,
+  "tipoenlace": 0,
+  "submenu": []
   }
-];
+  ];
 
 
+  export const accordionmain1={"items":[
+    {
+        "name":"Estaciones más cercanas"}]};
+
+  export const accordionmain2={"items":[
+     {
+        "name":"Pronóstico"}]};
+
+  export const accordionposiciontotal={"items":[
+     {
+        "name":"Según mi posición"}]}
   
+  export const accordionpaistotal={"items":[
+          {
+             "name":"A nivel nacional"}]}      
+        
+
