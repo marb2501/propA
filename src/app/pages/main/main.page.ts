@@ -57,6 +57,8 @@ export class MainPage {
   newitemGP:  Geolocaposicion=<Geolocaposicion>{};
   selectedTheme:String;
 
+  fechaactual;
+
   flagAccordionA;
   flagAccordionB;
   automaticCloseA = false;
@@ -124,6 +126,9 @@ export class MainPage {
           
           this.flagAccordionB = accordionmain2['items'];
           this.flagAccordionB[0].open=true;
+
+          let fa= new Date();
+          this.fechaactual=fa.getDate().toString()
   }
 
   listado: any[];

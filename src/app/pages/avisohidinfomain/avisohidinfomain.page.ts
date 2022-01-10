@@ -244,4 +244,14 @@ export class AvisohidinfomainPage implements OnInit {
     });
   }
 
+  textoNivel(d){
+    return d === "AMARILLO"
+    ? 'LEVE' //muy alto
+    : d === "NARANJA" 
+    ? 'MODERADO' //alto
+    : d === "ROJO"
+    ? 'ALTO' //medio
+    : 'NORMAL'; //vacio
+  }
+
 }

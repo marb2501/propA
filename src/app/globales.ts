@@ -163,10 +163,10 @@ export const leyendaavisoshidro = ['No es necesario tomar precauciones.',
 export const mensajeShare1="La aplicación ha hecho una captura de su pantalla para que pueda compartirla en sus redes sociales.";
 export const mensajeShare2="No se habilitó la opción.";
 
-export const niveltexto = ['Blanco',
-                           'Amarillo',
-                           'Naranja', 
-                           'Rojo'];
+export const niveltexto = ['Normal',
+                           'Leve',
+                           'Moderado', 
+                           'Alto'];
 
 
 //en el caso que no haya conexion a internet 
@@ -248,11 +248,11 @@ export const menuSlide: any = [
 
   export const accordionmain1={"items":[
     {
-        "name":"Estaciones más cercanas"}]};
+        "name":"Otras estaciones más cercanas"}]};
 
   export const accordionmain2={"items":[
      {
-        "name":"Pronóstico"}]};
+        "name":"Datos adicionales"}]};
 
   export const accordionposiciontotal={"items":[
      {

@@ -124,14 +124,14 @@ export class AvisometinfomainPage implements OnInit {
 
   textoNivel(d){
     return parseInt(d) === 0
-    ? 'Blanco' //muy alto
+    ? 'NORMAL' //muy alto
     : parseInt(d) === 1 
-    ? 'Amarillo' //alto
+    ? 'LEVE' //alto
     : parseInt(d) === 2
-    ? 'Naranja' //medio
+    ? 'MODERADO' //medio
     : parseInt(d) === 3 
-    ? 'Rojo' //bajo
-    : 'Blanco'; //vacio
+    ? 'ALTO' //bajo
+    : 'NORMAL'; //vacio
   }
 
   colortextoCuadro(d){

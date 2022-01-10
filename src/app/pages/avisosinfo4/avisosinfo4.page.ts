@@ -213,7 +213,7 @@ export class Avisosinfo4Page {
 
         this.lugafec.forEach(datos=>{
           if(datos.codDep+'-'+datos.codProv+'-'+datos.codDist== this.dep+'-'+this.prov+'-'+this.distr){
-            this.nivelubica=this.colnivel.charAt(0).toUpperCase() + this.colnivel.slice(1);
+            this.nivelubica=this.textoNivel(this.colnivel)//;this.colnivel.charAt(0).toUpperCase() + this.colnivel.slice(1);
             this.codniubica=this.cnivel;
           }
         })
@@ -274,5 +274,16 @@ export class Avisosinfo4Page {
       });
   
     }  
+
+
+    textoNivel(d){
+      return d === "AMARILLO"
+      ? 'LEVE' //muy alto
+      : d === "NARANJA" 
+      ? 'MODERADO' //alto
+      : d === "ROJO"
+      ? 'ALTO' //medio
+      : 'NORMAL'; //vacio
+    }
 
 }

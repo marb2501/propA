@@ -46,13 +46,13 @@
           </div>
            
 
-              <ion-row class="datamain3">
+           <!--   <ion-row class="datamain3">
                 <ion-col>
                   <ion-label>{{locations.titulo | titlecase}}</ion-label>
                   
                 
                 </ion-col>
-              </ion-row>
+              </ion-row>-->
               <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
                 <ion-refresher-content   pullingIcon="chevron-down-circle-outline"
                                         pullingText="Arrastre para actualizar"
@@ -96,10 +96,12 @@
               <ion-row>
                 <table class="tablavertC">
                   <tr style="font-weight: bold;">
-              
-                    <td style="text-align: center;margin-left: 2px;" colspan="6" class="tempdet4">* Datos por confirmar</td>
-                      
+                    <td style="text-align: center;margin-left: 2px;" colspan="6">{{ fechaactual | date:'dd/MM/yyyy'}}</td>
+                                         
                   </tr>
+                  <tr style="font-weight: bold;">
+                    <td style="text-align: center;margin-left: 2px;" colspan="6" class="tempdet4">* Datos por confirmar</td>
+                    </tr>
                   <tr style="font-weight: bold;">
               
                     <td class="tempdet3">Estación</td>

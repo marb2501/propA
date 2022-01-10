@@ -5,8 +5,8 @@
 <ion-content padding responsive>
   <ion-grid  class="full-width" class="cardtransparente" >
     <ion-row style="margin-top:60px" class="datamain2Aviso">
-      <ion-col class="bannerAvisoBlanco">Aviso Nro {{ caviso }}</ion-col>
-      <ion-col [ngClass]="colorAviso(cnivel)">Nivel {{ colnivel }}</ion-col>
+      <!--<ion-col class="bannerAvisoBlanco">Aviso Nro {{ caviso }}</ion-col>-->
+      <ion-col colspan="2" [ngClass]="colorAviso(cnivel)">AVISO NIVEL {{ textoNivel(colnivel) | uppercase }}</ion-col>
     </ion-row>
     <ion-row class="datamain3">
       <ion-icon name="arrow-undo-outline" (click)="retornar()"></ion-icon>
@@ -82,7 +82,7 @@
       <ion-col>{{desc2}}</ion-col>
     </ion-row>
 
-    <ion-row class="datamain2">
+    <!--<ion-row class="datamain2">
     
       <ion-col>
         <ion-img class="imgmenutexto" [src]="rutaimg">
@@ -105,7 +105,7 @@
    <ion-row class="datamain2Aviso">
     <ion-col [ngClass]="colorAviso(1)"> {{ mgamarillo }}
    </ion-col>
- </ion-row>
+ </ion-row>-->
    
   </ion-grid>
 </ion-content>

@@ -207,12 +207,12 @@ export class AvisosmetmapmainPage {
               a=1;
             }else{
               niveli=0
-              dato="Blanco";
+              dato="NORMAL";
             }
             infotab="<tr><td>"+niveltexto[niveli]+":"+leyendaavisosmet[niveli]+"</td></tr>";
           });
           if(a==0){
-            infotab="<tr><td>Blanco:"+leyendaavisosmet[a]+"</td></tr>";
+            infotab="<tr><td>NORMAL:"+leyendaavisosmet[a]+"</td></tr>";
           }
 
           cabresl+=infotab+"</table>";
@@ -250,7 +250,7 @@ export class AvisosmetmapmainPage {
                 dato=niveltexto[niveli];
               }else{
                 niveli=0
-                dato="Blanco";
+                dato="NORMAL";
               }
   
               infotab="<tr><td>"+dato+":"+leyendaavisosmet[niveli]+"</td></tr>";
@@ -358,14 +358,14 @@ export class AvisosmetmapmainPage {
 
   textoNivel(d){
     return parseInt(d) === 0
-    ? 'Blanco' //muy alto
+    ? 'NORMAL' //muy alto
     : parseInt(d) === 1 
-    ? 'Amarillo' //alto
+    ? 'LEVE' //alto
     : parseInt(d) === 2
-    ? 'Naranja' //medio
+    ? 'MODERADO' //medio
     : parseInt(d) === 3 
-    ? 'Rojo' //bajo
-    : 'Blanco'; //vacio
+    ? 'ALTO' //bajo
+    : 'NORMAL'; //vacio
   }
 
 }
