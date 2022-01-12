@@ -96,11 +96,11 @@
               <ion-row>
                 <table class="tablavertC">
                   <tr style="font-weight: bold;">
-                    <td style="text-align: center;margin-left: 2px;" colspan="6">{{ fechaactual | date:'dd/MM/yyyy'}}</td>
+                    <td style="text-align: center;margin-left: 2px;" colspan="6">{{ fechaactual }}</td>
                                          
                   </tr>
                   <tr style="font-weight: bold;">
-                    <td style="text-align: center;margin-left: 2px;" colspan="6" class="tempdet4">* Datos por confirmar</td>
+                    <td style="text-align: center;margin-left: 2px;" colspan="6" class="tempdet4">Datos de la estación más cercana</td>
                     </tr>
                   <tr style="font-weight: bold;">
               
@@ -121,6 +121,8 @@
                     <td >:</td>
                     <td style="text-align: left;margin-left: 2px;">{{ locations.hora | date :'hh:mm a' | lowercase }}</td>
                   </tr>
+
+                 
                </table>
                <ion-col>
                 <ion-list *ngFor="let itemB of flagAccordionB; let j=index" class="accordion-list" color="none" lines="none">
@@ -146,6 +148,11 @@
                         <td class="tempdet3">Distancia</td>
                         <td >:</td>
                         <td style="text-align: left;margin-left: 2px;">{{locations.distancia}} </td>
+                      </tr>
+                      <tr>
+                    
+                        <td class="tempdet3" colspan="3"
+                        style="text-align: left;">"Distancia a la ubicación seleccionada"</td>
                       </tr>
 
                    </table>

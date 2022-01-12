@@ -12,7 +12,7 @@ import { AndroidpermisionService } from '../../services/androidpermision.service
   templateUrl: './avisosdetail4.page.html',
   styleUrls: ['./avisosdetail4.page.scss'],
 })
-export class Avisosdetail4Page implements OnInit{
+export class Avisosdetail4Page {
 
   public avisoHidro: AvisoHidroEstacion[];
   public avisoHidroAll: AvisoHidroEstacion[];
@@ -31,6 +31,7 @@ export class Avisosdetail4Page implements OnInit{
   flagAccordionB;
   automaticCloseA = false;
   automaticCloseB = false;
+  recomendacion;
   //datacheck=[{name:'Mostrar los avisos hidrológicos del país', selected:false}]
   //datacheck=[{name:'Ver avisos del país', selected:false}]
 
@@ -65,6 +66,8 @@ export class Avisosdetail4Page implements OnInit{
 
      }
   
+    
+
     /* checkControlEvent(check){
       if(check['selected']){
         this.storageService.getitemGeoposition().then((items0)=>{
@@ -81,7 +84,7 @@ export class Avisosdetail4Page implements OnInit{
       }
     }*/
 
-   ngOnInit(){
+  /* ngOnInit(){
     //this.datacheck=[{name:'Mostrar los avisos hidrológicos del país', selected:false}]
    // this.datacheck=[{name:'Ver avisos del país', selected:false}]
     this.storageService.getitemGeoposition().then((items0)=>{
@@ -94,9 +97,9 @@ export class Avisosdetail4Page implements OnInit{
       }
     })
 
-    
-   
-   } 
+   } */
+
+
    //carga losa visos vigentes que me correspoende por departameto y provincia
    async cargaMisListadoAvisoHidro(){
 
@@ -104,7 +107,8 @@ export class Avisosdetail4Page implements OnInit{
       cssClass: 'my-custom-class',
       message: 'Cargando...',
     });
-    
+ 
+
     await loading.present();
 
     this.storageService.getitemGeoposition().then(items0=>{
@@ -172,8 +176,15 @@ export class Avisosdetail4Page implements OnInit{
 
     //this.datacheck=[{name:'Mostrar los avisos hidrológicos del país', selected:false}]
     //this.datacheck=[{name:'Ver avisos del país', selected:false}]
-    this.cargaMisListadoAvisoHidro();
-    this.cargaListadoAvisoHidrolo();
+    this.storageService.getitemGeoposition().then((items0)=>{
+      this.itemGP=items0;
+      if(this.itemGP==null || this.itemGP.length<=0){
+        this._androidpermision.gpsOntAlert()
+      }else{
+        this.cargaMisListadoAvisoHidro();
+        this.cargaListadoAvisoHidrolo();
+      }
+    })
 
   }
 

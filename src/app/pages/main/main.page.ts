@@ -127,8 +127,8 @@ export class MainPage {
           this.flagAccordionB = accordionmain2['items'];
           this.flagAccordionB[0].open=true;
 
-          let fa= new Date();
-          this.fechaactual=fa.getDate().toString()
+          /*let fa= new Date();
+          this.fechaactual=fa.getDate().toString()*/
   }
 
   listado: any[];
@@ -351,6 +351,10 @@ export class MainPage {
       this.locations.descrip_abre=data.DES_PRON_ABREV
       this.locations.zona=data.ZONA
       this.locations.descrip = data.DES_PRON;
+      let dat=data.FECHA;
+      let i=dat.replace('-','/');
+      this.fechaactual=i.replace('-','/')
+
     });
 
     this.api.getDepProvDist(this.locations.lat, this.locations.lng).subscribe((datow) => {

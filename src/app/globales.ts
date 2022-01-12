@@ -248,7 +248,7 @@ export const menuSlide: any = [
 
   export const accordionmain1={"items":[
     {
-        "name":"Otras estaciones más cercanas"}]};
+        "name":"Otras estaciones cercanas"}]};
 
   export const accordionmain2={"items":[
      {

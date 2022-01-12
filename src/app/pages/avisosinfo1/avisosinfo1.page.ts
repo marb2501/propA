@@ -3,7 +3,7 @@ import { ModalController } from '@ionic/angular';
 import { SocialSharing } from '@ionic-native/social-sharing/ngx';
 import { Screenshot } from '@ionic-native/screenshot/ngx';
 import { ActivatedRoute, Router } from '@angular/router';
-import {MESESTIEMPO,DIASTIEMPO, niveltexto} from '../../globales';
+import {MESESTIEMPO,DIASTIEMPO, niveltexto, leyendarecavisosmet} from '../../globales';
 import { Avisosmap1Page } from '../avisosmap1/avisosmap1.page';
 import { StorageService, Geolocaposicion } from '../../services/storage.service';
 import { listaMapas } from '../../models/listamapasmet.model';
@@ -30,6 +30,7 @@ export class Avisosinfo1Page implements OnInit {
   arrayNivel:any[]=[];
   arrayCodNivel:any[]=[];
   aniofechaem;
+  recomendacion;
 
   @Input() numero: string;
   @Input() tituloA: string;
@@ -100,10 +101,14 @@ export class Avisosinfo1Page implements OnInit {
   ngOnInit(){
     this.listamapas=[];
     this.listamapas=this.lmapas;
+
+    //console.log(this.listamapas)
+    const tiempoTranscurrido = new Date(Date.now());
+    const fehac=tiempoTranscurrido.getDate()+'/'+tiempoTranscurrido.getMonth()+'/'+tiempoTranscurrido.getFullYear();
     
     this.arrayNivel=[];
     this.arrayCodNivel=[];
-
+    this.recomendacion=leyendarecavisosmet[0];
 
     this.storageService.getitemGeoposition().then((items0)=>{
       this.itemGP=items0;
@@ -122,7 +127,12 @@ export class Avisosinfo1Page implements OnInit {
               let resultado;
 
               datawms.map(element => {
+               
                 let dato=element['properties'].nivel;
+                let fehcini=new Date(element['properties'].fech_ini);
+                
+                let feh=fehcini.getDate()+'/'+fehcini.getMonth()+'/'+fehcini.getFullYear();
+          
                 let niveli=dato.slice(-1);
                 let textonivel='';
                 if(Number(niveli)){
@@ -139,6 +149,10 @@ export class Avisosinfo1Page implements OnInit {
                   textonivel='No está expuesto'
                 }else{
                   textonivel=niveltexto[resultado];
+                }
+
+                if(feh==fehac){
+                  this.recomendacion=leyendarecavisosmet[resultado];
                 }
 
                 let nivele=textonivel;

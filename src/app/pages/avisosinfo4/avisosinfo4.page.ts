@@ -2,7 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Lugarafectado } from '../../models/lugarafectado.model';
-import { MESESTIEMPO,DIASTIEMPO} from '../../globales';
+import { MESESTIEMPO,DIASTIEMPO, leyendaavisoshidro} from '../../globales';
 import { Avisosmap4Page } from '../avisosmap4/avisosmap4.page';
 import { StorageService, Geolocaposicion } from '../../services/storage.service';
 
@@ -31,6 +31,7 @@ export class Avisosinfo4Page {
   mgnaranja:String;
   mgamarillo:String;
   cadenaidistritos:string;
+  recomendacion;
  
   lugafec:Lugarafectado[];
   data : any;
@@ -113,6 +114,9 @@ export class Avisosinfo4Page {
           this.lat=this.data.lat;
           this.lng=this.data.lng;
           this.lugafec=this.data.lugarafectado;
+
+             
+         
           
       }})
     }
@@ -209,11 +213,12 @@ export class Avisosinfo4Page {
         this.distr=this.itemGP[0].coddist;
         this.nivelubica='No está expuesto'
         this.codniubica=0;
-
+        this.recomendacion=leyendaavisoshidro[0]
 
         this.lugafec.forEach(datos=>{
           if(datos.codDep+'-'+datos.codProv+'-'+datos.codDist== this.dep+'-'+this.prov+'-'+this.distr){
             this.nivelubica=this.textoNivel(this.colnivel)//;this.colnivel.charAt(0).toUpperCase() + this.colnivel.slice(1);
+            this.recomendacion=leyendaavisoshidro[this.colnivel]
             this.codniubica=this.cnivel;
           }
         })

@@ -210,9 +210,11 @@ export class AvisosmetmapmainPage {
               dato="NORMAL";
             }
             infotab="<tr><td>"+niveltexto[niveli]+":"+leyendaavisosmet[niveli]+"</td></tr>";
+            infotab+="<tr><td>Recomendación:"+leyendarecavisosmet[niveli]+"</td></tr>";
           });
           if(a==0){
             infotab="<tr><td>NORMAL:"+leyendaavisosmet[a]+"</td></tr>";
+            infotab+="<tr><td>Recomendación:"+leyendarecavisosmet[a]+"</td></tr>";
           }
 
           cabresl+=infotab+"</table>";
@@ -254,6 +256,7 @@ export class AvisosmetmapmainPage {
               }
   
               infotab="<tr><td>"+dato+":"+leyendaavisosmet[niveli]+"</td></tr>";
+              infotab+="<tr><td>Recomendación:"+leyendarecavisosmet[niveli]+"</td></tr>";
             });
             
             tabalresul+=infotab+"</table>";
@@ -268,15 +271,13 @@ export class AvisosmetmapmainPage {
           });
         }); 
 
-        
-
         const markPoint = marker([this.lat, this.lng ], {
             icon: icon(iconmarker)
           });
         this.map.addLayer(markPoint);
 
         //mapa
-        const legend = control({ position: "bottomleft" });  
+       /* const legend = control({ position: "bottomleft" });  
         legend.onAdd = () => {
           const div = DomUtil.create("div", "info legend");
          
@@ -300,7 +301,7 @@ export class AvisosmetmapmainPage {
           return div;
         };
     
-        legend.addTo(this.map);  
+        legend.addTo(this.map);  */
 
          //insercion de boton info
          const botonMap2 = control({ position: "topleft" });  

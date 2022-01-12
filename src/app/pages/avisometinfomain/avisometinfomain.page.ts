@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { ActivatedRoute, Router } from '@angular/router';
-import {MESESTIEMPO,DIASTIEMPO} from '../../globales';
+import {MESESTIEMPO,DIASTIEMPO, leyendarecavisosmet} from '../../globales';
 import { AvisosmetmapmainPage } from '../../pages/avisosmetmapmain/avisosmetmapmain.page';
 import { listaMapas } from '../../models/listamapasmet.model';
 import { StorageService, Geolocaposicion } from '../../services/storage.service';
@@ -17,6 +17,7 @@ export class AvisometinfomainPage implements OnInit {
   tituloaviso:string;
   data : any;
   ciudad;
+  recomendacion;
 
   @Input() numero: string;
   @Input() tituloA: string;
@@ -98,7 +99,7 @@ export class AvisometinfomainPage implements OnInit {
       this.ciudad=this.itemGP[0].ciudad;
     })
 
-
+    this.recomendacion=leyendarecavisosmet[this.nivel];
 
     this.argFecha=[];
     let fechatemp= new Date();

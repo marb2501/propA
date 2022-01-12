@@ -228,9 +228,11 @@ export class Avisosmap1Page {
               dato="NORMAL";
             }
            infotab="<tr><td>"+niveltexto[niveli]+":"+leyendaavisosmet[niveli]+"</td></tr>";
+           infotab+="<tr><td>Recomendación:"+leyendarecavisosmet[niveli]+"</td></tr>";
           });
           if(a==0){
             infotab="<tr><td>NORMAL:"+leyendaavisosmet[a]+"</td></tr>";
+            infotab+="<tr><td>Recomendación:"+leyendarecavisosmet[0]+"</td></tr>";
           }
 
           cabresl+=infotab+"</table>";
@@ -270,6 +272,7 @@ export class Avisosmap1Page {
               }
   
               infotab="<tr><td>"+dato+":"+leyendaavisosmet[niveli]+"</td></tr>";
+              infotab+="<tr><td>Recomendación:"+leyendarecavisosmet[niveli]+"</td></tr>";
             });
             
             tabalresul+=infotab+"</table>";
@@ -285,7 +288,7 @@ export class Avisosmap1Page {
         }); 
       
         //mapa
-        const legend = control({ position: "bottomleft" });  
+        /*const legend = control({ position: "bottomleft" });  
         legend.onAdd = () => {
           const div = DomUtil.create("div", "info legend");
          
@@ -308,7 +311,7 @@ export class Avisosmap1Page {
           return div;
         };
     
-        legend.addTo(this.map);  
+        legend.addTo(this.map);*/  
 
 
         //insercion de boton info

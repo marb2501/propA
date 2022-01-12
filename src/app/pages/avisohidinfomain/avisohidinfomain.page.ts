@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ModalController, LoadingController } from '@ionic/angular';
 import { ActivatedRoute, Router } from '@angular/router';
-import {MESESTIEMPO,DIASTIEMPO} from '../../globales';
+import {MESESTIEMPO,DIASTIEMPO, leyendaavisoshidro} from '../../globales';
 import { AvisoshidmapmainPage } from '../../pages/avisoshidmapmain/avisoshidmapmain.page';
 import { AvisometeoroService } from '../../services/avisometeoro.service';
 import { Lugarafectado } from '../../models/lugarafectado.model';
@@ -41,7 +41,7 @@ export class AvisohidinfomainPage implements OnInit {
   latEsta;
   lonEsta;
   cadenaidistritos:string;
-  
+  recomendacion;
 
   @Input() numero: string;
   @Input() tituloA: string;
@@ -129,6 +129,8 @@ export class AvisohidinfomainPage implements OnInit {
 
           this.fechafin=DIASTIEMPO[this.fechaaux2.getDay()]+', '+this.fechaaux2.getDate()+' de '+MESESTIEMPO[this.fechaaux2.getMonth()]
           +' del '+this.fechaaux2.getFullYear()+' a las '+hrs2.slice(-2)+':'+mns2.slice(-2)+' hrs.';         
+
+          this.recomendacion=leyendaavisoshidro[this.codNivel]
 
         }
       })

@@ -15,18 +15,19 @@
          <ion-card-header class="datamain">
               <h4>{{ titulolist }}</h4> 
          </ion-card-header>
-       </ion-card></ion-col>
-       <ion-row>
-        <ion-col>
-            <ion-item *ngFor="let push1 of itemBR" color="none" lines="none" class="datamain5">
-             <!-- <ion-icon name="location-outline" ></ion-icon>-->
-          
-              <div  (click)="selecBusqinMiUbicacion(push1)" > {{ push1.ciudad }}</div>
-            <ion-icon  name="star-outline" slot="end" (click)="agregaraFavoritos(push1)"></ion-icon>
-          </ion-item>
-        </ion-col>
-      </ion-row>
-   </ion-row>
+       </ion-card>
+     </ion-col>
+    </ion-row>
+   <ion-row>
+    <ion-col>
+        <ion-item *ngFor="let push1 of itemBR" color="none" lines="none" class="datamain5">
+         <!-- <ion-icon name="location-outline" ></ion-icon>-->
+      
+          <div  (click)="selecBusqinMiUbicacion(push1)" > {{ push1.ciudad }}</div>
+        <ion-icon  name="star-outline" slot="end" (click)="agregaraFavoritos(push1)"></ion-icon>
+      </ion-item>
+    </ion-col>
+  </ion-row>
     <ion-row class="datamain2" >
       <ion-col >
         <div style="position:relative">
@@ -45,7 +46,7 @@
     </ion-row>
     <ion-row  >
      
-      <ion-col><ion-item *ngIf="flaghid!=0" (click)="retaurarposicion()" color="none" lines="none" class="datamain5"><ion-icon name="location-outline"></ion-icon>&nbsp;&nbsp;Presione para obtener mi posición real
+      <ion-col><ion-item *ngIf="flaghid!=0" (click)="retaurarposicion()" color="none" lines="none" class="datamain5"><ion-icon name="location-outline"></ion-icon>&nbsp;&nbsp;Presione para obtener su ubicación real
        </ion-item>
       </ion-col>
      
