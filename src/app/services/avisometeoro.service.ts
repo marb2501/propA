@@ -24,6 +24,7 @@ export class AvisometeoroService {
 
   getListaAvisoMeteoro() {
     let urlEndPoint=this.url+'avisometeoroHoy';
+    this.nativeHttp.setRequestTimeout(120.0);
     let native=this.nativeHttp.get(urlEndPoint,{},{'Content-type':'application/json'})
     return from(native).pipe();
   }
@@ -31,12 +32,14 @@ export class AvisometeoroService {
   //se obtiene para el banner (met)
   getListaAvisoMeteoroGeoposicion(dep, prov, dist) {
     let urlEndPoint=this.url+'avisometeorodepprovdist/'+dep+'/'+prov;
+    this.nativeHttp.setRequestTimeout(120.0);
     let native=this.nativeHttp.get(urlEndPoint,{},{'Content-type':'application/json'})
     return from(native).pipe();
   }
 
   getListaAvisoMeteoroDepGeoposicion(dep) {
     let urlEndPoint=this.url+'avisometeorodep/'+dep;
+    this.nativeHttp.setRequestTimeout(120.0);
     let native=this.nativeHttp.get(urlEndPoint,{},{'Content-type':'application/json'})
     return from(native).pipe();
   }
@@ -44,6 +47,7 @@ export class AvisometeoroService {
   //se va a corregir este aviso, se va a concatenar dos 
   getListaAvisoMetHidGeoposicion(dep, prov, dist) {
     let urlEndPoint=this.ulrmainapp+dep+'/'+prov;
+    this.nativeHttp.setRequestTimeout(120.0);
     let native=this.nativeHttp.get(urlEndPoint,{},{'Content-type':'application/json'})
     return from(native).pipe();
   }
@@ -51,18 +55,21 @@ export class AvisometeoroService {
   //avisos hidrologicos
   getListaAvisoHidrologicos() {
     let urlEndPoint=this.url+'avisohidroHoy';
+    this.nativeHttp.setRequestTimeout(120.0);
     let native=this.nativeHttp.get(urlEndPoint,{},{'Content-type':'application/json'})
     return from(native).pipe();
   }
 
   getListaAvisoHidroGeoposicion(dep, prov, dist) {
     let urlEndPoint=this.url+'avisohidrodepprovdist/'+dep+'/'+prov;
+    this.nativeHttp.setRequestTimeout(120.0);
     let native=this.nativeHttp.get(urlEndPoint,{},{'Content-type':'application/json'})
     return from(native).pipe();
   }
 
   getListaAvisoHidroDepGeoposicion(dep) {
     let urlEndPoint=this.url+'avisohidrodep/'+dep;
+    this.nativeHttp.setRequestTimeout(120.0);
     let native=this.nativeHttp.get(urlEndPoint,{},{'Content-type':'application/json'})
     return from(native).pipe();
   }
@@ -70,18 +77,21 @@ export class AvisometeoroService {
   //obtiene para el banner (hid) 
   getAvisosHidrologicosLatLong(latitude: any, longitud: any) {
     const urlEndPoint = urlWSAvisosHidrologicos+longitud+'/'+latitude;
+    this.nativeHttp.setRequestTimeout(120.0);
     let native=this.nativeHttp.get(urlEndPoint,{},{'Content-type':'application/json'})
     return from(native).pipe();
   }
 
   getAvisosHidrologicos() {
     const urlEndPoint = urlWSAvisosHidrologicos;
+    this.nativeHttp.setRequestTimeout(120.0);
     let native=this.nativeHttp.get(urlEndPoint,{},{'Content-type':'application/json'})
     return from(native).pipe();
   }
 
   getAvisoMetIDESEPLatLon(latitude: any, longitud: any){
     const urlEndPoint=urlIDESEPAvisoMetLatLong+longitud+','+latitude;
+    this.nativeHttp.setRequestTimeout(120.0);
     let native=this.nativeHttp.get(urlEndPoint,{},{'Content-type':'application/json'})
     return from(native).pipe();
 

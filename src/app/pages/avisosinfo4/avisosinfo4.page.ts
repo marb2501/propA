@@ -218,7 +218,6 @@ export class Avisosinfo4Page {
         this.lugafec.forEach(datos=>{
           if(datos.codDep+'-'+datos.codProv+'-'+datos.codDist== this.dep+'-'+this.prov+'-'+this.distr){
             this.nivelubica=this.textoNivel(this.colnivel)//;this.colnivel.charAt(0).toUpperCase() + this.colnivel.slice(1);
-            this.recomendacion=leyendaavisoshidro[this.colnivel]
             this.codniubica=this.cnivel;
           }
         })
@@ -227,7 +226,7 @@ export class Avisosinfo4Page {
       this.argFecha=[];
       let fecha=new Date();
       this.argFecha.push(fecha);
-     
+      this.recomendacion=leyendaavisoshidro[this.colnivel]
     }
 
     async openModal(fecha) {
@@ -278,6 +277,7 @@ export class Avisosinfo4Page {
         share:true
       });
   
+      this.recomendacion=leyendaavisoshidro[this.colnivel]
     }  
 
 

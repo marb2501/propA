@@ -84,7 +84,7 @@ export class Avisosdetail4Page {
       }
     }*/
 
-  /* ngOnInit(){
+   ngOnInit(){
     //this.datacheck=[{name:'Mostrar los avisos hidrológicos del país', selected:false}]
    // this.datacheck=[{name:'Ver avisos del país', selected:false}]
     this.storageService.getitemGeoposition().then((items0)=>{
@@ -97,7 +97,7 @@ export class Avisosdetail4Page {
       }
     })
 
-   } */
+   } 
 
 
    //carga losa visos vigentes que me correspoende por departameto y provincia
@@ -174,6 +174,10 @@ export class Avisosdetail4Page {
         share:true
       });
 
+      this.avisoHidro=[];
+      this.avisoHidroAll=[];
+      this.avisoHidroTemp=[];
+
     //this.datacheck=[{name:'Mostrar los avisos hidrológicos del país', selected:false}]
     //this.datacheck=[{name:'Ver avisos del país', selected:false}]
     this.storageService.getitemGeoposition().then((items0)=>{
@@ -213,7 +217,7 @@ export class Avisosdetail4Page {
     descrip2,rutaImg, msgRojo, msgNaranja,msgAmarillo, lugarafectado, codEsta,latEsta, lonEsta, altitudEsta, 
     depEsta, provEsta, distEsta){
 
-      let parametros={  'codAviso': codAviso,
+      let parametros={'codAviso': codAviso,
                       'codNivel': codNivel,
                       'colorNivel': colorNivel,
                       'colorHexa': colorHexa,
