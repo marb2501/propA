@@ -86,7 +86,15 @@ export class AvisometeoroService {
     const urlEndPoint = urlWSAvisosHidrologicos;
     this.nativeHttp.setRequestTimeout(120.0);
     let native=this.nativeHttp.get(urlEndPoint,{},{'Content-type':'application/json'})
-    return from(native).pipe();
+    try{
+      return from(native).pipe();
+    }catch(e){
+      console.log("error data")
+      console.log(e.error);
+      return null;
+      //return from(native).pipe();
+    }
+    
   }
 
   getAvisoMetIDESEPLatLon(latitude: any, longitud: any){

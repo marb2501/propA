@@ -17,6 +17,7 @@ export class Avisosdetail4Page {
   public avisoHidro: AvisoHidroEstacion[];
   public avisoHidroAll: AvisoHidroEstacion[];
   public avisoHidroTemp: AvisoHidroEstacion[];
+  public variab:AvisometeoroService;
   titulolist="Avisos Hidrológicos";
   
   itemGP:  Geolocaposicion[]=[];
@@ -64,6 +65,8 @@ export class Avisosdetail4Page {
         this.flagAccordionB = accordionpaistotal['items'];
         this.flagAccordionB[0].open=true;
 
+        this.variab=avisosHidro;
+
      }
   
     
@@ -84,20 +87,21 @@ export class Avisosdetail4Page {
       }
     }*/
 
-   ngOnInit(){
+  // ngOnInit(){
     //this.datacheck=[{name:'Mostrar los avisos hidrológicos del país', selected:false}]
    // this.datacheck=[{name:'Ver avisos del país', selected:false}]
-    this.storageService.getitemGeoposition().then((items0)=>{
+   /* this.storageService.getitemGeoposition().then((items0)=>{
       this.itemGP=items0;
       if(this.itemGP==null || this.itemGP.length<=0){
         this._androidpermision.gpsOntAlert()
       }else{
-        this.cargaMisListadoAvisoHidro();
         this.cargaListadoAvisoHidrolo();
+        this.cargaMisListadoAvisoHidro();
+        
       }
-    })
+    })*/
 
-   } 
+  // } 
 
 
    //carga losa visos vigentes que me correspoende por departameto y provincia
@@ -111,7 +115,7 @@ export class Avisosdetail4Page {
 
     await loading.present();
 
-    this.storageService.getitemGeoposition().then(items0=>{
+   await this.storageService.getitemGeoposition().then(items0=>{
       this.itemGP=items0;
       this.lat=this.itemGP[0].lat;
       this.lng=this.itemGP[0].long;
@@ -122,15 +126,15 @@ export class Avisosdetail4Page {
       this.avisoHidro=[];
       this.avisoHidroTemp=[];
   
-      this.avisosHidro.getAvisosHidrologicosLatLong(this.lat,this.lng)
-        .subscribe((result) =>{
+      this.variab.getAvisosHidrologicosLatLong(this.lat,this.lng)
+        .subscribe(async (result) =>{
           this.avisoHidroTemp=JSON.parse(result.data);
           let infor=this.avisoHidroTemp.filter(function(filtr) {
             return filtr.lugarAfectado.length>0;
           });
 
           let llave=this.dep+this.prov+this.distr;
-          infor.map(element => {
+          infor.map(async element => {
             let info=element.lugarAfectado;
             let a=0;
             for (let i = 0; i < info.length; i++) {
@@ -185,8 +189,13 @@ export class Avisosdetail4Page {
       if(this.itemGP==null || this.itemGP.length<=0){
         this._androidpermision.gpsOntAlert()
       }else{
-        this.cargaMisListadoAvisoHidro();
+      
+        
+
         this.cargaListadoAvisoHidrolo();
+        
+        this.cargaMisListadoAvisoHidro();
+
       }
     })
 
@@ -203,13 +212,11 @@ export class Avisosdetail4Page {
     await loading.present();
 
     this.avisoHidroAll=[];
-    this.avisosHidro.getAvisosHidrologicos()
-      .subscribe(async (result) =>{
-        
+    this.variab.getAvisosHidrologicos().subscribe(async (result) =>{
         this.avisoHidroAll=JSON.parse(result.data);
-       
-      }, (error)=>{console.log(error)});
+        }, (error)=>{console.log(error)});
       await loading.dismiss();
+    
   }
 
   async openAvisoTextInfo(codAviso, codNivel, colorNivel, colorHexa, fecEmi,
