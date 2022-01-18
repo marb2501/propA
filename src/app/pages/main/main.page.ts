@@ -56,7 +56,7 @@ export class MainPage {
   itemGPMain:  Geolocaposicion[]=[];
   newitemGP:  Geolocaposicion=<Geolocaposicion>{};
   selectedTheme:String;
-
+  public variab:AvisometeoroService;
   fechaactual;
 
   flagAccordionA;
@@ -126,6 +126,8 @@ export class MainPage {
           
           this.flagAccordionB = accordionmain2['items'];
           this.flagAccordionB[0].open=true;
+
+          this.variab=amet;
 
           /*let fa= new Date();
           this.fechaactual=fa.getDate().toString()*/
@@ -445,8 +447,12 @@ export class MainPage {
         }
       })
 
+      //console.log('lat: '+this.locations.lat)
+      //console.log('long: '+ this.locations.lng)
+
      this.amet.getAvisosHidrologicosLatLong(this.locations.lat, this.locations.lng)
       .subscribe(async (listaavisohid) =>{
+        console.log(listaavisohid)
         if(listaavisohid.data!=null){
           this.bavisom2temp=[];
           this.bavisom2temp=JSON.parse(listaavisohid.data);

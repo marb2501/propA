@@ -219,6 +219,8 @@ export class Avisosinfo4Page {
           if(datos.codDep+'-'+datos.codProv+'-'+datos.codDist== this.dep+'-'+this.prov+'-'+this.distr){
             this.nivelubica=this.textoNivel(this.colnivel)//;this.colnivel.charAt(0).toUpperCase() + this.colnivel.slice(1);
             this.codniubica=this.cnivel;
+            this.recomendacion=leyendaavisoshidro[this.codniubica];
+            console.log(this.recomendacion);
           }
         })
       })
@@ -226,7 +228,6 @@ export class Avisosinfo4Page {
       this.argFecha=[];
       let fecha=new Date();
       this.argFecha.push(fecha);
-      this.recomendacion=leyendaavisoshidro[this.colnivel]
     }
 
     async openModal(fecha) {
