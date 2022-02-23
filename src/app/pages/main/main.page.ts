@@ -166,9 +166,9 @@ export class MainPage {
       share:true
     });
 
-    //this.loadItemUbicaActEleg().then(()=>{
+    this.loadItemUbicaActEleg().then(()=>{
       this.getReloadCordenadas();
-    //})
+    })
 
     setInterval(()=>{this.itinialDataCoordenadas()},300000)//300000=5 minutos
   }
@@ -281,7 +281,7 @@ export class MainPage {
   ////////////////////////////recarga de Información del app//////////////////////////////////
 
   async loadItemUbicaActEleg(){
-   return await this.storageService.getitemGeoposition().then(async items0=>{
+    await this.storageService.getitemGeoposition().then(async items0=>{
         this.itemGPMain=items0;
      })
    }
