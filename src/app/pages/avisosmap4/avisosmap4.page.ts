@@ -47,6 +47,10 @@ export class Avisosmap4Page  {
   lngMipso:string;
   lugafec:Lugarafectado[];
   csql_filter:string;
+  colorubica:string;
+
+  latubica:string;
+  lngubica:string;
 
   map: Map;
   control: any;
@@ -86,6 +90,8 @@ export class Avisosmap4Page  {
   @Input() lng:string;
   @Input() lugarafectado:Array<Lugarafectado>;
   @Input() csqlfilter:string;
+  @Input() cubica:string;
+
 
 
   constructor(private modalcontroler: ModalController, private socialSharing: SocialSharing, 
@@ -120,6 +126,7 @@ export class Avisosmap4Page  {
       this.lngMipso=navParams.get('lng');
       this.lugafec=navParams.get('lugarafectado');
       this.csql_filter=navParams.get('cql_filter');
+      this.colorubica=navParams.get('colorubica');
     }
 
 
@@ -169,8 +176,14 @@ export class Avisosmap4Page  {
       //duration: 5000
     });
 
-
-
+    if(parseInt(this.colorubica)==0){
+      this.latubica=this.latestac
+      this.lngubica=this.lonEsta
+    }else{
+      this.latubica=this.latMipos
+      this.lngubica=this.lngMipso
+    }
+   
     const routesmap = tileLayer(urlMapaLealeft, {
       attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
       detectRetina: true
@@ -219,11 +232,11 @@ export class Avisosmap4Page  {
     };
 
     this.map = new Map('avisoHidro', {center: [  this.latMipos, this.lngMipso ],
-      zoom: 9,
+      zoom: 6,
       maxZoom: 100,
-      minZoom: 5,
-      layers: [routesmap, departamento, provincia, distrito]}
-    ).setView([  this.latMipos, this.lngMipso ], 1);
+      minZoom: 6,
+      layers: [routesmap, distrito]}
+    ).setView([ this.latubica, this.lngubica], 10);
 
        //layer de etiquteas de mapa
        control.layers(null, overlays, {

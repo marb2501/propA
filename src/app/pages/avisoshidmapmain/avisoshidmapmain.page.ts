@@ -157,11 +157,11 @@ export class AvisoshidmapmainPage {
     
 
       this.map = new Map('avisoHidro', {center: [ this.lat, this.lng ],
-        zoom: 9,
+        zoom: 6,//9,
         maxZoom: 100,
-        minZoom: 5,
-        layers: [routesmap, departamento, provincia, distrito]}
-      ).setView([ this.lat, this.lng ], 1);
+        minZoom: 6,//5,
+        layers: [routesmap, distrito]}
+      ).setView([ this.lat, this.lng ], 10); //1
 
         //layer de etiquteas de mapa
         control.layers(null, overlays, {

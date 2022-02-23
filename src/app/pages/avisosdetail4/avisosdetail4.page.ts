@@ -189,13 +189,8 @@ export class Avisosdetail4Page {
       if(this.itemGP==null || this.itemGP.length<=0){
         this._androidpermision.gpsOntAlert()
       }else{
-      
-        
-
-        this.cargaListadoAvisoHidrolo();
-        
-        this.cargaMisListadoAvisoHidro();
-
+        setTimeout(()=>{this.cargaListadoAvisoHidrolo()},2000);
+        setTimeout(()=>{this.cargaMisListadoAvisoHidro()},3000);
       }
     })
 
@@ -213,8 +208,9 @@ export class Avisosdetail4Page {
 
     this.avisoHidroAll=[];
     this.variab.getAvisosHidrologicos().subscribe(async (result) =>{
+        console.log(JSON.parse(result.data));
         this.avisoHidroAll=JSON.parse(result.data);
-        }, (error)=>{console.log(error)});
+        }, (error)=>{console.log("error");console.log(error)});
       await loading.dismiss();
     
   }

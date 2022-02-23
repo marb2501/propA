@@ -8,11 +8,13 @@ import { PushnotiService } from './services/pushnoti.service';
 import { PopinfoComponent } from './components/popinfo/popinfo.component';
 import { AvisoMeteoro } from './models/avisomet.model';
 import { Router, NavigationExtras } from '@angular/router';
-import { StorageService } from './services/storage.service';
+import { StorageService, Geolocaposicion } from './services/storage.service';
 import { LocalnotiService } from './services/localnoti.service';
 import { NetworkService } from './services/network.service';
 import Swal from 'sweetalert2';
+import { ApiService } from './services/api.service';
 import { mensajeShare1, mensajeShare2 } from '../app/globales';
+import { Geolocation, GeolocationOptions, Geoposition } from '@ionic-native/geolocation/ngx';
 
 @Component({
   selector: 'app-root',
@@ -30,6 +32,12 @@ export class AppComponent {
   flg_shear=true;
   flg_share=true;
 
+  itemGP:  Geolocaposicion[]=[];
+  newitemGP:  Geolocaposicion=<Geolocaposicion>{};
+
+  options: GeolocationOptions;
+  currentPost: Geoposition;
+
   constructor(
     private platform: Platform,
     private splashScreen: SplashScreen,
@@ -41,8 +49,9 @@ export class AppComponent {
     public setting: StorageService,
     private router:Router,
     public _localNotifi: LocalnotiService,
-    public networks:NetworkService
-    
+    public networks:NetworkService,
+    public api:ApiService,
+    private geolocation: Geolocation
   ) {
     
     this.initializeApp();
@@ -62,16 +71,17 @@ export class AppComponent {
       //console.log('Data received', data);
     });
 
-  
+   
     this.platform.ready().then(() => {
-      //this.cargaListadoAvisoMeteoro();
       if(this.platform.is('android')){
-        console.log("Plataforma android")
-        this.statusBar.styleDefault();
+      
         this.networks.verificarNetwork();
-        this._localNotifi.initialBackMode();
         this._pushProvider.init_notification();
-        this.splashScreen.hide();
+        this._localNotifi.initialBackMode().then(r=>{
+          this.statusBar.styleDefault();
+          this.splashScreen.hide();
+        })
+
       }else{
         console.log("Plataforma no android")
       }
@@ -145,8 +155,4 @@ export class AppComponent {
     }
     this.router.navigate(['/menu/search'],navigationExtra);
   }
-
-  //
-  
-  
 }

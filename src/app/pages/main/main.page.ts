@@ -31,6 +31,7 @@ import { PopoverController } from '@ionic/angular';
 import { PopinfoComponent } from '../../components/popinfo/popinfo.component';
 import { AndroidpermisionService } from '../../services/androidpermision.service';
 import Swal from 'sweetalert2';
+import { Storage } from '@ionic/storage';
 
 @Component({
   selector: 'app-main',
@@ -98,6 +99,7 @@ export class MainPage {
               public loadingController: LoadingController,
               private iab: InAppBrowser,
               private router:Router,
+              private storage:Storage,
               public popoverController: PopoverController,
               public _androidpermision:AndroidpermisionService,
               private amet: AvisometeoroService) {
@@ -119,7 +121,10 @@ export class MainPage {
                 this.selectedTheme=val;
             }else{
               this.selectedTheme=a;}})
-          })
+            })
+
+            
+         
 
           this.flagAccordionA = accordionmain1['items'];
           this.flagAccordionA[0].open=true;
@@ -161,9 +166,9 @@ export class MainPage {
       share:true
     });
 
-    this.loadItemUbicaActEleg().then(()=>{
+    //this.loadItemUbicaActEleg().then(()=>{
       this.getReloadCordenadas();
-    })
+    //})
 
     setInterval(()=>{this.itinialDataCoordenadas()},300000)//300000=5 minutos
   }
@@ -276,9 +281,9 @@ export class MainPage {
   ////////////////////////////recarga de Información del app//////////////////////////////////
 
   async loadItemUbicaActEleg(){
-    this.storageService.getitemGeoposition().then(async items0=>{
-      this.itemGPMain=items0;
-    })
+   return await this.storageService.getitemGeoposition().then(async items0=>{
+        this.itemGPMain=items0;
+     })
    }
 
   async getReloadCordenadas(){
@@ -294,6 +299,9 @@ export class MainPage {
   }
 
   async getCordenadasNew() {
+
+    //console.log(this.itemGPMain[0].ciudad)
+    //console.log("1233")
     this.locations.lat = this.itemGPMain[0].lat.toString();
     this.locations.lng = this.itemGPMain[0].long.toString();
     this.locations.ciudad= this.itemGPMain[0].ciudad;
@@ -328,9 +336,7 @@ export class MainPage {
 
       this.locations.TEMP = (data2.temperatura==null?"--°C":Math.round(data2.temperatura)+"°C"+fflagtemp) ;
       this.locations.HUME = (data2.humedad==null? "--%":data2.humedad +"%"+fflaghum) ;
-      //this.locations.PRECIPI =(data2.precipitacion==0? "0.0mm/h":data2.precipitacion+'mm/h'+fflagpre);
-      //this.locations.PRECIPI = (data2.precipitacion==null?"--mm/h":Math.round(data2.precipitacion) + " mm/h") ;
-      
+     
       this.locations.nombrestacion = data2.nomEsta;
       this.locations.depestacion=data2.nomDep;
       this.locations.provestacion=data2.nomProv;
@@ -447,12 +453,8 @@ export class MainPage {
         }
       })
 
-      //console.log('lat: '+this.locations.lat)
-      //console.log('long: '+ this.locations.lng)
-
      this.amet.getAvisosHidrologicosLatLong(this.locations.lat, this.locations.lng)
       .subscribe(async (listaavisohid) =>{
-        console.log(listaavisohid)
         if(listaavisohid.data!=null){
           this.bavisom2temp=[];
           this.bavisom2temp=JSON.parse(listaavisohid.data);
@@ -492,8 +494,6 @@ export class MainPage {
         
       }, (error)=>{this.indiceData=0; console.log(error)});
     });
-
-    
   }
   
 
@@ -557,14 +557,15 @@ export class MainPage {
 
   //inicializa ubicacion cuando el sistema abre por primera vez
   async itinialDataCoordenadas(){
-    this.options = {
+
+   this.options = {
       timeout: 10000,
       maximumAge: 3000,
       enableHighAccuracy: true
     };
     this.bavisom1=[];
-
-    this.geolocation.getCurrentPosition(this.options).then(
+       
+    await this.geolocation.getCurrentPosition(this.options).then(
       (pos: Geoposition) => {
         if(this.itemGPMain==null || this.itemGPMain.length<=0){
           this.storageService.additemGeoDefault().then(async t=>{
@@ -582,11 +583,14 @@ export class MainPage {
               this.getCordenadasNew();
             })
           })
+        }else{
+          
+          this.getCordenadasNew();
         }
-        this.getCordenadasNew();
+       
         
       }).catch(e=>{
-        console.log(e);
+     
         
         this.loadItemUbicaActEleg().then((a)=>{
           if(this.itemGPMain==null || this.itemGPMain.length<=0){
@@ -603,7 +607,7 @@ export class MainPage {
                 newItemsInsertGP.coddist=t.coddist
                 this.storageService.additemGeoposition(newItemsInsertGP).then(resl=>{
                   this.itemGPMain=resl
-                  this.getCordenadasNew()
+                  this.getCordenadasNew();
                 })
               })
             });

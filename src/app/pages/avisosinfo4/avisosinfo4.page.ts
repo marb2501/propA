@@ -220,7 +220,7 @@ export class Avisosinfo4Page {
             this.nivelubica=this.textoNivel(this.colnivel)//;this.colnivel.charAt(0).toUpperCase() + this.colnivel.slice(1);
             this.codniubica=this.cnivel;
             this.recomendacion=leyendaavisoshidro[this.codniubica];
-            console.log(this.recomendacion);
+            //console.log(this.recomendacion);
           }
         })
       })
@@ -262,7 +262,8 @@ export class Avisosinfo4Page {
           'lat':this.lat,
           'lng':this.lng,
           'fechactual':fecha,
-          'cql_filter': this.cadenaidistritos
+          'cql_filter': this.cadenaidistritos,
+          'colorubica':this.codniubica
           }
       });
       return await modal.present();

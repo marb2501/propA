@@ -3,13 +3,16 @@ import { LocalNotifications, ELocalNotificationTriggerUnit } from '@ionic-native
 import { Geolocation, GeolocationOptions, Geoposition } from '@ionic-native/geolocation/ngx';
 import { ApiService } from './api.service';
 import { BackgroundMode } from '@ionic-native/background-mode/ngx';
-import { StorageService } from './storage.service';
+import { StorageService, Geolocaposicion } from './storage.service';
 import { AudioManagement } from '@ionic-native/audio-management/ngx';
 import { Avisosmethidg } from '../models/avisosmethidg.model';
 import { AvisoMeteoroIDESEP } from '../models/avisometidesep.model';
 import { locationsMain} from '../models/locationmain.model';
 import { AvisometeoroService } from '../services/avisometeoro.service';
 import { LocalNtifAVM } from '../models/localntifavm.model';
+import { Storage } from '@ionic/storage';
+
+
 
 @Injectable({
   providedIn: 'root'
@@ -36,20 +39,70 @@ export class LocalnotiService {
   public datListNoti:LocalNtifAVM;
   public argLisNoti=[]
   ideni:number=0;
+
+  itemGP:  Geolocaposicion[]=[];
+  newitemGP:  Geolocaposicion=<Geolocaposicion>{};
  
   constructor(private localNot:LocalNotifications,
     private geolocation: Geolocation,
     public api:ApiService,
     private backgroundMode : BackgroundMode,
     private storageS : StorageService,
+    private storage:Storage,
     public audioman: AudioManagement,
     private amet: AvisometeoroService ) { }
 
-    initialBackMode(){
-      this.callFunctions();
+   async initialBackMode(){
+    
+      /*let toKeep: Geolocaposicion[] = [];
+      await this.storage.set('itemKeyGP',toKeep);
+
+      this.options = {
+        timeout: 10000,
+        maximumAge: 3000,
+        enableHighAccuracy: true
+      };
+  
+      await this.geolocation.getCurrentPosition(this.options).then(
+        async (pos: Geoposition) => {
+          this.newitemGP=null;
+          this.newitemGP=<Geolocaposicion>{};
+          this.newitemGP.id=Date.now();
+          this.newitemGP.lat=pos.coords.latitude;
+          this.newitemGP.long=pos.coords.longitude;
+   
+          await this.api.getUbicacionCoordLatLong(pos.coords.latitude, pos.coords.longitude).subscribe(async (infodata1)=>{
+            let data1=infodata1;
+            this.newitemGP.ciudad=data1[0].display_name;
+          })
+       
+          await this.api.getDepProvDist(pos.coords.latitude, pos.coords.longitude).subscribe(async (datow) => {
+            let obj = JSON.parse(datow.data);
+            const data = obj['features'];
+      
+            data.map(element => {
+              let nivl=element['properties'].iddist;
+              let ubig=nivl;
+              let dep=ubig.substr(0,2);
+              let prov=ubig.substr(2,2);
+              let dist=ubig.slice(-2);
+      
+              this.newitemGP.coddep= dep;
+              this.newitemGP.codprov= prov;
+              this.newitemGP.coddist= dist;
+            })
+          })
+           
+          await this.storage.set('itemKeyGP',[this.newitemGP]);
+ 
+        }).catch(e=>{
+            console.log("no hay posicion registrada. Registra la posicion por defecto.")
+        })*/
+       
+        this.callFunctions();
     }
   
-    public callFunctions(): void{
+    public async callFunctions(){
       this.showNotification();
       this.callInterval();
     }
@@ -63,6 +116,7 @@ export class LocalnotiService {
       },3600000)//3600000
     }
 
+  
   async showNotification () {
 
     let active = await this.storageS.isActiveLocalNotifications();

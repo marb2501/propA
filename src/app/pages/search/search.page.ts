@@ -205,8 +205,13 @@ export class SearchPage {
     this.storageService.additemBusquedaR(this.newitemBR).then(it=>{
       this.newitemBR=null;
       this.showToast('Se registró como nueva ubicación actual.');
-      this.loadItemsBR()
+      this.loadItemsBR();
+      setTimeout(()=>{
+        this.router.navigate(['/menu/main']);
+      },3000)
      })
+
+     
   }
 
   async addItemUbicaActEleg(lat,long,ciudad, depart,prov,dist){
@@ -306,9 +311,14 @@ selecFavinMiUbicacion(itemFAV:FavoritosBR){
 
     this.storageService.additemBusquedaR(itemFAV).then(it1=>{
       this.loadItemsBR()
+      setTimeout(()=>{
+        this.router.navigate(['/menu/main']);
+      },3000)
      })
+     
   },3000)
-   
+
+
   })
 }
 
@@ -321,9 +331,15 @@ selecBusqinMiUbicacion(itemBR:BusquedaR){
     setTimeout(()=>{this.storageService.additemGeoposition(itemBR).then(it=>{
       this.showToast('Se actualizó la ubicación actual.');
       this.loadItemUbicaActEleg();
+      setTimeout(()=>{
+        this.router.navigate(['/menu/main']);
+      },3000)
     })},3000)
+
+   
     
   })
+  
 }
 
 async retaurarposicion(){
@@ -395,12 +411,19 @@ async retaurarposicion(){
        this.storageService.additemBusquedaR(this.newitemGP).then(it1=>{
         this.loadItemsBR()
        })
+
+       setTimeout(()=>{
+        this.router.navigate(['/menu/main']);
       },2000)
+     
+      },2000)
+     
     }).catch(s=>{
       this.flaghid=0;
     }); 
 
     await loading.dismiss();
+    
 }
 
   /**/
@@ -434,9 +457,13 @@ async retaurarposicion(){
 
         this.addItemUbicaActEleg(latinueva,longnueva,ciudad,dep,prov,dist);
         this.addItemBusquedaR(latinueva,longnueva,ciudad,dep,prov,dist);
+      
       })
     })
    })
+
+
+
   }
 
   /****OK***/
@@ -444,15 +471,30 @@ async retaurarposicion(){
   async selectAddress(address:any){
     //this.selectedAddress=address.displayName;
     this.searchResults = null;
-    this.storageService.getitemGeoposition().then((items0:Geolocaposicion[])=>{
-      if(items0!=null && items0.length>0){
-        this.deleteItemUbicaActEleg(items0[0]);
+    //verificar si es dentro del territorio peruano
+    await this.api.getVerificaTerritorioPeru(address.latitude,address.longitude).subscribe( async results=>{
+      let obj = JSON.parse(results.data);
+      let valida=obj['valida'];
+      if(valida!=1){
+        Swal.fire({
+          title:'Aviso',
+          text:'El punto de ubicación no esta dentro del territorio peruano.',
+          backdrop:false
+        });
+        return false;
+      }else{
+        this.storageService.getitemGeoposition().then((items0:Geolocaposicion[])=>{
+          if(items0!=null && items0.length>0){
+            this.deleteItemUbicaActEleg(items0[0]);
+          }
+        })
+        this.flagselec=1
+    
+        await this.loadItemUbicaActEleg(); 
+        await this.getNuevasCordenadas(address.latitude, address.longitude, address.omsid, address.displayName)
+       
       }
     })
-    this.flagselec=1
-
-    await this.loadItemUbicaActEleg(); 
-    this.getNuevasCordenadas(address.latitude, address.longitude, address.omsid, address.displayName)   
   }
 
   addressSearch(event:any) {
@@ -496,8 +538,8 @@ async retaurarposicion(){
   //retorno anterior
   retornoPaginaAnterior(){
     let infor=this.rutaback.substr(0, this.rutaback.indexOf('?')); 
-    console.log('retorno de pagina')
-    console.log(infor)
+    //console.log('retorno de pagina')
+    //console.log(infor)
 
     if(infor==''){
       this.router.navigate(['/menu/main']);

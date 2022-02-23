@@ -14,7 +14,7 @@ import {
   urlSearchLocation,
   urlGeoposionLocation,
   urlIDESEPDist,
-  dominioAvisosJava
+  dominioAvisosJava, urlIDESEPVerificaPeru
 } from '../globales';
 
 
@@ -166,6 +166,12 @@ export class ApiService {
   getVideoEstacion(){
     let urlvideo=this.urlvideo+'getvideoapp';
     let native=this.nativeHttp.get(urlvideo,{},{'Content-type':'application/json'})
+    return from(native).pipe();
+  }
+
+  getVerificaTerritorioPeru(lat,long){
+    let urlver=urlIDESEPVerificaPeru+long+'/'+lat;
+    let native=this.nativeHttp.get(urlver,{},{'Content-type':'application/json'})
     return from(native).pipe();
   }
 

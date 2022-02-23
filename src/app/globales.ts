@@ -3,7 +3,8 @@ export const rutasenamhi='/ws/rest/open/ora';
 export const wslmainpronostico = 'http://sgd.senamhi.gob.pe/ws/rest/open/ora';
 export const schemamain = 'appsenamhi';
 export const pkgubicac = 'PKG.SP_OBT_UBIC_PRTMACT';
-export const pkgresumen = 'PKG.SP_OBT_PRONOS_RESUMEN_PRTMACT';
+//export const pkgresumen = 'PKG.SP_OBT_PRONOS_RESUMEN_PRTMACT';
+export const pkgresumen ='PKG.SP_OBT_PRONOS_RESUMEN';
 export const rutaiconoD = '/assets/images/day/';
 export const rutaiconoN = '/assets/images/night/';
 export const senammincu = '/assets/images/logo-header.png';
@@ -57,6 +58,7 @@ export const urlIDESEPDepart='https://idesep.senamhi.gob.pe:443/geoserver/g_00_0
 export const urlIDESEPProv='https://idesep.senamhi.gob.pe:443/geoserver/g_00_02/wms';
 export const urlIDESEPDist='https://idesep.senamhi.gob.pe:443/geoserver/g_carto_fundamento/wms';
 export const urlMapaLealeft='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+export const urlIDESEPVerificaPeru='https://idesep.senamhi.gob.pe/ver_metadata_estacion/service/validarCoordenadaPeru/';
 export const layermet='g_aviso:view_aviso';
 
 export const latSenamhi='-12.0791994'
@@ -171,16 +173,7 @@ export const niveltexto = ['Normal',
 
 //en el caso que no haya conexion a internet 
 export const menuSlide: any = [
-  {
-  "id": 1,
-  "title": "¿Qué es una estación?",
-  "url": "https://www.youtube.com/watch?v=9G3YpRS--_4&t=217s",
-  "icon": "videocam-outline",
-  "status": 1,
-  "tipoenlace": 1,
-  "submenu": []
-  },
-  {
+   {
   "id": 4,
   "title": "Avisos Meteorológicos",
   "url": "/menu/avisosdetail1",
@@ -196,42 +189,6 @@ export const menuSlide: any = [
   "icon": "hidro_sena",
   "status": 1,
   "tipoenlace": 0,
-  "submenu": []
-  },
-  {
-  "id": 6,
-  "title": "Imágenes satelitales",
-  "url": "https://www.senamhi.gob.pe/?p=satelites-goes16",
-  "icon": "satelite_sena",
-  "status": 1,
-  "tipoenlace": 1,
-  "submenu": []
-  },
-  {
-  "id": 7,
-  "title": "Datos hidrometeorológicos ",
-  "url": "https://www.senamhi.gob.pe/servicios/?p=estaciones",
-  "icon": "thunderstorm-outline",
-  "status": 1,
-  "tipoenlace": 1,
-  "submenu": []
-  },
-  {
-  "id": 8,
-  "title": "Pronóstico climático",
-  "url": "https://www.senamhi.gob.pe/?p=pronostico-climatico",
-  "icon": "sunny-outline",
-  "status": 1,
-  "tipoenlace": 1,
-  "submenu": []
-  },
-  {
-  "id": 9,
-  "title": "Boletines de riesgo agroclimático",
-  "url": "https://www.gob.pe/9946-pronosticos-de-riesgo-agroclimatico-del-senamhi",
-  "icon": "newspaper-outline",
-  "status": 1,
-  "tipoenlace": 1,
   "submenu": []
   },
   {
