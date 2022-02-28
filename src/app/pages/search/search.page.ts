@@ -87,7 +87,12 @@ export class SearchPage {
 
     async loadItemsBR(){
       await this.storageService.getitemBusquedaR().then(items2=>{
-        this.itemBR=items2;
+        if(items2==null){
+
+        }else{
+          this.itemBR=items2;
+        }
+        
     })
    }
 

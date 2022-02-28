@@ -189,8 +189,8 @@ export class Avisosdetail4Page {
       if(this.itemGP==null || this.itemGP.length<=0){
         this._androidpermision.gpsOntAlert()
       }else{
-        setTimeout(()=>{this.cargaListadoAvisoHidrolo()},2000);
-        setTimeout(()=>{this.cargaMisListadoAvisoHidro()},3000);
+        setTimeout(()=>{this.cargaListadoAvisoHidrolo()},1000);
+        setTimeout(()=>{this.cargaMisListadoAvisoHidro()},2000);
       }
     })
 
@@ -208,7 +208,7 @@ export class Avisosdetail4Page {
 
     this.avisoHidroAll=[];
     this.variab.getAvisosHidrologicos().subscribe(async (result) =>{
-        console.log(JSON.parse(result.data));
+       
         this.avisoHidroAll=JSON.parse(result.data);
         }, (error)=>{console.log("error");console.log(error)});
       await loading.dismiss();
@@ -298,6 +298,15 @@ export class Avisosdetail4Page {
       .filter((item, itemIndex)=>itemIndex !=index)
       .map(item =>item.open = false);
     }
+  }
+
+  capitalizarPrimeraLetra(str) {
+   
+    let ncadena=str.toLowerCase();
+    let cadena=ncadena.charAt(0).toUpperCase() + ncadena.slice(1);
+    return cadena.replace('estación', 'Estación');
+
+     
   }
 
 }

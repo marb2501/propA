@@ -210,13 +210,13 @@
                               <div *ngIf="tmp2.fecha!=null" class="wrap-text1">{{ tmp2.fecha | date :'h a' }}</div>
                               <div *ngIf="tmp2.fecha==null">--</div></td>
                           <td style="text-align: center"> 
-                              <div *ngIf="tmp2.temperatura!=null && tmp2.flagTemperatura==0" class="wrap-text1" >{{ tmp2.temperatura  | number:'1.0-0' }}*</div>
+                              <div *ngIf="tmp2.temperatura!=null && tmp2.flagTemperatura==0" class="wrap-text1" >{{ tmp2.temperatura  | number:'1.0-0' }}</div>
                               <div *ngIf="tmp2.temperatura!=null && tmp2.flagTemperatura==1" class="wrap-text1" >{{ tmp2.temperatura  | number:'1.0-0' }}</div>
                               <div *ngIf="tmp2.temperatura==null">--</div>
                               
                           <td style="text-align: center"> 
                             <div *ngIf="tmp2.precipitacion!=null && tmp2.precipitacion==0">0.0</div>
-                            <div *ngIf="tmp2.precipitacion!=null && tmp2.precipitacion>0 && tmp2.flagPrecipitacion==0" class="wrap-text1">{{ tmp2.precipitacion | number:'1.1-1' }}*</div>
+                            <div *ngIf="tmp2.precipitacion!=null && tmp2.precipitacion>0 && tmp2.flagPrecipitacion==0" class="wrap-text1">{{ tmp2.precipitacion | number:'1.1-1' }}</div>
                             <div *ngIf="tmp2.precipitacion!=null && tmp2.precipitacion>0 && tmp2.flagPrecipitacion==1" class="wrap-text1">{{ tmp2.precipitacion | number:'1.1-1' }}</div>
                             <div *ngIf="tmp2.precipitacion==null">--</div>
                         </tr>

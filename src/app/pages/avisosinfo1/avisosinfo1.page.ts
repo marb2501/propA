@@ -45,6 +45,9 @@ export class Avisosinfo1Page implements OnInit {
   @Input() lattemp: number;
   @Input() longtemp: number;
   @Input() lmapas:Array<listaMapas>;
+
+
+
   
   constructor(private modalcontroller: ModalController, private socialSharing: SocialSharing, 
     private screenshot: Screenshot,private router:Router, private storageService:StorageService,
@@ -154,7 +157,7 @@ export class Avisosinfo1Page implements OnInit {
                 if(feh==fehac){
                   this.recomendacion=leyendarecavisosmet[resultado];
                 }
-
+           
                 let nivele=textonivel;
                 this.arrayNivel.push(nivele);
                 this.arrayCodNivel.push(resultado);

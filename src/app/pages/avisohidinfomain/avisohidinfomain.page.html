@@ -52,24 +52,20 @@
        </ion-row>
     </ion-row>
 
-    <ion-row class="datamain">
-      <ion-col><p>Lugares Afectados</p></ion-col>
-      <ion-col><div [innerHTML]="getProvDistAfectados()"></div></ion-col>
-    </ion-row>
+ 
 
     <ion-row class="datamain2">
       <table class="tablavert3">
         <tr>
           <td>Mapa</td>
-          <td> <ion-col *ngFor="let fechasreg of argFecha;" (click)="openModal(fechasreg)">
-            <ion-icon name="eye-outline"></ion-icon>
-            {{ fechasreg | date :'dd-MMM' | titlecase }}
+          <td> <ion-col *ngFor="let fechasreg of argFecha;">
+             {{ fechasreg | date :'dd-MMM' | titlecase }}
           </ion-col></td>
         </tr>
         <tr>
           <td>Nivel de Aviso según el usuario</td>
-          <td [ngClass]="colorAviso(codNivel)">
-            <p [ngClass]="colortextoCuadro(codNivel)">{{ textoNivel(colorNivel)}} </p>
+          <td [ngClass]="colorAviso(codNivel)" *ngFor="let fechasreg1 of argFecha;" (click)="openModal(fechasreg1)">
+            <p [ngClass]="colortextoCuadro(codNivel)">{{ textoNivel(colorNivel)}} </p><p>(Ver Mapa)</p>
           </td>
         </tr>
       </table>
@@ -88,6 +84,11 @@
     <ion-row class="datamainjust">
       <ion-col><p>Recomendación:</p><p> {{recomendacion}}</p></ion-col>
      </ion-row>
+
+     <ion-row class="datamain">
+      <ion-col><p>Lugares Afectados</p></ion-col>
+      <ion-col><div [innerHTML]="getProvDistAfectados()"></div></ion-col>
+    </ion-row>
 
   <!--  
        <ion-row class="datamainjust">

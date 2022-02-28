@@ -54,18 +54,18 @@
       <table class="tablavert3">
         <tr>
           <td>Mapas</td>
-          <td  *ngFor="let fechasreg of listamapas; let i=index" (click)="openModal(fechasreg.fechaInicio,
-                      fechasreg.numMapa,
-                      fechasreg.nivelMapa,
-                      fechasreg.descripcion)">
-                      <ion-icon name="eye-outline"></ion-icon>
+          <td  *ngFor="let fechasreg of listamapas; let i=index" >
+                      
                       {{ fechasreg.fechaInicio | titlecase | date :'dd-MMM'  }}
                     </td>
         </tr>
         <tr>
           <td>Nivel de Aviso según el usuario</td>
-          <td *ngFor="let nivelav of arrayNivel; let i=index " [ngClass]="colorAvisoTD(i)">
-            <p [ngClass]="colortextoCuadro(i)">{{ nivelav }}</p>
+          <td *ngFor="let fechasreg1 of listamapas; let i=index" (click)="openModal(fechasreg1.fechaInicio,
+          fechasreg1.numMapa,
+          fechasreg1.nivelMapa,
+          fechasreg1.descripcion)" [ngClass]="colorAvisoTD(i)">
+            <p [ngClass]="colortextoCuadro(i)">{{ arrayNivel[i] }} </p><p>(Ver Mapa)</p>
           </td>
         </tr>
       </table>

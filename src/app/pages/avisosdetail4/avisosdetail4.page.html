@@ -55,7 +55,7 @@
                 <ion-icon name="alert" item-left [class]="getColor(aviso.codNivel)">
                 
               </ion-icon>
-              <ion-label class="datamain4 ion-text-wrap">{{ aviso.nomTitulo}}
+              <ion-label class="datamain4 ion-text-wrap">{{ capitalizarPrimeraLetra(aviso.nomTitulo)}}
                 <p>{{ fechacat(aviso.fecIni,aviso.fecFin)}}</p>
               </ion-label>
             </ion-item>
@@ -92,7 +92,7 @@
                     <ion-icon name="alert" item-left [class]="getColor(avisoA.codNivel)">
                     
                   </ion-icon>
-                  <ion-label class="datamain4 ion-text-wrap">{{ avisoA.nomTitulo}}
+                  <ion-label class="datamain4 ion-text-wrap">{{ capitalizarPrimeraLetra(avisoA.nomTitulo)}}
                     <p>{{ fechacat(avisoA.fecIni,avisoA.fecFin)}}</p>
                   </ion-label>
                 </ion-item>

@@ -74,10 +74,6 @@ export class StorageService {
     return newItemsInsertGP;
   }
 
-
-
-
-
   //seccion dato para cambio de infomracion en el app
   async additemGeoposition(itemGPST:Geolocaposicion):Promise<any>{
     return await this.storage.get(ITEM_KEY_GP).then(async (items1:Geolocaposicion[])=>{
@@ -142,6 +138,11 @@ export class StorageService {
       return this.storage.set(ITEM_KEY_GP,toKeep);
     });
   }
+
+  deleteFullGeoposition():Promise<Geolocaposicion>{
+    return this.storage.remove(ITEM_KEY_GP)
+  }
+  
   
   /***********************************************************************************/
 

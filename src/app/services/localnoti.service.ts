@@ -53,53 +53,11 @@ export class LocalnotiService {
     private amet: AvisometeoroService ) { }
 
    async initialBackMode(){
-    
-      /*let toKeep: Geolocaposicion[] = [];
-      await this.storage.set('itemKeyGP',toKeep);
 
-      this.options = {
-        timeout: 10000,
-        maximumAge: 3000,
-        enableHighAccuracy: true
-      };
-  
-      await this.geolocation.getCurrentPosition(this.options).then(
-        async (pos: Geoposition) => {
-          this.newitemGP=null;
-          this.newitemGP=<Geolocaposicion>{};
-          this.newitemGP.id=Date.now();
-          this.newitemGP.lat=pos.coords.latitude;
-          this.newitemGP.long=pos.coords.longitude;
-   
-          await this.api.getUbicacionCoordLatLong(pos.coords.latitude, pos.coords.longitude).subscribe(async (infodata1)=>{
-            let data1=infodata1;
-            this.newitemGP.ciudad=data1[0].display_name;
-          })
-       
-          await this.api.getDepProvDist(pos.coords.latitude, pos.coords.longitude).subscribe(async (datow) => {
-            let obj = JSON.parse(datow.data);
-            const data = obj['features'];
-      
-            data.map(element => {
-              let nivl=element['properties'].iddist;
-              let ubig=nivl;
-              let dep=ubig.substr(0,2);
-              let prov=ubig.substr(2,2);
-              let dist=ubig.slice(-2);
-      
-              this.newitemGP.coddep= dep;
-              this.newitemGP.codprov= prov;
-              this.newitemGP.coddist= dist;
-            })
-          })
-           
-          await this.storage.set('itemKeyGP',[this.newitemGP]);
- 
-        }).catch(e=>{
-            console.log("no hay posicion registrada. Registra la posicion por defecto.")
-        })*/
-       
-        this.callFunctions();
+    await this.storageS.deleteFullGeoposition();
+    await this.storageS.deleteallitemBusquedaR();
+    //this.background(); 
+        //this.callFunctions();
     }
   
     public async callFunctions(){

@@ -56,6 +56,7 @@ export class MainPage {
 
   itemGPMain:  Geolocaposicion[]=[];
   newitemGP:  Geolocaposicion=<Geolocaposicion>{};
+  newitemGPG:  Geolocaposicion=<Geolocaposicion>{};
   selectedTheme:String;
   public variab:AvisometeoroService;
   fechaactual;
@@ -64,6 +65,11 @@ export class MainPage {
   flagAccordionB;
   automaticCloseA = false;
   automaticCloseB = false;
+
+  coddepf;
+  codprovf;
+  coddistf;
+  ciudadf;
 
   httpOptions = {
     headers: new HttpHeaders({
@@ -330,12 +336,12 @@ export class MainPage {
       }else if(data2.precipitacion==0){
         this.locations.PRECIPI="0.0mm/h"
       }else{
-        this.locations.PRECIPI=data2.precipitacion+'mm/h'+fflagpre
+        this.locations.PRECIPI=data2.precipitacion+'mm/h'//+fflagpre
       }
 
 
-      this.locations.TEMP = (data2.temperatura==null?"--°C":Math.round(data2.temperatura)+"°C"+fflagtemp) ;
-      this.locations.HUME = (data2.humedad==null? "--%":data2.humedad +"%"+fflaghum) ;
+      this.locations.TEMP = (data2.temperatura==null?"--°C":Math.round(data2.temperatura)+"°C"/*+fflagtemp*/) ;
+      this.locations.HUME = (data2.humedad==null? "--%":data2.humedad +"%"/*+fflaghum*/) ;
      
       this.locations.nombrestacion = data2.nomEsta;
       this.locations.depestacion=data2.nomDep;
@@ -558,65 +564,89 @@ export class MainPage {
   //inicializa ubicacion cuando el sistema abre por primera vez
   async itinialDataCoordenadas(){
 
-   this.options = {
-      timeout: 10000,
-      maximumAge: 3000,
-      enableHighAccuracy: true
-    };
-    this.bavisom1=[];
-       
-    await this.geolocation.getCurrentPosition(this.options).then(
-      (pos: Geoposition) => {
-        if(this.itemGPMain==null || this.itemGPMain.length<=0){
-          this.storageService.additemGeoDefault().then(async t=>{
-                
-            let newItemsInsertGP=<Geolocaposicion>{};
-            newItemsInsertGP.id=t.id
-            newItemsInsertGP.lat=t.lat
-            newItemsInsertGP.long=t.long
-            newItemsInsertGP.ciudad=t.ciudad
-            newItemsInsertGP.coddep=t.coddep
-            newItemsInsertGP.codprov=t.codprov
-            newItemsInsertGP.coddist=t.coddist
-            this.storageService.additemGeoposition(newItemsInsertGP).then(async resl=>{
-              this.itemGPMain=resl
-              this.getCordenadasNew();
-            })
-          })
-        }else{
-          
-          this.getCordenadasNew();
-        }
-       
+    this.options = {
+       timeout: 10000,
+       maximumAge: 3000,
+       enableHighAccuracy: true
+     };
+     this.bavisom1=[];
         
-      }).catch(e=>{
+     await this.geolocation.getCurrentPosition(this.options).then(
+       (pos: Geoposition) => {
+         if(this.itemGPMain==null || this.itemGPMain.length<=0){
+ 
+           this.api.getUbicacionCoordLatLong(pos.coords.latitude, pos.coords.longitude).subscribe(async (infodata1)=>{
+             await this.api.getDepProvDist(pos.coords.latitude, pos.coords.longitude).subscribe(async (datow) => {
+               let obj = JSON.parse(datow.data);
+               const data = obj['features'];
+         
+               data.map(async element => {
+                 let nivl=element['properties'].iddist;
+                 let ubig=nivl;
+                 let dep=ubig.substr(0,2);
+                 let prov=ubig.substr(2,2);
+                 let dist=ubig.slice(-2);
+         
+                 this.coddepf=dep
+                 this.codprovf=prov
+                 this.coddistf=dist
+               })
+ 
+               let data1=infodata1;
+               this.ciudadf=data1[0].display_name;
+ 
+               this.newitemGP.id=Date.now();
+               this.newitemGP.lat=pos.coords.latitude;
+               this.newitemGP.long=pos.coords.longitude;
      
+               this.newitemGPG=<Geolocaposicion>{};
+               this.newitemGPG.id= this.newitemGP.id;
+               this.newitemGPG.lat=this.newitemGP.lat;
+               this.newitemGPG.long=this.newitemGP.long;
+               this.newitemGPG.ciudad= this.ciudadf;
+               this.newitemGPG.coddep= this.coddepf;
+               this.newitemGPG.codprov= this.codprovf;
+               this.newitemGPG.coddist= this.coddistf;
+ 
+               await this.storageService.additemGeoposition(this.newitemGPG).then(async res=>{
+                 this.itemGPMain=res
+                 this.getCordenadasNew();
+               })
+ 
+             })
+           })
+         }else{
+           
+           this.getCordenadasNew();
+         }
         
-        this.loadItemUbicaActEleg().then((a)=>{
-          if(this.itemGPMain==null || this.itemGPMain.length<=0){
-            this._androidpermision.gpsOntAlert().then(i=>{
-              this.storageService.additemGeoDefault().then(t=>{
-                
-                let newItemsInsertGP=<Geolocaposicion>{};
-                newItemsInsertGP.id=t.id
-                newItemsInsertGP.lat=t.lat
-                newItemsInsertGP.long=t.long
-                newItemsInsertGP.ciudad=t.ciudad
-                newItemsInsertGP.coddep=t.coddep
-                newItemsInsertGP.codprov=t.codprov
-                newItemsInsertGP.coddist=t.coddist
-                this.storageService.additemGeoposition(newItemsInsertGP).then(resl=>{
-                  this.itemGPMain=resl
-                  this.getCordenadasNew();
-                })
-              })
-            });
-          }else{
-            this.getCordenadasNew()
-          }
-        })
-      }); 
-  }
+         
+       }).catch(e=>{
+         this.loadItemUbicaActEleg().then((a)=>{
+           if(this.itemGPMain==null || this.itemGPMain.length<=0){
+             this._androidpermision.gpsOntAlert().then(i=>{
+               this.storageService.additemGeoDefault().then(t=>{
+                 
+                 let newItemsInsertGP=<Geolocaposicion>{};
+                 newItemsInsertGP.id=t.id
+                 newItemsInsertGP.lat=t.lat
+                 newItemsInsertGP.long=t.long
+                 newItemsInsertGP.ciudad=t.ciudad
+                 newItemsInsertGP.coddep=t.coddep
+                 newItemsInsertGP.codprov=t.codprov
+                 newItemsInsertGP.coddist=t.coddist
+                 this.storageService.additemGeoposition(newItemsInsertGP).then(resl=>{
+                   this.itemGPMain=resl
+                   this.getCordenadasNew();
+                 })
+               })
+             });
+           }else{
+             this.getCordenadasNew()
+           }
+         })
+       });
+   }
 
   doRefresh(e){
     this.getReloadCordenadas();
