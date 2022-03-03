@@ -42,8 +42,6 @@ export class Avisosdetail1Page {
   prov=null;
   ciudad;
   viewparams;
-  //datacheck=[{name:'Mostrar los avisos meteorólogicos del país', selected:false}]
-  //datacheck=[{name:'Ver avisos del país', selected:false}]
   //array de niveles
   nivelesAM=[];
   icono;
@@ -97,9 +95,6 @@ export class Avisosdetail1Page {
       share:true
     });
 
-
-    //this.datacheck=[{name:'Mostrar los avisos meteorólogicos del país', selected:false}]
-   // this.datacheck=[{name:'Ver avisos del país', selected:false}]
     this.avisoMet=[];
     this.avisoMetAll=[];
     this.nivelesAM=[];
@@ -119,24 +114,7 @@ export class Avisosdetail1Page {
     })
   }
 
-  /*checkControlEvent(check){
-    this.avisoMet=[];
-    if(check['selected']){
-      this.storageService.getitemGeoposition().then((items0)=>{
-        this.itemGP=items0;
-        if(this.itemGP==null || this.itemGP.length<=0){
-          this._androidpermision.gpsOntAlert()
-        }else{
-          this.cargaListadoAvisoMeteoro()
-        }
-      })
-
-    }else{
-      this.cargaMisListadoAvisoMeteoro();
-    }
-  }*/
-
-    async cargaMisListadoAvisoMeteoro(){
+   async cargaMisListadoAvisoMeteoro(){
     const loading = await this.loadingController.create({
       cssClass: 'my-custom-class',
       message: 'Cargando...',

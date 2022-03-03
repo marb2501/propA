@@ -72,7 +72,6 @@ export class AvisosmetmapmainPage {
 
       let anioaviso=new Date(this.fechainicio);
 
-      //this.fechactualreg=this.fechareg.getDate()+"/"+(this.fechareg.getMonth()+1)+"/"+this.fechareg.getFullYear();
       this.fechactualreg=this.fechareg[2]+'/'+this.fechareg[1]+'/'+this.fechareg[0];
       this.anioref=this.fechareg[0];
 
@@ -103,7 +102,7 @@ export class AvisosmetmapmainPage {
           text:mensajeShare1,
           backdrop:false
         });
-        //alert(mensajeShare1);
+       
          await this.socialSharing.shareWithOptions({
             message: "App Institucional SENAMHI",
             subject: "Imagen capturada a las "+fecha.getDate().toString()
@@ -121,7 +120,7 @@ export class AvisosmetmapmainPage {
             backdrop:false
           });
           
-          //alert(mensajeShare2)
+          
         });
   }
   
@@ -237,7 +236,7 @@ export class AvisosmetmapmainPage {
           let ne = bounds.getNorthEast();
           let size = this.map.getSize();
           
-          //let tabalresul ="<table class='estilotabla'><tr><th>Información de Aviso</th></tr>";
+         
           let tabalresul ="<table class='estilotabla'><tr><th>Información de Aviso al "+ this.fechactualreg+" </th></tr>";
           this.wmssenamhi.getInfoAvisosB(1,this.viewparams,this.etiqueta,sw.lat,sw.lng,ne.lat,ne.lng,size.x, size.y,containerPotin.x ,containerPotin.y)
           .subscribe((response)=>{
@@ -275,34 +274,7 @@ export class AvisosmetmapmainPage {
             icon: icon(iconmarker)
           });
         this.map.addLayer(markPoint);
-
-        //mapa
-       /* const legend = control({ position: "bottomleft" });  
-        legend.onAdd = () => {
-          const div = DomUtil.create("div", "info legend");
-         
-          const grades = [1, 2, 3, 4];
-          const codigon=Number(this.nivelmapa)-1;
-          
-
-          let contenido = leyendaavisosmet;
-          let recomenda = leyendarecavisosmet;
-          let labels = [];
-         
-
-          labels.push('<table>'+
-                      '<tr><td><i style="background:'+this.getColor(codigon)+';font-weight:solid; font-size: 20px;">&nbsp;&nbsp;&nbsp;&nbsp;'+this.textoNivel(codigon)+'&nbsp;&nbsp;&nbsp;&nbsp;</i>'+'</td></tr>'+
-                      '<tr><td >Peligro:</td></tr>'+
-                      '<tr><td >'+contenido[codigon]+'</td></tr>'+
-                      '<tr><td >Recomendación:</td></tr>'+
-                      '<tr><td >'+recomenda[codigon]+'</td></tr>'+
-                      '</table>');
-          div.innerHTML = labels.join("<br>");
-          return div;
-        };
-    
-        legend.addTo(this.map);  */
-
+ 
          //insercion de boton info
          const botonMap2 = control({ position: "topleft" });  
       
@@ -331,7 +303,7 @@ export class AvisosmetmapmainPage {
               text:datadesc,
               backdrop:false
             });
-             //alert(datadesc);
+             
            }
        
            return container;

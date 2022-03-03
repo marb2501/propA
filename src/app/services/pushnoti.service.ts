@@ -69,25 +69,7 @@ export class PushnotiService {
         }
       }
       this.router.navigate(['menu/alertmap2'],navigationExtra);
-
-      /*let alert = this.alertCtrl.create({
-        header: titulo,
-        subHeader: mensaje,
-        buttons : [{
-          text: 'OK', 
-          handler: () => {
-            this.router.navigate(['menu/alertmap2'],navigationExtra);
-          }
-        },
-        {
-          text: 'Cancelar',
-          role: 'cancel',
-          handler: () => {
-          }
-        },]
-       });
-      
-       (await alert).present();*/
+  
   }
 
   async AlertMessageHidro(idflagdata, layerflag, titulo, mensaje, tiempoflag, tipoaviso, numeroaviso, codtipaviso){
@@ -113,25 +95,7 @@ export class PushnotiService {
     }
 
     this.router.navigate(['menu/alertmaphidro'],navigationExtra);
-    /*let alert = this.alertCtrl.create({
-      header: titulo,
-      subHeader: mensaje,
-      buttons : [{
-        text: 'OK', 
-        handler: () => {
-          this.router.navigate(['menu/alertmaphidro'],navigationExtra);
-        }
-      },
-      {
-        text: 'Cancelar',
-        role: 'cancel',
-        handler: () => {
-        
-        }
-      },]
-     });
-    
-     (await alert).present();*/
+ 
 }
 
 
@@ -143,9 +107,7 @@ export class PushnotiService {
           (pos: Geoposition) => {
             this.locations.lat=pos.coords.latitude.toString();
             this.locations.lng=pos.coords.longitude.toString();
-            //this.locations.lat='-7.350462';
-            //this.locations.lng='-75.009061';
-          });
+           });
 
           this.oneSignal.startInit(IdOneSignal,IdFireBaseGoogle);
 
@@ -172,8 +134,6 @@ export class PushnotiService {
           this.flagapertura=1; 
 
           let auxh=fechainiaviso.substring(0,4);
-
-          //this.notificacionRecibida( noti ); graba la notificaion
 
           if(siglaaviso!="HI"){
             if(idflag==1){
@@ -218,12 +178,7 @@ export class PushnotiService {
                })
             }
           }else{     
-           /*this.api.getCurrentTemperature(this.locations.lat,this.locations.lng).subscribe((dato) => {
-              let obj = dato as any;
-              let data = obj['data'][0];
-              let dep= data.COD_DEP;
-              let prov= data.COD_PROV;
-              let dist= data.COD_DIST;*/
+
               this.api.getDepProvDist(this.locations.lat,this.locations.lng).subscribe((datow) => {
                 let obj = JSON.parse(datow.data);
                 const data = obj['features'];
@@ -258,8 +213,6 @@ export class PushnotiService {
 
         this.oneSignal.handleNotificationOpened().subscribe( async(noti) => {
           // do something when a notification is opened
-         //await this.notificacionRecibida( noti.notification ); graba la notificaion
-
          let idflag= noti.notification.payload.additionalData.flag;
          let layer= noti.notification.payload.additionalData.layer;
          let tiempo = noti.notification.payload.additionalData.time;
@@ -331,14 +284,6 @@ export class PushnotiService {
         
               data.map(element => {
                 let llave=element['properties'].iddist;
-           /*this.api.getCurrentTemperature(this.locations.lat,this.locations.lng).subscribe((dato) => {
-            let obj = dato as any;
-            let data = obj['data'][0];
-            let dep= data.COD_DEP;
-            let prov= data.COD_PROV;
-            let dist= data.COD_DIST;
-            let llave=dep+prov+dist;*/
-
             this.serviciowmsSenamhi.getAvisosHidrologicosVigentes(this.locations.lat,this.locations.lng)
               .subscribe((response)=>{
                 let data = JSON.parse(response.data);

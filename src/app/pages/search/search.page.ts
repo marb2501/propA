@@ -543,8 +543,6 @@ async retaurarposicion(){
   //retorno anterior
   retornoPaginaAnterior(){
     let infor=this.rutaback.substr(0, this.rutaback.indexOf('?')); 
-    //console.log('retorno de pagina')
-    //console.log(infor)
 
     if(infor==''){
       this.router.navigate(['/menu/main']);

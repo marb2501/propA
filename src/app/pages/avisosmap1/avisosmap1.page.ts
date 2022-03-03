@@ -71,7 +71,6 @@ export class Avisosmap1Page {
 
       let anioaviso=new Date(this.fechainicio);
 
-      //this.fechactualreg=this.fechareg.getDate()+"/"+(this.fechareg.getMonth()+1)+"/"+this.fechareg.getFullYear();
       this.fechactualreg=this.fechareg[2]+'/'+this.fechareg[1]+'/'+this.fechareg[0];
       
       this.anioref=anioaviso.getFullYear();
@@ -97,8 +96,6 @@ export class Avisosmap1Page {
     this.screenshot.save('jpg', 80, 'myscreenshot.jpg').then(
        async (res:any)=>{
          let fecha = new Date();
-         
-        //alert(mensajeShare1);
         Swal.fire({
           title:'Aviso',
           text:mensajeShare1,
@@ -181,13 +178,11 @@ export class Avisosmap1Page {
 
    await this.geolocation.getCurrentPosition(this.options).then(
       (pos: Geoposition) => {
-           // this.map = new Map('avisometeoro', {center: [ pos.coords.latitude, pos.coords.longitude ],
         this.map = new Map('avisometeoro', {center: [ this.latUb, this.lngUb ],
           zoom: 6,
           maxZoom: 100,
           minZoom: 6,
           layers: [routesmap, etiquetaAvisoM, departamento, provincia]}
-        //).setView([ pos.coords.latitude, pos.coords.longitude ], 10);
         ).setView([ this.latUb, this.lngUb ], 10);
         
     
@@ -196,7 +191,6 @@ export class Avisosmap1Page {
           position: 'topright'
         }).addTo(this.map);
     
-        //const markPoint = marker([pos.coords.latitude, pos.coords.longitude ], {
           const markPoint = marker([this.latUb, this.lngUb ], {
             icon: icon(iconmarker)
           });
@@ -287,34 +281,7 @@ export class Avisosmap1Page {
           });
         }); 
       
-        //mapa
-        /*const legend = control({ position: "bottomleft" });  
-        legend.onAdd = () => {
-          const div = DomUtil.create("div", "info legend");
-         
-          const grades = [1, 2, 3, 4];
-          const codigon=Number(this.nivelmapa)-1;
-          
-          let contenido = leyendaavisosmet;
-          let recomenda = leyendarecavisosmet;
-          let labels = [];
-         
-
-          labels.push('<table>'+
-                      '<tr><td><i style="background:'+this.getColor(codigon)+';font-weight:solid; font-size: 20px;">&nbsp;&nbsp;&nbsp;&nbsp;'+this.textoNivel(codigon)+'&nbsp;&nbsp;&nbsp;&nbsp;</i>'+'</td></tr>'+
-                      '<tr><td >Peligro:</td></tr>'+
-                      '<tr><td >'+contenido[codigon]+'</td></tr>'+
-                      '<tr><td >Recomendación:</td></tr>'+
-                      '<tr><td >'+recomenda[codigon]+'</td></tr>'+
-                      '</table>');
-          div.innerHTML = labels.join("<br>");
-          return div;
-        };
-    
-        legend.addTo(this.map);*/  
-
-
-        //insercion de boton info
+         //insercion de boton info
         const botonMap2 = control({ position: "topleft" });  
       
         const datadesc=this.descripcionmapa;
@@ -344,7 +311,6 @@ export class Avisosmap1Page {
               text:datadesc,
               backdrop:false
             });
-            //alert(datadesc);
           }
       
           return container;

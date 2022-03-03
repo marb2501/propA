@@ -33,8 +33,6 @@ export class Avisosdetail4Page {
   automaticCloseA = false;
   automaticCloseB = false;
   recomendacion;
-  //datacheck=[{name:'Mostrar los avisos hidrológicos del país', selected:false}]
-  //datacheck=[{name:'Ver avisos del país', selected:false}]
 
   constructor(private modalcontroller: ModalController, 
     private storageService:StorageService,
@@ -69,41 +67,6 @@ export class Avisosdetail4Page {
 
      }
   
-    
-
-    /* checkControlEvent(check){
-      if(check['selected']){
-        this.storageService.getitemGeoposition().then((items0)=>{
-          this.itemGP=items0;
-          if(this.itemGP==null || this.itemGP.length<=0){
-            this._androidpermision.gpsOntAlert()
-          }else{
-            this.cargaListadoAvisoHidrolo();
-          }
-        })
-        
-      }else{
-        this.cargaMisListadoAvisoHidro();
-      }
-    }*/
-
-  // ngOnInit(){
-    //this.datacheck=[{name:'Mostrar los avisos hidrológicos del país', selected:false}]
-   // this.datacheck=[{name:'Ver avisos del país', selected:false}]
-   /* this.storageService.getitemGeoposition().then((items0)=>{
-      this.itemGP=items0;
-      if(this.itemGP==null || this.itemGP.length<=0){
-        this._androidpermision.gpsOntAlert()
-      }else{
-        this.cargaListadoAvisoHidrolo();
-        this.cargaMisListadoAvisoHidro();
-        
-      }
-    })*/
-
-  // } 
-
-
    //carga losa visos vigentes que me correspoende por departameto y provincia
    async cargaMisListadoAvisoHidro(){
 
@@ -182,8 +145,6 @@ export class Avisosdetail4Page {
       this.avisoHidroAll=[];
       this.avisoHidroTemp=[];
 
-    //this.datacheck=[{name:'Mostrar los avisos hidrológicos del país', selected:false}]
-    //this.datacheck=[{name:'Ver avisos del país', selected:false}]
     this.storageService.getitemGeoposition().then((items0)=>{
       this.itemGP=items0;
       if(this.itemGP==null || this.itemGP.length<=0){
@@ -201,7 +162,6 @@ export class Avisosdetail4Page {
     const loading = await this.loadingController.create({
       cssClass: 'my-custom-class',
       message: 'Cargando...',
-      //duration: 2000
     });
     
     await loading.present();

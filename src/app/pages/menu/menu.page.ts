@@ -47,7 +47,6 @@ export class MenuPage implements OnInit{
   }
   
   loadMenu(){
-    //this.pages=menuSlide;
     this.menuappService.getMenu1().subscribe((response) =>{
       
       this.menuapp=JSON.parse(response.data);
@@ -57,38 +56,10 @@ export class MenuPage implements OnInit{
 
 
     }, err=>{
-      //alert(JSON.parse(err))
+
       this.pages=menuSlide;
     });
     
-   /* this.menuappService.getMenu1()
-    .pipe(catchError( data => of(JSON.stringify(data))))
-    .subscribe((data)=>{
-    
-      alert('subscribe : ' + JSON.stringify(data));
-    }
-     )*/
-
-    /*this.menuappService.getMenu().pipe(
-      catchError(e => {
-    
-        this.pages=menuSlide; 
-
-        return throwError(e)
-        })
-    ).subscribe(reponse => {
-      if (reponse.body==null){
-        this.pages=menuSlide;
-         
-      }else{
-        
-        if (reponse.body.length>0){
-           this.pages= reponse.body; 
-        }else{
-          this.pages=menuSlide;
-        }
-      }
-    })*/
   }
 
  

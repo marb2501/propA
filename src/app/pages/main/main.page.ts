@@ -140,8 +140,6 @@ export class MainPage {
 
           this.variab=amet;
 
-          /*let fa= new Date();
-          this.fechaactual=fa.getDate().toString()*/
   }
 
   listado: any[];

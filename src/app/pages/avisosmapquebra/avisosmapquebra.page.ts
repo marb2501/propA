@@ -87,8 +87,6 @@ export class AvisosmapquebraPage {
       Provincia:provincia
     };
 
-   /*await this.geolocation.getCurrentPosition(this.options).then(
-      (pos: Geoposition) => {*/
         
         this.map = new Map('avisoQuebrada', {center: [ this.latMipos, this.lngMipos ],
           zoom: 6,
@@ -183,7 +181,7 @@ export class AvisosmapquebraPage {
           text:mensajeShare1,
           backdrop:false
         });
-        //alert(mensajeShare1);
+ 
          await this.socialSharing.shareWithOptions({
             message: "App Institucional SENAMHI",
             subject: "Imagen capturada a las "+fecha.getDate().toString()
@@ -200,7 +198,7 @@ export class AvisosmapquebraPage {
             text:mensajeShare2,
             backdrop:false
           });
-          //alert(mensajeShare2)
+
         });
   }
 

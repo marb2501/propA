@@ -3,12 +3,11 @@ export const rutasenamhi='/ws/rest/open/ora';
 export const wslmainpronostico = 'http://sgd.senamhi.gob.pe/ws/rest/open/ora';
 export const schemamain = 'appsenamhi';
 export const pkgubicac = 'PKG.SP_OBT_UBIC_PRTMACT';
-//export const pkgresumen = 'PKG.SP_OBT_PRONOS_RESUMEN_PRTMACT';
+
 export const pkgresumen ='PKG.SP_OBT_PRONOS_RESUMEN';
 export const rutaiconoD = '/assets/images/day/';
 export const rutaiconoN = '/assets/images/night/';
-/*export const rutaiconoD='https://www.senamhi.gob.pe/public/images/icono/100x100/icon';
-export const rutaiconoN='https://www.senamhi.gob.pe/public/images/icono/100x100/icon';*/
+
 export const senammincu = '/assets/images/logo-header.png';
 export const termomax = '/assets/images/ico-term-max.png';
 export const termomin = '/assets/images/ico-term-min.png';
@@ -39,8 +38,7 @@ export const dominioAvisoMetHidroPageMain='http://sisper.senamhi.gob.pe:9091/app
 export const dominioMenuApp = 'http://sisper.senamhi.gob.pe:9091/menu/api/menuapp';
 export const dominioEstacionesWS = 'http://siscal.senamhi.gob.pe:8081/sQualityControl/datos/datactual/';
 export const urlWSAvisosHidrologicos ='http://siscal.senamhi.gob.pe:8081/sisweb-avisos/avisos/lista/';
-//export const pkgtempact = 'PKG_TMP.SP_TIEMPOACTUAL_BYZONA';
-//export const pkgresumentempact = 'PKG_TMP.SP_PRONOSTICO_BYZONA';
+
 export const urlSearchLocation='https://nominatim.openstreetmap.org/search?format=json&limit=5&county=Peru&country=Peru&countrycodes=pe&q=';
 export const urlGeoposionLocation='https://nominatim.openstreetmap.org/details.php?osmtype=R&addressdetails=1&hierarchy=0&county=Peru&country=Peru&countrycodes=pe&group_hierarchy=1&polygon_geojson=1&format=json&osmid=';
 export const urlIDESEPServMet='http://idesep.senamhi.gob.pe/geoserver/g_aviso/wms';

@@ -81,7 +81,6 @@ export class AvisoshidmapmainPage {
           text:mensajeShare1,
           backdrop:false
         });
-        //alert(mensajeShare1);
          await this.socialSharing.shareWithOptions({
             message: "App Institucional SENAMHI",
             subject: "Imagen capturada a las "+fecha.getDate().toString()
@@ -98,7 +97,6 @@ export class AvisoshidmapmainPage {
             text:mensajeShare2,
             backdrop:false
           });
-          //alert(mensajeShare2)
         });
   }
 
@@ -317,7 +315,6 @@ export class AvisoshidmapmainPage {
             text:'Presione la estación para vizualizar los distritos afectados.',
             backdrop:false
           });
-          //alert('Presione la estación para vizualizar los distritos afectados');
         }
     
         return container;

@@ -5,7 +5,6 @@
 <ion-content padding responsive>
   <ion-grid  class="full-width" class="cardtransparente" >
     <ion-row style="margin-top:60px" class="datamain2Aviso">
-      <!--<ion-col class="bannerAvisoBlanco">Aviso Nro {{ caviso }}</ion-col>-->
       <ion-col colspan="2" [ngClass]="colorAviso(cnivel)">AVISO NIVEL {{ textoNivel(colnivel) | uppercase }}</ion-col>
     </ion-row>
     <ion-row class="datamain3">
@@ -79,36 +78,5 @@
       <ion-col><p>Lugares Afectados</p></ion-col>
       <ion-col><div [innerHTML]="getProvDistAfectados()"></div></ion-col>
     </ion-row>
-    <!--
-      <ion-row class="datamainjust">
-    
-      <ion-col>{{desc1}}</ion-col>
-    </ion-row>
-      
-      <ion-row class="datamain2">
-    
-      <ion-col>
-        <ion-img class="imgmenutexto" [src]="rutaimg">
-
-        </ion-img>
-
-      </ion-col>
-    </ion-row>
-    
-    <ion-row class="datamain2Aviso">
-       <ion-col [ngClass]="colorAviso(3)"> {{ mgrojo }}
-      </ion-col>
-    </ion-row>
-
-    <ion-row class="datamain2Aviso">
-      <ion-col [ngClass]="colorAviso(2)"> {{ mgnaranja }}
-     </ion-col>
-   </ion-row>
-
-   <ion-row class="datamain2Aviso">
-    <ion-col [ngClass]="colorAviso(1)"> {{ mgamarillo }}
-   </ion-col>
- </ion-row>-->
-   
   </ion-grid>
 </ion-content>

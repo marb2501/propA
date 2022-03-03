@@ -16,11 +16,6 @@ const routes: Routes = [
     path: 'menu/avisometinfomain',
     loadChildren: () => import('./pages/avisometinfomain/avisometinfomain.module').then( m => m.AvisometinfomainPageModule)
   },
- 
- /* {
-    path: 'menu/avisohidinfomain',
-    loadChildren: () => import('./pages/avisohidinfomain/avisohidinfomain.module').then( m => m.AvisohidinfomainPageModule)
-  },*/
     
 ];
 
