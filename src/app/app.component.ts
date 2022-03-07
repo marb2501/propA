@@ -15,6 +15,7 @@ import Swal from 'sweetalert2';
 import { ApiService } from './services/api.service';
 import { mensajeShare1, mensajeShare2 } from '../app/globales';
 import { Geolocation, GeolocationOptions, Geoposition } from '@ionic-native/geolocation/ngx';
+import { Moment } from 'moment';
 
 @Component({
   selector: 'app-root',

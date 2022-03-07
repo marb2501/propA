@@ -1,6 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
 import { Geolocation, GeolocationOptions, Geoposition } from '@ionic-native/geolocation/ngx';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Moment } from 'moment';
 import { LoadingController, IonSlides } from '@ionic/angular';
 import { Router, NavigationExtras } from '@angular/router';
 import {
@@ -32,6 +33,7 @@ import { PopinfoComponent } from '../../components/popinfo/popinfo.component';
 import { AndroidpermisionService } from '../../services/androidpermision.service';
 import Swal from 'sweetalert2';
 import { Storage } from '@ionic/storage';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-main',
@@ -304,8 +306,6 @@ export class MainPage {
 
   async getCordenadasNew() {
 
-    //console.log(this.itemGPMain[0].ciudad)
-    //console.log("1233")
     this.locations.lat = this.itemGPMain[0].lat.toString();
     this.locations.lng = this.itemGPMain[0].long.toString();
     this.locations.ciudad= this.itemGPMain[0].ciudad;
@@ -364,8 +364,13 @@ export class MainPage {
       this.locations.zona=data.ZONA
       this.locations.descrip = data.DES_PRON;
       let dat=data.FECHA;
-      let i=dat.replace('-','/');
-      this.fechaactual=i.replace('-','/')
+     
+      moment.locale("es");
+      this.fechaactual=moment().format("L");
+      
+      
+      /*let i=dat.replace('-','/');
+      this.fechaactual=i.replace('-','/')*/
 
     });
 

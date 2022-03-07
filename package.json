@@ -62,6 +62,7 @@
     "leaflet": "^1.6.0",
     "leaflet-easybutton": "^2.4.0",
     "leaflet.control.opacity": "^1.4.0",
+    "moment": "^2.29.1",
     "onesignal-cordova-plugin": "^2.9.0",
     "rxjs": "~6.5.1",
     "sweetalert2": "^10.14.0",
