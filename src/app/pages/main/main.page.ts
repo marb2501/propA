@@ -7,7 +7,7 @@ import { Router, NavigationExtras } from '@angular/router';
 import {
   senammincu,
   termomax,
-  temperatura,
+  temperaturaimg,
   humedad,
   viento,
   termomin,
@@ -34,6 +34,7 @@ import { AndroidpermisionService } from '../../services/androidpermision.service
 import Swal from 'sweetalert2';
 import { Storage } from '@ionic/storage';
 import * as moment from 'moment';
+
 
 @Component({
   selector: 'app-main',
@@ -154,7 +155,7 @@ export class MainPage {
   logominsiterio = senammincu;
   icontermomax = termomax;
   icontermomin = termomin;
-  temperatura = temperatura;
+  temperatura = temperaturaimg;
   viento = viento;
   humedad = this.cambiarImagenMain();
   precipita=this.cambiarImagenMain2();
@@ -310,11 +311,11 @@ export class MainPage {
     this.locations.lng = this.itemGPMain[0].long.toString();
     this.locations.ciudad= this.itemGPMain[0].ciudad;
     this.locations.AUXciudad= this.itemGPMain[0].ciudad;
-       
+
     this.api.getEstaciones(this.locations.lat, this.locations.lng).subscribe((dato) => {
       let obj2 = dato as any;
       this.listado2=obj2;
-      let data2=this.listado2[0];
+      /*let data2=this.listado2[0];
       let fflagtemp='';
       let fflaghum='';
       let fflagpre='';
@@ -327,28 +328,81 @@ export class MainPage {
 
       if(data2.flagPrecipitacion==0){
         fflagpre="*";
-      }
+      }*/
+      let inx=0
+      let a=0;
+      //busca para obtener una estacion con temperatura no null 
+      this.listado2.every(element1 => {
+        console.log(element1)
+        let tem=element1.temperatura;
+        if(a!=1){
+          if(tem!=null){
+            this.locations.TEMP = ""
+            this.locations.HUME = "" ;
+            this.locations.nombrestacion = "";
+            this.locations.depestacion="";
+            this.locations.provestacion="";
+            this.locations.distestacion="";
+            this.locations.altitud = "";
+            this.locations.distancia = "";
+            this.locations.hora = "";
+            this.locations.PRECIPI="";
 
-      if(data2.precipitacion==null){
-        this.locations.PRECIPI="--mm/h"
-      }else if(data2.precipitacion==0){
-        this.locations.PRECIPI="0.0mm/h"
+
+            if(element1.precipitacion==null){
+              this.locations.PRECIPI="0.0mm/h"
+            }else if(element1.precipitacion==0){
+              this.locations.PRECIPI="0.0mm/h"
+            }else{
+              this.locations.PRECIPI=element1.precipitacion+'mm/h'
+            }
+          
+            this.locations.TEMP = Math.round(element1.temperatura)+"°C" ;
+            this.locations.HUME = element1.humedad +"%" ;
+           
+            this.locations.nombrestacion = element1.nomEsta;
+            this.locations.depestacion=element1.nomDep;
+            this.locations.provestacion=element1.nomProv;
+            this.locations.distestacion=element1.nomDist;
+            this.locations.altitud = element1.altitud+" m";
+            this.locations.distancia = Math.round(element1.distancia)+" "+element1.unidad;
+            this.locations.hora = element1.fecha
+            //this.listado2.shift();
+            a=1;
+            return false;
+          }else{
+            inx++;
+            return true;
+          }
+        }
+      });
+
+      if(inx>=this.listado2.length){
+        let data2=this.listado2[0];
+        if(data2.precipitacion==null){
+          this.locations.PRECIPI="0.0mm/h"
+        }else if(data2.precipitacion==0){
+          this.locations.PRECIPI="0.0mm/h"
+        }else{
+          this.locations.PRECIPI=data2.precipitacion+'mm/h'
+        }
+      
+        this.locations.TEMP = (data2.temperatura==null?"--°C":Math.round(data2.temperatura)+"°C") ;
+        this.locations.HUME = data2.humedad +"%" ;
+       
+        this.locations.nombrestacion = data2.nomEsta;
+        this.locations.depestacion=data2.nomDep;
+        this.locations.provestacion=data2.nomProv;
+        this.locations.distestacion=data2.nomDist;
+        this.locations.altitud = data2.altitud+" m";
+        this.locations.distancia = Math.round(data2.distancia)+" "+data2.unidad;
+        this.locations.hora = data2.fecha
+        this.listado2.shift();
+
       }else{
-        this.locations.PRECIPI=data2.precipitacion+'mm/h'//+fflagpre
+        this.listado2.splice(inx,1);
       }
-
-
-      this.locations.TEMP = (data2.temperatura==null?"--°C":Math.round(data2.temperatura)+"°C"/*+fflagtemp*/) ;
-      this.locations.HUME = (data2.humedad==null? "--%":data2.humedad +"%"/*+fflaghum*/) ;
      
-      this.locations.nombrestacion = data2.nomEsta;
-      this.locations.depestacion=data2.nomDep;
-      this.locations.provestacion=data2.nomProv;
-      this.locations.distestacion=data2.nomDist;
-      this.locations.altitud = data2.altitud+" m";
-      this.locations.distancia = Math.round(data2.distancia)+" "+data2.unidad;
-      this.locations.hora = data2.fecha
-      this.listado2.shift();
     });
 
     this.api.getCurrentDataTime(this.locations.lat, this.locations.lng).subscribe((dato) => {
@@ -367,10 +421,6 @@ export class MainPage {
      
       moment.locale("es");
       this.fechaactual=moment().format("L");
-      
-      
-      /*let i=dat.replace('-','/');
-      this.fechaactual=i.replace('-','/')*/
 
     });
 

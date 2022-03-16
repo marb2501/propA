@@ -20,7 +20,7 @@ export const precipitaD='/assets/images/luviaD.png';
 export const iMgsearchA='/assets/icon/persona.png';
 export const iMgsearchB='/assets/icon/personadark.png';
 
-export const temperatura = '/assets/images/temperatura.png';
+export const temperaturaimg = '/assets/images/temperatura.png';
 export const viento ='/assets/images/viento.png';
 
 export const previous = '/assets/images/up.png';
@@ -57,7 +57,8 @@ export const urlIDESEPRUV72='https://idesep.senamhi.gob.pe/geoserver/g_03_04/wms
 export const urlIDESEPDepart='https://idesep.senamhi.gob.pe:443/geoserver/g_00_02/wms';
 export const urlIDESEPProv='https://idesep.senamhi.gob.pe:443/geoserver/g_00_02/wms';
 export const urlIDESEPDist='https://idesep.senamhi.gob.pe:443/geoserver/g_carto_fundamento/wms';
-export const urlMapaLealeft='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+//export const urlMapaLealeft='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+export const urlMapaLealeft='https://{s}.tile.openstreetmap.de/tiles/osmde/{z}/{x}/{y}.png';
 export const urlIDESEPVerificaPeru='https://idesep.senamhi.gob.pe/ver_metadata_estacion/service/validarCoordenadaPeru/';
 export const layermet='g_aviso:view_aviso';
 

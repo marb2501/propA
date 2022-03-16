@@ -64,7 +64,7 @@
         <tr>
           <td>Nivel de Aviso según el usuario</td>
           <td [ngClass]="colorAviso(codNivel)" *ngFor="let fechasreg1 of argFecha;" (click)="openModal(fechasreg1)">
-            <p [ngClass]="colortextoCuadro(codNivel)">{{ textoNivel(colorNivel)}} </p><p>(Ver Mapa)</p>
+            <p [ngClass]="colortextoCuadro(codNivel)">{{ textoNivel(colorNivel)}} </p><p [ngClass]="colortextoCuadro(codNivel)">(Ver Mapa)</p>
           </td>
         </tr>
       </table>

@@ -136,7 +136,8 @@ export class Avisosmap1Page {
    
     const routesmap = tileLayer(urlMapaLealeft, {
       attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-      detectRetina: true
+      detectRetina: false,
+      maxZoom: 16
     });
 
     const departamento = tileLayer.wms(urlIDESEPDepart, {
