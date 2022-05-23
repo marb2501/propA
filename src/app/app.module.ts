@@ -44,7 +44,9 @@ registerLocaleData(localeEsPe, 'es');
 @NgModule({
   declarations: [AppComponent, PopinfoComponent],
 entryComponents: [PopinfoComponent],
-  imports: [BrowserModule, IonicModule.forRoot(), IonicStorageModule.forRoot(), 
+  imports: [BrowserModule, IonicModule.forRoot(), IonicStorageModule.forRoot({
+              driverOrder: ['indexeddb', 'sqlite', 'websql']
+              }), 
             AppRoutingModule, 
             HttpClientModule, 
             IonicSelectableModule,

@@ -8,6 +8,7 @@ import { ModalController } from '@ionic/angular';
 import { SocialSharing } from '@ionic-native/social-sharing/ngx';
 import { Screenshot } from '@ionic-native/screenshot/ngx';
 import Swal from 'sweetalert2';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-avisosmap24h',
@@ -173,7 +174,7 @@ export class Avisosmap24hPage {
               let labels = [];
               
               
-              let fechmod=new Date(fecha);
+              let fechmod=moment(fecha).toDate();
               let fechn= fechmod.getDate()+'/'+(fechmod.getMonth()+1)+'/'+fechmod.getFullYear();
               
               
@@ -264,7 +265,7 @@ export class Avisosmap24hPage {
   share(){
     this.screenshot.save('jpg', 80, 'myscreenshot.jpg').then(
        async (res:any)=>{
-         let fecha = new Date();
+         let fecha = moment().toDate();
          Swal.fire({
           title:'Aviso',
           text:mensajeShare1,

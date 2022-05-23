@@ -1,4 +1,4 @@
-<ion-header>
+<!--<ion-header>
   <ion-toolbar>
     <ion-title></ion-title>
   </ion-toolbar>
@@ -37,4 +37,44 @@
     </ion-col>
    </ion-row>
   </ion-grid>
+</ion-content>-->
+
+<ion-header>
+  
+</ion-header>
+
+<ion-content padding responsive >
+  <ion-grid>
+  <ion-row style="margin-top:50px">
+     <ion-col>
+      <ion-card margin margin-top class="full-width" class="cardtransparente">
+        <ion-card-header class="datamain">
+        </ion-card-header>
+        <ion-card-content class="datamain">
+          <ion-icon style="font-size: x-large;" [src]="this.icono"></ion-icon>
+          <h4>{{ titulolist }}</h4> 
+        </ion-card-content>
+      </ion-card></ion-col>
+  </ion-row>
+  <ion-row class="tempdet2">
+    <ion-col style="TEXT-ALIGN: left;
+    margin-left: 15px;">
+      <ion-label>CAMBIAR MODO DE PANTALLA:</ion-label>
+    </ion-col>
+  </ion-row>
+  <ion-row class="datamain2">
+    <ion-col>
+      <ion-segment  (ionChange)="segmentChanged($event)" scrollable [value]="selectedTheme">
+        <ion-segment-button class="datamain2" value="light-theme">
+          <ion-label><ion-icon style="width: 30px;height: 20px;" name="sunny-outline"></ion-icon> DÍA</ion-label>
+        </ion-segment-button>
+        <ion-segment-button class="datamain2" value="dark-theme">
+          <ion-label><ion-icon style="width: 30px;height: 20px;" name="moon-outline"></ion-icon> NOCHE</ion-label>
+        </ion-segment-button>
+      </ion-segment>
+    </ion-col>
+   </ion-row>
+
+
+</ion-grid> 
 </ion-content>

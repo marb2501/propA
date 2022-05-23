@@ -15,7 +15,7 @@ import Swal from 'sweetalert2';
 import { ApiService } from './services/api.service';
 import { mensajeShare1, mensajeShare2 } from '../app/globales';
 import { Geolocation, GeolocationOptions, Geoposition } from '@ionic-native/geolocation/ngx';
-import { Moment } from 'moment';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-root',
@@ -84,7 +84,12 @@ export class AppComponent {
         })
 
       }else{
-        console.log("Plataforma no android")
+        this.networks.verificarNetwork();
+        
+        this._localNotifi.initialBackMode().then(r=>{
+          this.statusBar.styleDefault();
+          this.splashScreen.hide();
+        })
       }
       
     });
@@ -94,7 +99,7 @@ export class AppComponent {
   share(){
     this.screenshot.save('jpg', 80, 'myscreenshot.jpg').then(
        async (res:any)=>{
-         let fecha = new Date();
+         let fecha = moment().toDate();
          Swal.fire({
           title:'Aviso',
           text:mensajeShare1,

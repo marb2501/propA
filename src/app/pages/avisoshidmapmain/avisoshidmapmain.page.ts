@@ -11,6 +11,7 @@ import { TipoavisoService } from '../../services/tipoaviso.service';
 import { WmssenamhiService } from '../../services/wmssenamhi.service';
 import { Lugarafectado } from '../../models/lugarafectado.model';
 import Swal from 'sweetalert2';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-avisoshidmapmain',
@@ -75,7 +76,7 @@ export class AvisoshidmapmainPage {
   share(){
     this.screenshot.save('jpg', 80, 'myscreenshot.jpg').then(
        async (res:any)=>{
-         let fecha = new Date();
+         let fecha = moment().toDate();
          Swal.fire({
           title:'Aviso',
           text:mensajeShare1,
@@ -269,18 +270,18 @@ export class AvisoshidmapmainPage {
         let contenido = leyendaavisoshidro;
         let labels = [];
         
-        let auxtiempoini=new Date(this.fechaemision);
-        let auxtiempofin=new Date(this.fechafin);
+        let auxtiempoini=moment(this.fechaemision, "YYYY-MM-DD hh:mm:ss a").toDate();
+        let auxtiempofin=moment(this.fechafin, "YYYY-MM-DD hh:mm:ss a ").toDate();
         
         let periodo='Vigencia: Desde el '+auxtiempoini.getDate()+' de '+MESESTIEMPO[auxtiempoini.getMonth()]+' del '+auxtiempoini.getFullYear()+' hasta el '+
         auxtiempofin.getDate()+' de '+MESESTIEMPO[auxtiempofin.getMonth()]+' del '+auxtiempofin.getFullYear()
         
-        labels.push("<div>AVISO HIDROLÓGICO"+
+        labels.push("<div style='color:black'>AVISO HIDROLÓGICO"+
                 "</BR>"+periodo+"</BR>Niveles del Aviso:</div>");
         
         for (let i = 0; i < grades.length; i++) {
           let a=i+1;
-          labels.push('<i style="background:'+this.getColor(i)+'">&nbsp;&nbsp;&nbsp;&nbsp;</i> '+a+':'+contenido[i]);
+          labels.push('<i style="background:'+this.getColor(i)+'">&nbsp;&nbsp;&nbsp;&nbsp;</i> <span style="color:black">'+a+':'+contenido[i]+"</span>");
         }
         div.innerHTML = labels.join("<br>");
         return div;

@@ -10,7 +10,7 @@ import { iconmarker, leyendaavisoshidro,
 import { Lugarafectado } from '../../models/lugarafectado.model';
 import Swal from 'sweetalert2';
 import { WmssenamhiService } from '../../services/wmssenamhi.service';
-
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-avisosmap4',
@@ -140,7 +140,7 @@ export class Avisosmap4Page  {
   share(){
     this.screenshot.save('jpg', 80, 'myscreenshot.jpg').then(
        async (res:any)=>{
-         let fecha = new Date();
+         let fecha = moment().toDate();
          
         //alert(mensajeShare1);
         Swal.fire({
@@ -346,20 +346,21 @@ export class Avisosmap4Page  {
          let labels = [];
          
          
-          let fi=new Date(this.fIni);
-          let ff=new Date(this.fFin);
+          let fi=moment(this.fIni).toDate();
+          let ff=moment(this.fFin).toDate();
           let periodo='Vigencia: Desde el '+fi.getDate()+' de '+MESESTIEMPO[fi.getMonth()]+' del '+fi.getFullYear()+' hasta el '+
                   ff.getDate()+' de '+MESESTIEMPO[ff.getMonth()]+' del '+ff.getFullYear()
         
          
-         labels.push("<div>AVISO HIDROLÓGICO"+
+         labels.push("<div style='color:black'>AVISO HIDROLÓGICO"+
          "</BR>"+periodo+"</BR>Niveles del Aviso:</div>");
 
          for (let i = 0; i < grades.length; i++) {
            let a=i+1;
-           labels.push('<i style="background:'+this.getColor(i)+'">&nbsp;&nbsp;&nbsp;&nbsp;</i> '+a+':'+contenido[i]);
+           labels.push('<i style="background:'+this.getColor(i)+'">&nbsp;&nbsp;&nbsp;&nbsp;</i> <span style="color:black">'+a+':'+contenido[i]+"</span>");
          }
          div.innerHTML = labels.join("<br>");
+
          return div;
        };
    

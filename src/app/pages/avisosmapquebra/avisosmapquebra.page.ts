@@ -9,6 +9,7 @@ import { ModalController } from '@ionic/angular';
 import { SocialSharing } from '@ionic-native/social-sharing/ngx';
 import { Screenshot } from '@ionic-native/screenshot/ngx';
 import Swal from 'sweetalert2';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-avisosmapquebra',
@@ -175,7 +176,7 @@ export class AvisosmapquebraPage {
   share(){
     this.screenshot.save('jpg', 80, 'myscreenshot.jpg').then(
        async (res:any)=>{
-         let fecha = new Date();
+         let fecha = moment().toDate();
          Swal.fire({
           title:'Aviso',
           text:mensajeShare1,

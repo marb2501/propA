@@ -6,7 +6,7 @@ import { previous, MESESTIEMPO, DIASTIEMPO } from '../../globales';
 import { Lugarafectado } from '../../models/lugarafectado.model';
 import { AlertpopupmaphidroPage } from '../alertpopupmaphidro/alertpopupmaphidro.page';
 import { StorageService, Geolocaposicion } from '../../services/storage.service';
-
+import * as moment from 'moment';
 @Component({
   selector: 'app-alertmaphidro',
   templateUrl: './alertmaphidro.page.html',
@@ -94,7 +94,7 @@ export class AlertmaphidroPage implements OnInit {
     await loading.present();
 
     this.argFecha=[];
-    let fecha=new Date();
+    let fecha=moment().toDate();
     this.argFecha.push(fecha);
 
     this.titulo='AVISO DE ÚLTIMO MINUTO : '+ this.data.tiempo ;
@@ -125,19 +125,19 @@ export class AlertmaphidroPage implements OnInit {
           this.avisoHidro.codNivel=element.codNivel;
           this.avisoHidro.colorNivel=element.colorNivel;
           this.avisoHidro.colorHexa=element.colorHexa;
-          auxtiempoemi=new Date(element.fecEmi);
+          auxtiempoemi=moment(element.fecEmi, "YYYY-MM-DD hh:mm a").toDate();
           this.avisoHidro.fecEmi=DIASTIEMPO[auxtiempoemi.getDay()]+', '+auxtiempoemi.getDate()+' de '+MESESTIEMPO[auxtiempoemi.getMonth()]+' del '+auxtiempoemi.getFullYear();
           this.avisoHidro.hrEmi=element.hrEmi+' hrs.';
           this.avisoHidro.nomTitulo=element.nomTitulo;
           //cast fecha de inicio
-          auxtiempoini=new Date(element.fecIni);
+          auxtiempoini=moment(element.fecIni, "YYYY-MM-DD hh:mm a").toDate();
           let hrs='0'+auxtiempoini.getHours()
           let mns='0'+auxtiempoini.getMinutes()
 
           this.avisoHidro.fecIni=DIASTIEMPO[auxtiempoini.getDay()]+', '+auxtiempoini.getDate()+' de '+MESESTIEMPO[auxtiempoini.getMonth()]
                   +' del '+auxtiempoini.getFullYear()+' a las '+hrs.slice(-2)+':'+mns.slice(-2)+' hrs.';              
           //cast fecha fin
-          auxtiempofin=new Date(element.fecFin);
+          auxtiempofin=moment(element.fecFin, "YYYY-MM-DD hh:mm a").toDate();
           let hrs2='0'+auxtiempofin.getHours()
           let mns2='0'+auxtiempofin.getMinutes()
 

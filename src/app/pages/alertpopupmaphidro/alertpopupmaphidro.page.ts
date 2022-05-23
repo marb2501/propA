@@ -10,6 +10,7 @@ import { iconmarker, leyendaavisoshidro,
 import { Lugarafectado } from '../../models/lugarafectado.model';
 import { WmssenamhiService } from '../../services/wmssenamhi.service';
 import Swal from 'sweetalert2';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-alertpopupmaphidro',
@@ -71,7 +72,7 @@ export class AlertpopupmaphidroPage {
   share(){
     this.screenshot.save('jpg', 80, 'myscreenshot.jpg').then(
        async (res:any)=>{
-         let fecha = new Date();
+         let fecha = moment().toDate();
 
         Swal.fire({
           title:'Aviso',

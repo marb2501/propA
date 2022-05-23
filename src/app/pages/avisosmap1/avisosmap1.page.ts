@@ -11,7 +11,7 @@ import { TipoAviso } from '../../models/tipoaviso.model';
 import { HttpResponse } from '@angular/common/http';
 import { WmssenamhiService } from '../../services/wmssenamhi.service';
 import Swal from 'sweetalert2';
-
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-avisosmap1',
@@ -24,7 +24,10 @@ export class Avisosmap1Page {
   control: any;
   tiles: any;
   propertyList = [];
-  private tipoAviso: TipoAviso[];
+  /*tipoAviso: TipoAviso[]=[];
+  public tipoAvisotemp: TipoAviso[];*/
+  public tipoAviso: TipoAviso[]=[];
+    
   public data: any;
   options: GeolocationOptions;
   currentPost: Geoposition;
@@ -69,7 +72,7 @@ export class Avisosmap1Page {
 
       this.fechareg=this.fecharef.split('-');
 
-      let anioaviso=new Date(this.fechainicio);
+      let anioaviso=moment(this.fechainicio, "YYYY-MM-DD hh:mm:ss a ").toDate();
 
       this.fechactualreg=this.fechareg[2]+'/'+this.fechareg[1]+'/'+this.fechareg[0];
       
@@ -81,9 +84,19 @@ export class Avisosmap1Page {
 
       this.tavisomp1.getTipoAviso(this.etiqueta)
       .subscribe(async (listataviso: HttpResponse<TipoAviso[]>) =>{
-        this.tipoAviso=listataviso.body;
+        console.log(listataviso.body);
+        this.tipoAviso=listataviso.body;//g_aviso:view_aviso
        
       }, (error)=>{console.log(error)});
+
+     /* this.tavisomp1.getTipoAviso(this.etiqueta)
+      .subscribe((response) =>{
+         this.tipoAvisotemp=JSON.parse(response.data);
+         this.tipoAviso=this.tipoAvisotemp
+      }, err=>{
+        console.log(err)
+
+      });*/
 
      }
 
@@ -95,7 +108,7 @@ export class Avisosmap1Page {
   share(){
     this.screenshot.save('jpg', 80, 'myscreenshot.jpg').then(
        async (res:any)=>{
-         let fecha = new Date();
+         let fecha = moment().toDate();
         Swal.fire({
           title:'Aviso',
           text:mensajeShare1,
@@ -130,7 +143,9 @@ export class Avisosmap1Page {
     };
 
     //obteniendo marca si concatena o no
-    this.etiqueta=this.tipoAviso['layer'];
+    //this.etiqueta=this.tipoAviso['layer'];
+    this.etiqueta="g_aviso:view_aviso";
+
         
     //obteniendo el layer correspondiente
    

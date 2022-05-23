@@ -12,6 +12,11 @@
   
  }
 
+ ion-segment-button {
+  --background-checked: transparent;
+  --indicator-color: #949494;
+}
+
  
     .datamainC2{
         color : #ffffff;
@@ -141,6 +146,11 @@
       }
 
       .searchbar-input.sc-ion-searchbar-md{
+        background-color: #383a3e;
+        color:#F9C000;
+      }
+
+      .searchbar-input.sc-ion-searchbar-ios{
         background-color: #383a3e;
         color:#F9C000;
       }

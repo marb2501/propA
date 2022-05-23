@@ -5,7 +5,7 @@ import {MESESTIEMPO,DIASTIEMPO, leyendarecavisosmet} from '../../globales';
 import { AvisosmetmapmainPage } from '../../pages/avisosmetmapmain/avisosmetmapmain.page';
 import { listaMapas } from '../../models/listamapasmet.model';
 import { StorageService, Geolocaposicion } from '../../services/storage.service';
-
+import * as moment from 'moment';
 @Component({
   selector: 'app-avisometinfomain',
   templateUrl: './avisometinfomain.page.html',
@@ -57,8 +57,8 @@ export class AvisometinfomainPage implements OnInit {
           this.data = JSON.parse(params.special);
           this.titulomodal=this.data.numero;
           this.tituloaviso=this.data.tituloA;
-          this.fechaaux=new Date(this.data.fechainimet);
-          this.fechaaux3= new Date(this.data.fechaemisionmet);
+          this.fechaaux=moment(this.data.fechainimet, "YYYY-MM-DD hh:mm:ss a").toDate();
+          this.fechaaux3= moment(this.data.fechaemisionmet, "YYYY-MM-DD hh:mm:ss a").toDate();
           this.nivel=this.data.nivel;
           this.vigencia=this.data.vigencia;
           this.descripcion1=this.data.descripcion1;
@@ -66,7 +66,7 @@ export class AvisometinfomainPage implements OnInit {
           this.long=this.data.longapp;
           this.lmapas=this.data.listaMapas;
 
-          this.fechaaux2=new Date(this.fechaaux.getFullYear(),this.fechaaux.getMonth(),this.fechaaux.getDate(),this.fechaaux.getHours()+this.vigencia,this.fechaaux.getMinutes());
+          this.fechaaux2=moment(this.fechaaux.toString).add(this.vigencia, "hours").toDate();
 
           let hrs='0'+this.fechaaux.getHours()
           let mns='0'+this.fechaaux.getMinutes()
@@ -102,7 +102,7 @@ export class AvisometinfomainPage implements OnInit {
     this.recomendacion=leyendarecavisosmet[this.nivel];
 
     this.argFecha=[];
-    let fechatemp= new Date();
+    let fechatemp= moment().toDate();
     let reul=Number(fechatemp.getMonth())+1;
     let mesac='0'+reul;
     let diaact='0'+fechatemp.getDate();

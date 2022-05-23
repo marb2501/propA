@@ -6,7 +6,7 @@ import { AvisoHidroEstacion } from '../../models/avisoshidroestacion.model';
 import { MESESTIEMPO, accordionposiciontotal, accordionpaistotal} from '../../globales';
 import { ActivatedRoute, Router, NavigationExtras } from '@angular/router';
 import { AndroidpermisionService } from '../../services/androidpermision.service';
-
+import * as moment from 'moment';
 @Component({
   selector: 'app-avisosdetail4',
   templateUrl: './avisosdetail4.page.html',
@@ -150,7 +150,7 @@ export class Avisosdetail4Page {
       if(this.itemGP==null || this.itemGP.length<=0){
         this._androidpermision.gpsOntAlert()
       }else{
-        setTimeout(()=>{this.cargaListadoAvisoHidrolo()},1000);
+        setTimeout(()=>{this.cargaListadoAvisoHidrolo()},500);
         setTimeout(()=>{this.cargaMisListadoAvisoHidro()},2000);
       }
     })
@@ -234,8 +234,8 @@ export class Avisosdetail4Page {
   };
 
   fechacat(fecha1, fecha2){
-    let fi=new Date(fecha1);
-    let ff=new Date(fecha2);
+    let fi=moment(fecha1).toDate();
+    let ff=moment(fecha2).toDate();
     return 'Desde el '+fi.getDate()+' de '+MESESTIEMPO[fi.getMonth()]+' del '+fi.getFullYear()+' hasta el '+
             ff.getDate()+' de '+MESESTIEMPO[ff.getMonth()]+' del '+ff.getFullYear()
   }

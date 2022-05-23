@@ -16,7 +16,7 @@ import { LoadingController } from '@ionic/angular';
 import { Map} from 'leaflet';
 import { AvisoMeteoroIDESEP } from '../../models/avisometidesep.model';
 import { AndroidpermisionService } from '../../services/androidpermision.service';
-
+import * as moment from 'moment';
 @Component({
   selector: 'app-avisosdetail1',
   templateUrl: './avisosdetail1.page.html',
@@ -293,8 +293,9 @@ async openAvisoTextInfo(numero, titulo, fechaemi, fechaaviso, vigencia, descripc
   };
 
   fechacat(fecha, vigencia){
-    let fi=new Date(fecha);
-    let ff=new Date(fi.getFullYear(),fi.getMonth(),fi.getDate(),fi.getHours()+vigencia,fi.getMinutes());
+    let fi=moment(fecha).toDate();
+    let ff=moment(fecha).add(vigencia, "hours").toDate();
+
     return 'Desde el '+fi.getDate()+' de '+MESESTIEMPO[fi.getMonth()]+' del '+fi.getFullYear()+' hasta el '+
             ff.getDate()+' de '+MESESTIEMPO[ff.getMonth()]+' del '+ff.getFullYear()
   }
@@ -326,7 +327,7 @@ async openAvisoTextInfo(numero, titulo, fechaemi, fechaaviso, vigencia, descripc
             
             data.map(element => {
               let dato=element['properties'].nivel;
-              let fechmod=new Date(element['properties'].fecha);
+              let fechmod=moment(element['properties'].fecha).toDate();
               let niveli=dato.slice(-1);
               if(Number(niveli)){
                 niveli=Number(niveli)-2;

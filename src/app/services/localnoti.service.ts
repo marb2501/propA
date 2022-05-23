@@ -11,7 +11,7 @@ import { locationsMain} from '../models/locationmain.model';
 import { AvisometeoroService } from '../services/avisometeoro.service';
 import { LocalNtifAVM } from '../models/localntifavm.model';
 import { Storage } from '@ionic/storage';
-
+import * as moment from 'moment';
 
 
 @Injectable({
@@ -117,8 +117,8 @@ export class LocalnotiService {
             let titulo:string=''; 
             let valor;
             this.argLisNoti=[]
-            let hora=new Date(data.fecha);
-            let minuto='0'+hora.getMinutes();
+            let hora=moment(data.fecha, "YYYY-MM-DD hh:mm:ss").toDate();
+          
             let tiempo=''
             let datoampm=''
             if(hora.getHours()>12){
@@ -149,7 +149,7 @@ export class LocalnotiService {
   
             titulo='';
 
-            let idf=new Date()
+            let idf=moment.now();
            
             console.log("temperatura")
             this.localNot.schedule({
@@ -208,8 +208,8 @@ export class LocalnotiService {
     
                 }else{
                   this.ametidesep=this.ametideseptemp.filter(function(filtr) {
-                    let fechini= new Date(filtr.fechaInicio);
-                    let fecact= new Date();
+                    let fechini= moment(filtr.fechaInicio).toDate();
+                    let fecact= moment().toDate();
                     let dat2='0'+(Number(fechini.getMonth())+1);
                     let dat='0'+(Number(fecact.getMonth())+1);
                     

@@ -36,6 +36,9 @@ export const dominioAvisosJava ='http://190.119.131.28:9091/NotificadorAppInstit
 export const dominioAvisosMeteorologicos ='http://sisper.senamhi.gob.pe:9091/appinstitucional/api/';
 export const dominioAvisoMetHidroPageMain='http://sisper.senamhi.gob.pe:9091/appinstitucional/api/aviso/meteo/hidro/';
 export const dominioMenuApp = 'http://sisper.senamhi.gob.pe:9091/menu/api/menuapp';
+export const dominioTipoAvisoMet = 'http://sisper.senamhi.gob.pe:9091/menu/api/menuapp';
+
+
 export const dominioEstacionesWS = 'http://siscal.senamhi.gob.pe:8081/sQualityControl/datos/datactual/';
 export const urlWSAvisosHidrologicos ='http://siscal.senamhi.gob.pe:8081/sisweb-avisos/avisos/lista/';
 

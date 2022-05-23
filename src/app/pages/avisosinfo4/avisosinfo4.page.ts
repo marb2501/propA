@@ -5,6 +5,7 @@ import { Lugarafectado } from '../../models/lugarafectado.model';
 import { MESESTIEMPO,DIASTIEMPO, leyendaavisoshidro} from '../../globales';
 import { Avisosmap4Page } from '../avisosmap4/avisosmap4.page';
 import { StorageService, Geolocaposicion } from '../../services/storage.service';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-avisosinfo4',
@@ -153,8 +154,8 @@ export class Avisosinfo4Page {
     }
 
     fechacat(fecha, vigencia){
-      let fi=new Date(fecha);
-      let ff=new Date(fi.getFullYear(),fi.getMonth(),fi.getDate(),fi.getHours()+vigencia,fi.getMinutes());
+      let fi=moment(fecha).toDate();
+      let ff=moment(fecha).add(vigencia, "hours").toDate();
       let hrs='0'+ff.getHours()
       let mns='0'+ff.getMinutes()
 
@@ -225,7 +226,7 @@ export class Avisosinfo4Page {
       })
 
       this.argFecha=[];
-      let fecha=new Date();
+      let fecha=moment().toDate();
       this.argFecha.push(fecha);
     }
 

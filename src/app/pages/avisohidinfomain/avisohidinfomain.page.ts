@@ -6,7 +6,7 @@ import { AvisoshidmapmainPage } from '../../pages/avisoshidmapmain/avisoshidmapm
 import { AvisometeoroService } from '../../services/avisometeoro.service';
 import { Lugarafectado } from '../../models/lugarafectado.model';
 import { StorageService, Geolocaposicion } from '../../services/storage.service';
-
+import * as moment from 'moment';
 @Component({
   selector: 'app-avisohidinfomain',
   templateUrl: './avisohidinfomain.page.html',
@@ -106,11 +106,11 @@ export class AvisohidinfomainPage implements OnInit {
           this.lat=this.data.latapp;
           this.long=this.data.longapp;
 
-          this.fechaaux=new Date(this.fecIni);
+          this.fechaaux=moment(this.fecIni, "YYYY-MM-DD hh:mm a").toDate();
 
-          this.fechaaux2=new Date(this.fecFin);
+          this.fechaaux2=moment(this.fecFin, "YYYY-MM-DD hh:mm a").toDate();
 
-          this.fechaaux3=new Date(this.fecEmi);
+          this.fechaaux3=moment(this.fecEmi, "YYYY-MM-DD hh:mm a ").toDate();
     
           let hrs='0'+this.fechaaux.getHours()
           let mns='0'+this.fechaaux.getMinutes()
@@ -144,7 +144,7 @@ export class AvisohidinfomainPage implements OnInit {
     })
     
     this.argFecha=[];
-    let fecha=new Date();
+    let fecha=moment().toDate();
     this.argFecha.push(fecha);
    
   }

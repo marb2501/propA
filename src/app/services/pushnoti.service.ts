@@ -10,6 +10,7 @@ import { WmssenamhiService } from './wmssenamhi.service';
 import { ApiService } from './api.service';
 import { Lugarafectado } from '../models/lugarafectado.model';
 import { AvisoMeteoroIDESEP } from '../models/avisometidesep.model';
+import * as moment from 'moment';
 
 @Injectable({
   providedIn: 'root'
@@ -141,8 +142,8 @@ export class PushnotiService {
                 this.ametideseptemp=JSON.parse(dato.data);
                 if(this.ametideseptemp.length>0  && this.ametideseptemp!=null){
                   this.ametidesep=this.ametideseptemp.filter(function(filtr) {
-                    let fechini= new Date(filtr.fechaInicio);
-                    let fecact= new Date();
+                    let fechini= moment(filtr.fechaInicio).toDate();
+                    let fecact= moment().toDate();
                     let dat='0'+(Number(fecact.getMonth())+1);
                     let dat2='0'+(Number(fechini.getMonth())+1);
           
@@ -237,8 +238,8 @@ export class PushnotiService {
                 this.ametideseptemp=JSON.parse(dato.data);
                 if(this.ametideseptemp.length>0  && this.ametideseptemp!=null){
                   this.ametidesep=this.ametideseptemp.filter(function(filtr) {
-                    let fechini= new Date(filtr.fechaInicio);
-                    let fecact= new Date();
+                    let fechini= moment(filtr.fechaInicio).toDate();
+                    let fecact= moment().toDate();
                     let dat='0'+(Number(fecact.getMonth())+1);
                     let dat2='0'+(Number(fechini.getMonth())+1);
           

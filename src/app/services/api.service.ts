@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { HTTP } from '@ionic-native/http/ngx';
 import { from } from 'rxjs';
+import * as moment from 'moment';
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
@@ -24,6 +25,7 @@ import {
 export class ApiService {
 
   private urlvideo = dominioAvisosJava;
+  
 
   constructor(public http: HttpClient, private nativeHttp: HTTP) { }
 
@@ -66,7 +68,7 @@ export class ApiService {
       .pipe(map(results => results));
   }
 
-  getEstaciones(latitude: any, longitud: any): Observable<any> {
+    /*getEstaciones(latitude: any, longitud: any): Observable<any> {
     const urlEndPoint = dominioEstacionesWS+longitud+'/'+latitude;
     
     const httpOptions = {
@@ -77,7 +79,36 @@ export class ApiService {
     return this.http
       .get(urlEndPoint, httpOptions)
       .pipe(map(results => results));
+  }*/
+
+  getEstaciones(latitude: any, longitud: any): Observable<any> {
+    const urlEndPoint = dominioEstacionesWS+longitud+'/'+latitude;
+    
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json;charset=UTF-8'
+      }),
+    };
+    return this.http
+      .get(urlEndPoint, httpOptions)
+      .pipe(map(function (results){
+                const list=results as any;
+                
+                list.map(function(dat){
+                  const myDate = moment(dat.fecha,'YYYY-MM-DD hh:mm a').toDate();
+                  let hrsaux=myDate.getHours();
+                  let mns='0'+myDate.getMinutes();
+                  let ampm = hrsaux >= 12 ? 'pm' : 'am';
+                  let hrsn = hrsaux > 12 ? hrsaux-12 : hrsaux;
+                  let hrs='0'+hrsn;
+                  dat.fecha=hrs.slice(-2)+":"+mns.slice(-2)+" "+ampm;
+                })
+                
+                return list;
+              })
+           );
   }
+
 
   addressLookup(req?: any): Observable<NominatimResponse[]> {
     let urlEndPoint='';

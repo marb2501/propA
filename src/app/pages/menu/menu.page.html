@@ -1,4 +1,4 @@
-<ion-menu contentId="content" >
+<!--<ion-menu contentId="content" >
   <ion-header style="margin-top:0px">
     <ion-toolbar >
      
@@ -10,7 +10,18 @@
       <ion-refresher-content>
   
       </ion-refresher-content>
-    </ion-refresher>
+    </ion-refresher>-->
+  
+    <ion-menu contentId="content" style="margin-top:45px">
+
+      <ion-content  class="menu" padding responsive>
+        
+        <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+          <ion-refresher-content>
+           </ion-refresher-content>
+        </ion-refresher>
+       
+    
    
     <div *ngFor="let p of pages" style="font-size: x-small;">
       <ion-menu-toggle *ngIf="p.url">

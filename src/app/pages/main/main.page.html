@@ -119,7 +119,7 @@
                     
                     <td class="tempdet3">Hora</td>
                     <td >:</td>
-                    <td style="text-align: left;margin-left: 2px;">{{ locations.hora | date :'hh:mm a' | lowercase }}</td>
+                    <td style="text-align: left;margin-left: 2px;">{{ locations.hora }}</td>
                   </tr>
 
                  
@@ -196,7 +196,7 @@
                           <td style="text-align: center">{{ tmp2.distancia | number:'1.0-0' }}</td>
                           <td style="text-align: center">{{ tmp2.altitud }}</td>
                           <td style="text-align: center"> 
-                              <div *ngIf="tmp2.fecha!=null" class="wrap-text1">{{ tmp2.fecha | date :'h a' }}</div>
+                              <div *ngIf="tmp2.fecha!=null" class="wrap-text1">{{ tmp2.fecha }}</div>
                               <div *ngIf="tmp2.fecha==null">--</div></td>
                           <td style="text-align: center"> 
                               <div *ngIf="tmp2.temperatura!=null && tmp2.flagTemperatura==0" class="wrap-text1" >{{ tmp2.temperatura  | number:'1.0-0' }}</div>

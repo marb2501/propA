@@ -8,7 +8,7 @@ import { Avisosmap1Page } from '../avisosmap1/avisosmap1.page';
 import { StorageService, Geolocaposicion } from '../../services/storage.service';
 import { listaMapas } from '../../models/listamapasmet.model';
 import { WmssenamhiService } from '../../services/wmssenamhi.service';
-
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-avisosinfo1',
@@ -66,8 +66,8 @@ export class Avisosinfo1Page implements OnInit {
           this.data = JSON.parse(params.special);
           this.titulomodal=this.data.numero;
           this.tituloaviso=this.data.tituloA;
-          this.fechaaux=new Date(this.data.fechaini);
-          this.fechaaux1=new Date(this.data.fechaemi);
+          this.fechaaux=moment(this.data.fechaini, "YYYY-MM-DD hh:mm:ss a").toDate();
+          this.fechaaux1=moment(this.data.fechaemi, "YYYY-MM-DD hh:mm:ss a").toDate();
           this.nivel = this.data.nivel;
           this.vigencia=this.data.vigencia;
           this.descripcion1=this.data.descripcion1;
@@ -77,8 +77,8 @@ export class Avisosinfo1Page implements OnInit {
 
           this.aniofechaem=this.fechaaux1.getFullYear();
 
-          this.fechaaux2=new Date(this.fechaaux.getFullYear(),this.fechaaux.getMonth(),this.fechaaux.getDate(),this.fechaaux.getHours()+this.vigencia,this.fechaaux.getMinutes());
-
+          this.fechaaux2=moment(this.fechaaux.toString).add(this.vigencia,"hours").toDate();
+          
           let hrs='0'+this.fechaaux.getHours()
           let mns='0'+this.fechaaux.getMinutes()
        
@@ -106,7 +106,7 @@ export class Avisosinfo1Page implements OnInit {
     this.listamapas=this.lmapas;
 
     //console.log(this.listamapas)
-    const tiempoTranscurrido = new Date(Date.now());
+    const tiempoTranscurrido = moment().toDate();
     const fehac=tiempoTranscurrido.getDate()+'/'+tiempoTranscurrido.getMonth()+'/'+tiempoTranscurrido.getFullYear();
     
     this.arrayNivel=[];
@@ -132,7 +132,7 @@ export class Avisosinfo1Page implements OnInit {
               datawms.map(element => {
                
                 let dato=element['properties'].nivel;
-                let fehcini=new Date(element['properties'].fech_ini);
+                let fehcini=moment(element['properties'].fech_ini).toDate();
                 
                 let feh=fehcini.getDate()+'/'+fehcini.getMonth()+'/'+fehcini.getFullYear();
           

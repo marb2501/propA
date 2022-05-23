@@ -12,7 +12,7 @@ import { TipoAviso } from '../../models/tipoaviso.model';
 import { HttpResponse } from '@angular/common/http';
 import { WmssenamhiService } from '../../services/wmssenamhi.service';
 import Swal from 'sweetalert2';
-
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-avisosmetmapmain',
@@ -70,7 +70,7 @@ export class AvisosmetmapmainPage {
 
       this.fechareg=this.fecharef.split('-');
 
-      let anioaviso=new Date(this.fechainicio);
+      let anioaviso=moment(this.fechainicio).toDate();
 
       this.fechactualreg=this.fechareg[2]+'/'+this.fechareg[1]+'/'+this.fechareg[0];
       this.anioref=this.fechareg[0];
@@ -96,7 +96,7 @@ export class AvisosmetmapmainPage {
   share(){
     this.screenshot.save('jpg', 80, 'myscreenshot.jpg').then(
        async (res:any)=>{
-         let fecha = new Date();
+         let fecha = moment().toDate();
          Swal.fire({
           title:'Aviso',
           text:mensajeShare1,
@@ -130,7 +130,8 @@ export class AvisosmetmapmainPage {
       enableHighAccuracy: true
     };
 
-    this.etiqueta=this.tipoAviso['layer'];
+    //this.etiqueta=this.tipoAviso['layer'];
+    this.etiqueta="g_aviso:view_aviso";
     //obteniendo el layer correspondiente
    
     const routesmap = tileLayer(urlMapaLealeft, {

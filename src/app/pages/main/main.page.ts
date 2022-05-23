@@ -1,7 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { Geolocation, GeolocationOptions, Geoposition } from '@ionic-native/geolocation/ngx';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Moment } from 'moment';
 import { LoadingController, IonSlides } from '@ionic/angular';
 import { Router, NavigationExtras } from '@angular/router';
 import {
@@ -132,9 +131,6 @@ export class MainPage {
               this.selectedTheme=a;}})
             })
 
-            
-         
-
           this.flagAccordionA = accordionmain1['items'];
           this.flagAccordionA[0].open=true;
           
@@ -162,7 +158,7 @@ export class MainPage {
   previo=previous;
   siguiente=next;
   mensajenoaviso="No registra avisos según su ubicación";
-   
+
   //////////al ingresa al app////////////////  
   ionViewWillEnter(){
 
@@ -290,8 +286,7 @@ export class MainPage {
   async loadItemUbicaActEleg(){
     await this.storageService.getitemGeoposition().then(async items0=>{
         this.itemGPMain=items0;
-     })
-   }
+  })}
 
   async getReloadCordenadas(){
     const loading = await this.loadingController.create({
@@ -315,25 +310,12 @@ export class MainPage {
     this.api.getEstaciones(this.locations.lat, this.locations.lng).subscribe((dato) => {
       let obj2 = dato as any;
       this.listado2=obj2;
-      /*let data2=this.listado2[0];
-      let fflagtemp='';
-      let fflaghum='';
-      let fflagpre='';
-      if(data2.flagTemperatura==0){
-        fflagtemp="*";
-      }
-      if(data2.flagHumedad==0){
-        fflaghum="*";
-      }
-
-      if(data2.flagPrecipitacion==0){
-        fflagpre="*";
-      }*/
-      let inx=0
+      let inx=0;
       let a=0;
+      //console.log(this.listado2);
       //busca para obtener una estacion con temperatura no null 
       this.listado2.every(element1 => {
-        console.log(element1)
+        //console.log(element1)
         let tem=element1.temperatura;
         if(a!=1){
           if(tem!=null){
@@ -357,17 +339,15 @@ export class MainPage {
               this.locations.PRECIPI=element1.precipitacion+'mm/h'
             }
           
-            this.locations.TEMP = Math.round(element1.temperatura)+"°C" ;
-            this.locations.HUME = element1.humedad +"%" ;
-           
+            this.locations.TEMP = Math.round(element1.temperatura)+"°C";
+            this.locations.HUME = element1.humedad +"%";
             this.locations.nombrestacion = element1.nomEsta;
             this.locations.depestacion=element1.nomDep;
             this.locations.provestacion=element1.nomProv;
             this.locations.distestacion=element1.nomDist;
             this.locations.altitud = element1.altitud+" m";
             this.locations.distancia = Math.round(element1.distancia)+" "+element1.unidad;
-            this.locations.hora = element1.fecha
-            //this.listado2.shift();
+            this.locations.hora =  element1.fecha; 
             a=1;
             return false;
           }else{
@@ -380,11 +360,11 @@ export class MainPage {
       if(inx>=this.listado2.length){
         let data2=this.listado2[0];
         if(data2.precipitacion==null){
-          this.locations.PRECIPI="0.0mm/h"
+          this.locations.PRECIPI="0.0mm/h";
         }else if(data2.precipitacion==0){
-          this.locations.PRECIPI="0.0mm/h"
+          this.locations.PRECIPI="0.0mm/h";
         }else{
-          this.locations.PRECIPI=data2.precipitacion+'mm/h'
+          this.locations.PRECIPI=data2.precipitacion+'mm/h';
         }
       
         this.locations.TEMP = (data2.temperatura==null?"--°C":Math.round(data2.temperatura)+"°C") ;
@@ -396,7 +376,7 @@ export class MainPage {
         this.locations.distestacion=data2.nomDist;
         this.locations.altitud = data2.altitud+" m";
         this.locations.distancia = Math.round(data2.distancia)+" "+data2.unidad;
-        this.locations.hora = data2.fecha
+        this.locations.hora = data2.fecha; // | date :'hh:mm a' | lowercase
         this.listado2.shift();
 
       }else{
@@ -459,8 +439,8 @@ export class MainPage {
           this.indiceData=this.avisosmethidg.length;
         }else{
           this.ametidesep=this.ametideseptemp.filter(function(filtr) {
-            let fechini= new Date(filtr.fechaInicio);
-            let fecact= new Date();
+            let fechini= moment(filtr.fechaInicio, "YYYY-MM-DD hh:mm:ss a ").toDate();
+            let fecact= moment().toDate();
             let dat2='0'+(Number(fechini.getMonth())+1);
             let dat='0'+(Number(fecact.getMonth())+1);
             
@@ -648,7 +628,7 @@ export class MainPage {
                let data1=infodata1;
                this.ciudadf=data1[0].display_name;
  
-               this.newitemGP.id=Date.now();
+               this.newitemGP.id=moment.now();
                this.newitemGP.lat=pos.coords.latitude;
                this.newitemGP.long=pos.coords.longitude;
      
